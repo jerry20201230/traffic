@@ -247,7 +247,7 @@
                             if (res[i].DelayTime == 0) {
                                 time = `<span class="text-success">準點</span>`
                             } else {
-                                if (res[i].DelayTime > 10) {
+                                if (res[i].DelayTime >= 10) {
                                     time = `<span class="rounded text-bg-danger p-1">晚${res[i].DelayTime}分</span>`
                                 } else {
                                     time = `<span class="text-danger">晚${res[i].DelayTime}分</span>`
@@ -381,7 +381,7 @@
         }
 
         var NowPage = ""
-        function App(page, par1, par2, par3) {
+        function App(page, par1, par2, par3,isFromUrl) {
             if (page === "loading" || page === "loadingFailed" || page === "loadingDismiss") {
                 if (page === "loading") {
                     $("#loading-info").attr("class", "alert alert-info").text(`正在讀取資料集:${par1}`).show()
@@ -405,6 +405,14 @@
                 }
                
                 else if (page === "TRAstation") {
+                    if(TrainStationData === ""){
+                        TrainStationDataOpt("get")
+                    }
+                    if(isFromUrl){
+                        par3 = Number(par3)
+                        par1 = TrainStationData.station[par3].StationName.Zh_tw
+                        par2 = TrainStationData.station[par3].StationID
+                    }
                     let stationLvL;
                     $("#header").text("台鐵 - " + par1 + "車站")
                     //['0: 特等', '1: 一等', '2: 二等', '3: 三等', '4: 簡易', '5: 招呼', '6: 號誌', 'A: 貨運', 'B: 基地', 'X: 非車']
