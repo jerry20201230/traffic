@@ -57,7 +57,7 @@
                             onclick="App('TRAsearch')">台鐵</li>
                         <li class="list-group-item list-group-item-dark" data-bs-dismiss="offcanvas"
                             onclick="App('HSRsearch')">高鐵</li>
-                        
+
                         <li class="list-group-item list-group-item-dark" data-bs-dismiss="offcanvas">公路客運</li>
                         <li class="list-group-item list-group-item-dark" data-bs-dismiss="offcanvas">市區客運</li>
                         <li class="list-group-item list-group-item-dark" data-bs-dismiss="offcanvas"
@@ -381,7 +381,7 @@
         }
 
         var NowPage = ""
-        function App(page, par1, par2, par3,isFromUrl) {
+        function App(page, par1, par2, par3, isFromUrl) {
             if (page === "loading" || page === "loadingFailed" || page === "loadingDismiss") {
                 if (page === "loading") {
                     $("#loading-info").attr("class", "alert alert-info").text(`正在讀取資料集:${par1}`).show()
@@ -403,12 +403,12 @@
                     HSRStationDataOpt("get")
 
                 }
-               
+
                 else if (page === "TRAstation") {
-                    if(TrainStationData === ""){
+                    if (TrainStationData === "") {
                         TrainStationDataOpt("get")
                     }
-                    if(isFromUrl){
+                    if (isFromUrl) {
                         par3 = Number(par3)
                         par1 = TrainStationData.Stations[par3].StationName.Zh_tw
                         par2 = TrainStationData.Stations[par3].StationID
@@ -444,7 +444,7 @@
                         stationLvL = "非車站"
                     }
                     $("#main-content").html(`
-                <div class="card mb-1"><div class="card-body"><h5 class="card-title">${par1}車站</h5><h6 class="card-subtitle mb-2 text-muted">${stationLvL}</h6><p class="card-text">地址 : ${TrainStationData.Stations[par3].StationAddress}<br>電話 : ${TrainStationData.Stations[par3].StationPhone}<br><div id="map" style="height:50vh"><div style="display: flex;align-items: center;justify-content: center;text-align: center;height: 100%;"><div id="OSM-loading" style="text-align: center;"><h4>OpenStreetMap</h4>資料讀取中...</div></div></div></p><a href="${TrainStationData.Stations[par3].StationURL}" target="_blank" class="card-link">詳細資料 <i class="bi bi-box-arrow-up-right"></i></a><a href="${location.origin.replace("/","")}${location.pathname}/?page=${page}&par1=${par1}&par2=${par2}&par3=${par3}" target="_blank" class="card-link">分享 <i class="bi bi-share"></i></a></div></div>
+                <div class="card mb-1"><div class="card-body"><h5 class="card-title">${par1}車站</h5><h6 class="card-subtitle mb-2 text-muted">${stationLvL}</h6><p class="card-text">地址 : ${TrainStationData.Stations[par3].StationAddress}<br>電話 : ${TrainStationData.Stations[par3].StationPhone}<br><div id="map" style="height:50vh"><div style="display: flex;align-items: center;justify-content: center;text-align: center;height: 100%;"><div id="OSM-loading" style="text-align: center;"><h4>OpenStreetMap</h4>資料讀取中...</div></div></div></p><a href="${TrainStationData.Stations[par3].StationURL}" target="_blank" class="card-link">詳細資料 <i class="bi bi-box-arrow-up-right"></i></a><a href="${location.origin.replace("/", "")}${location.pathname}?page=${page}&par1=${par1}&par2=${par2}&par3=${par3}" target="_blank" class="card-link">分享 <i class="bi bi-share"></i></a></div></div>
                 <div class="card mb-1"><div class="card-body"><h5 class="card-title">即時到離站看板</h5><h6 class="card-subtitle mb-2 text-muted">顯示30分鐘內的列車資料<br>每2分鐘更新</h6><p class="card-text">
                 <div class="btn-group" role="group">
                    
@@ -621,10 +621,18 @@
             TDXlogin()
             timeDisplay()
             if ($.UrlParam("page") !== null) {
-                if($.UrlParam("page") === "TRAstation"){
-                    TrainStationDataOpt("get")
+                if ($.UrlParam("page") === "TRAstation") {
+                    fetch("https://tdx.transportdata.tw/api/basic/v3/Rail/TRA/Station?%24format=JSON", {
+
+                    }).then((res) => res.json())
+                        .then((data) => {
+                            TrainStationData = data
+                            App($.UrlParam("page"), $.UrlParam("par1"), $.UrlParam("par2"), $.UrlParam("par3"), true)
+
+                        })
+                } else {
+                    App($.UrlParam("page"), $.UrlParam("par1"), $.UrlParam("par2"), $.UrlParam("par3"), true)
                 }
-                App($.UrlParam("page"), $.UrlParam("par1"), $.UrlParam("par2"), $.UrlParam("par3"),true)
             } else {
                 App("home")
             }
