@@ -21,11 +21,6 @@
         integrity="sha512-Gf0xgqc7R4+2ATKUYRXPpl2xXWAbHIgIIGlqy1ugbTcuSSSKG7Kw/IULAuQWIiRVwQAn0CcLVRtI79C6mGROQQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <style>
-        #Timeheader {
-            cursor: move;
-        }
-    </style>
 </head>
 
 <body>
@@ -86,12 +81,12 @@
                 </ul>
             </div>
         </div>
-        <div id="Time" class="Timeheader draggable bg-gradient bg-secondary text-white p-2"
-            style="z-index: 99999;width: fit-content;text-align: center;position: fixed;border-radius: 5px;float:right;bottom: 0;height: fit-content;cursor:move;user-select: none;">
-            <h3 class="p-0 m-0">15:30</h3>
+        <div id="Time" class="bg-gradient bg-secondary text-white p-2"
+            style="z-index: 99999;width: fit-content;text-align: center;position: fixed;border-radius: 5px;float:right;bottom: 0;height: fit-content;user-select: none;">
+            <h3 class="p-0 m-0">時間顯示</h3>
         </div>
         <div class="alert alert-info" id="loading-info">資料讀取中...</div>
-        <div id="main-content" class="p-3">
+        <div id="main-content" class="p-3 mb-5">
             資料讀取中...
         </div>
 
@@ -109,12 +104,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/2.4.0/Control.FullScreen.js"
         integrity="sha512-soC5gg5CeLNdNfDfPXZtkyDOQE1izv2ermc/Ub4Yse0WVEUUadAe6hnduFqryCvA1gJi298YKEJVvnxs8STUlQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"
-        integrity="sha512-57oZ/vW8ANMjR/KQ6Be9v/+/h6bq9/l3f0Oc7vn6qMqyhvPd1cvKBRWWpzu0QoneImqr2SkmO4MSqU+RpHom3Q=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js'
-        integrity='sha512-0bEtK0USNd96MnO4XhH8jhv3nyRF0eK87pJke6pkYf3cM0uDIhNJy9ltuzqgypoIFXw3JSuiy04tVk4AjpZdZw=='
-        crossorigin='anonymous'></script>
+
     <!--Main script-->
     <script>
 
@@ -182,6 +172,101 @@
 
         }
 
+        var ApiData, ApiUrl;
+        async function refreshTheApi(delaySec, apiUrl, inner, process, TheSwitch) {
+            while ($(process).length !== 0) {
+                $(process).css("width", (1 * (100 / delaySec)) + "%").text(120).removeClass("bg-secondary")
+
+                $(inner).html(`<tr><td colspan="6" style="text-align:center">正在取得資料</td></tr>`)
+                let accesstoken = JSON.parse($("#req_header").text());
+
+                $.ajax({
+                    url: apiUrl,
+                    method: "GET",
+                    dataType: "json",
+                    headers: {
+                        "authorization": "Bearer " + accesstoken.access_token,
+                    },
+                    success: function (res) {
+                        //TrainStationData = res;
+                        console.log(res);
+                        ApiData = res
+                        ApiUrl = apiUrl
+                        var TSwitch = 0
+                        if (document.getElementById(TheSwitch + "1").checked) {
+                            TSwitch = 0
+                        } else {
+                            TSwitch = 1
+                        }
+                        queryTheApi(apiUrl, inner, "TRA_Direction", TSwitch)
+
+                    },
+                    error: function (xhr, textStatus, thrownError) {
+                        if (TrainStationData === "") { App("loadingFailed", "讀取台鐵即時動態資料"); }
+                    }
+                })
+                for (r = 0; r < delaySec; r++) {
+
+                    await delay(1)
+                    let refresh_sec = delaySec - r
+                    $(process).css("width", (refresh_sec * (100 / delaySec)) + "%").text(refresh_sec).removeClass("bg-secondary")
+                    if ($(process).length == 0) {
+                        break;
+                        return;
+                    }
+                }
+                if ($(process).length == 0) {
+                    break;
+                    return;
+                }
+
+            }
+            return;
+        }
+
+
+        async function queryTheApi(url, inner, c, s) {
+
+            if (ApiUrl === url) {
+                if (c == "TRA_Direction") {
+                    $(inner).html("")
+                    var res = ApiData, TSwitch = s
+                    for (i = 0; i < res.length; i++) {
+                        if (TSwitch == res[i].Direction) {
+                            let line, time, badge = ""
+                            if (res[i].TripLine == 0) {
+                                line = "-"
+                            } else if (res[i].TripLine == 1) {
+                                line = "山線"
+                            }
+                            else if (res[i].TripLine == 2) {
+                                line = "海線"
+                            }
+                            else if (res[i].TripLine == 3) {
+                                line = "成追"
+                            }
+
+                            if (res[i].DelayTime == 0) {
+                                time = `<span class="text-success">準點</span>`
+                            } else {
+                                if (res[i].DelayTime > 10) {
+                                    time = `<span class="rounded text-bg-danger p-1">晚${res[i].DelayTime}分</span>`
+                                } else {
+                                    time = `<span class="text-danger">晚${res[i].DelayTime}分</span>`
+                                }
+
+
+                            }
+                            $(inner).append(`<tr><td>${res[i].ScheduledArrivalTime.split(":")[0]}:${res[i].ScheduledArrivalTime.split(":")[1]}${badge}</td><td>${res[i].TrainNo}</td><td>${res[i].TrainTypeName.Zh_tw.split("(")[0]}</td><td>${line}</td><td>${res[i].EndingStationName.Zh_tw}</td><td>${time}</td></tr>`)
+                        }
+                    }
+                    if ($(inner).html() == "") {
+                        $(inner).html(`<tr><td colspan="6" style="text-align:center">無資料</td></tr>`)
+
+                    }
+                }
+            }
+        }
         var TrainStationData = "";
         function TrainStationDataOpt(type, par1) {
             if (type === "get") {
@@ -358,39 +443,17 @@
                     }
                     $("#main-content").html(`
                 <div class="card mb-1"><div class="card-body"><h5 class="card-title">${par1}車站</h5><h6 class="card-subtitle mb-2 text-muted">${stationLvL}</h6><p class="card-text">地址 : ${TrainStationData.Stations[par3].StationAddress}<br>電話 : ${TrainStationData.Stations[par3].StationPhone}<br><div id="map" style="height:50vh"><div style="display: flex;align-items: center;justify-content: center;text-align: center;height: 100%;"><div id="OSM-loading" style="text-align: center;"><h4>OpenStreetMap</h4>資料讀取中...</div></div></div></p><a href="${TrainStationData.Stations[par3].StationURL}" target="_blank" class="card-link bi bi-box-arrow-up-right">詳細資料</a></div></div>
-                <div class="card mb-1"><div class="card-body"><h5 class="card-title">即時到離站看板</h5><h6 class="card-subtitle mb-2 text-muted">每2分鐘更新</h6><p class="card-text">
-                    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-  <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
-  <label class="btn btn-outline-primary" for="btnradio1">北上</label>
-
-  <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
-  <label class="btn btn-outline-primary" for="btnradio2">南下</label>
-  </div>
-  <table class="table">
-  <thead>
-    <tr>
-      <th scope="col">時間</th>
-      <th scope="col">車次</th>
-      <th scope="col">車種</th>
-      <th scope="col">經</th>
-      <th scope="col">往</th>
-      <th scope="col">備註</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>15:13</td>
-      <td>2114</td>
-      <td>區間</td>
-      <td>山線</td>
-      <td>嘉義</td>
-      <td>準點</td>
-    </tr>
-
-  </tbody>
-</table>
+                <div class="card mb-1"><div class="card-body"><h5 class="card-title">即時到離站看板</h5><h6 class="card-subtitle mb-2 text-muted">顯示30分鐘內的列車資料<br>每2分鐘更新</h6><p class="card-text">
+                <div class="btn-group" role="group">
+                   
+                    <input type="radio" class="btn-check" name="btnradio" onchange='queryTheApi("https://tdx.transportdata.tw/api/basic/v2/Rail/TRA/LiveBoard/Station/${TrainStationData.Stations[par3].StationID}?%24format=JSON","#railway-lightbox", "TRA_Direction",0)' id="btnradio1" autocomplete="off" checked>
+                    <label class="btn btn-outline-primary" for="btnradio1">北上</label>
                     
-                </p></div></div>
+                    <input type="radio" class="btn-check" name="btnradio"  onchange='queryTheApi("https://tdx.transportdata.tw/api/basic/v2/Rail/TRA/LiveBoard/Station/${TrainStationData.Stations[par3].StationID}?%24format=JSON","#railway-lightbox", "TRA_Direction",1)' id="btnradio2" autocomplete="off">
+                    <label class="btn btn-outline-primary" for="btnradio2">南下</label>
+                    
+                </div>
+                    <div class="progress mt-1"><div id="railway_refresh_prog" class="progress-bar" role="progressbar" aria-label="auto refresh process"style="width: 25%"></div></div><table class="table table-sm" style="text-align:center"><thead><tr><th scope="col">時間</th><th scope="col">車次</th><th scope="col">車種</th><th scope="col">經</th><th scope="col">往</th><th scope="col">備註</th></tr></thead><tbody id="railway-lightbox"><tr id="railway-lightboxloading"><td colspan="6" style="text-align:center">正在取得資料</td></tr></tbody></table></p></div></div>
                 
                 `)
                     var center = [TrainStationData.Stations[par3].StationPosition.PositionLat, TrainStationData.Stations[par3].StationPosition.PositionLon]
@@ -400,8 +463,15 @@
                         attribution: '© OpenStreetMap',
                         zoomControl: true,
                     }).addTo(map);
-                    var popup = L.popup();
-                    popup.setLatLng(center).setContent(`<b>${par1}車站</b>`).openOn(map);
+
+                    var marker = L.marker(center);
+                    marker.addTo(map);
+                    marker.bindPopup(`<b>${par1}車站</b>`).openPopup();
+
+                    marker.on('click', function () {
+                        marker.bindPopup(`<b>${par1}車站</b>`).openPopup();
+                    })
+                    refreshTheApi(120, `https://tdx.transportdata.tw/api/basic/v2/Rail/TRA/LiveBoard/Station/${TrainStationData.Stations[par3].StationID}?%24format=JSON`, "#railway-lightbox", "#railway_refresh_prog", "btnradio")
 
                 }
                 else if (page === "HSRstation") {
@@ -506,9 +576,11 @@
                     $("#header").text("找不到頁面")
                     $("#main-content").html(`
                 <h1>404</h1>
-                <p>找不到這個頁面</p>
-                請<a href="#" onclick="App('home')">回到首頁</a>
+                <p>找不到這個頁面<br>該連結可能已經過時、失效或者不存在<br>如果你儲存了這個連結，請移除並<a href="#" onclick="App('home')">回到首頁</a></p>
+                
                 `)
+                    console.warn(`${page} - 404 Not Found`)
+
                 }
                 NowPage = page
                 history.pushState({ "page": page, "par1": par1, "par2": par2, "par3": par3 }, null, "#");
@@ -547,8 +619,8 @@
         document.body.onload = function (e) {
             TDXlogin()
             timeDisplay()
-            if ($.UrlParam("type") !== null) {
-                App($.UrlParam("type"), $.UrlParam("par1"), $.UrlParam("par2"), $.UrlParam("par3"))
+            if ($.UrlParam("page") !== null) {
+                App($.UrlParam("page"), $.UrlParam("par1"), $.UrlParam("par2"), $.UrlParam("par3"))
             } else {
                 App("home")
             }
@@ -564,11 +636,6 @@
 
 
 
-
-
-        $(function () {
-            $(".draggable").draggable();
-        });
     </script>
 
 
