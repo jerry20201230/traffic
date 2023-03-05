@@ -57,9 +57,7 @@
                             onclick="App('TRAsearch')">台鐵</li>
                         <li class="list-group-item list-group-item-dark" data-bs-dismiss="offcanvas"
                             onclick="App('HSRsearch')">高鐵</li>
-                        <li class="list-group-item list-group-item-dark" data-bs-dismiss="offcanvas"
-                            onclick="App('MRTsearch')">捷運</li>
-
+                        
                         <li class="list-group-item list-group-item-dark" data-bs-dismiss="offcanvas">公路客運</li>
                         <li class="list-group-item list-group-item-dark" data-bs-dismiss="offcanvas">市區客運</li>
                         <li class="list-group-item list-group-item-dark" data-bs-dismiss="offcanvas"
@@ -405,11 +403,7 @@
                     HSRStationDataOpt("get")
 
                 }
-                else if (page === "MRTsearch") {
-                    $("#header").text("捷運車站 - 搜尋")
-                    $("#main-content").html(`<div class="d-flex"><input type="text" class="form-control me-1" oninput="TrainStationDataOpt('search',$('#trainStationNameInput').val())" id="trainStationNameInput" placeholder="輸入捷運站名..."><button class="btn btn-primary bi bi-search" onclick="TrainStationDataOpt('search',$('#trainStationNameInput').val()) "></button></div><div class="list-group mt-2" id="search-result"></div>`)
-                    TrainStationDataOpt("get")
-                }
+               
                 else if (page === "TRAstation") {
                     let stationLvL;
                     $("#header").text("台鐵 - " + par1 + "車站")
@@ -442,7 +436,7 @@
                         stationLvL = "非車站"
                     }
                     $("#main-content").html(`
-                <div class="card mb-1"><div class="card-body"><h5 class="card-title">${par1}車站</h5><h6 class="card-subtitle mb-2 text-muted">${stationLvL}</h6><p class="card-text">地址 : ${TrainStationData.Stations[par3].StationAddress}<br>電話 : ${TrainStationData.Stations[par3].StationPhone}<br><div id="map" style="height:50vh"><div style="display: flex;align-items: center;justify-content: center;text-align: center;height: 100%;"><div id="OSM-loading" style="text-align: center;"><h4>OpenStreetMap</h4>資料讀取中...</div></div></div></p><a href="${TrainStationData.Stations[par3].StationURL}" target="_blank" class="card-link bi bi-box-arrow-up-right">詳細資料</a></div></div>
+                <div class="card mb-1"><div class="card-body"><h5 class="card-title">${par1}車站</h5><h6 class="card-subtitle mb-2 text-muted">${stationLvL}</h6><p class="card-text">地址 : ${TrainStationData.Stations[par3].StationAddress}<br>電話 : ${TrainStationData.Stations[par3].StationPhone}<br><div id="map" style="height:50vh"><div style="display: flex;align-items: center;justify-content: center;text-align: center;height: 100%;"><div id="OSM-loading" style="text-align: center;"><h4>OpenStreetMap</h4>資料讀取中...</div></div></div></p><a href="${TrainStationData.Stations[par3].StationURL}" target="_blank" class="card-link">詳細資料 <i class="bi bi-box-arrow-up-right"></i></a><a href="${location.origin}/${location.pathname}/?page=${page}&par1=${par1}&par2=${par2}&par3=${par3}" target="_blank" class="card-link">分享 <i class="bi bi-share"></i></a></div></div>
                 <div class="card mb-1"><div class="card-body"><h5 class="card-title">即時到離站看板</h5><h6 class="card-subtitle mb-2 text-muted">顯示30分鐘內的列車資料<br>每2分鐘更新</h6><p class="card-text">
                 <div class="btn-group" role="group">
                    
@@ -550,7 +544,6 @@
                     $("#main-content").html(`
                 <div class="card m-1"><div class="card-body"><h5 class="card-title">台鐵</h5><h6 class="card-subtitle mb-2 text-muted">指定站點的台鐵列車資料</h6><p class="card-text"></p><button class="btn btn-primary"  onclick="App('TRAsearch')">開始查詢</button></div></div>
                 <div class="card m-1"><div class="card-body"><h5 class="card-title">高鐵</h5><h6 class="card-subtitle mb-2 text-muted">指定站點的高鐵時刻表</h6><p class="card-text"></p><button class="btn btn-primary"  onclick="App('HSRsearch')">開始查詢</button></div></div>
-                <div class="card m-1"><div class="card-body"><h5 class="card-title">捷運</h5><h6 class="card-subtitle mb-2 text-muted">指定站點的捷運列車動態</h6><p class="card-text text-danger">目前台中捷運不提供動態資料</p><button class="btn btn-primary"  onclick="App('MRTsearch')">開始查詢</button></div></div>
                 <div class="card m-1"><div class="card-body"><h5 class="card-title">公路客運</h5><h6 class="card-subtitle mb-2 text-muted">公路客運即時動態</h6><p class="card-text"></p><button class="btn btn-primary"  onclick="App('InterBUSsearch')">開始查詢</button></div></div>
                 <div class="card m-1"><div class="card-body"><h5 class="card-title">市區客運</h5><h6 class="card-subtitle mb-2 text-muted">市區客運即時動態</h6><p class="card-text"></p><button class="btn btn-primary"  onclick="App('CityBUSsearch')">開始查詢</button></div></div>
                 <div class="card m-1"><div class="card-body"><h5 class="card-title">公共自行車</h5><h6 class="card-subtitle mb-2 text-muted">公共自行車即時剩餘位置資料</h6><p class="card-text"></p><button class="btn btn-primary"  onclick="App('BIKEsearch')">開始查詢</button></div></div>
@@ -620,6 +613,9 @@
             TDXlogin()
             timeDisplay()
             if ($.UrlParam("page") !== null) {
+                if($.UrlParam("page") === "TRAstation"){
+                    TrainStationDataOpt("get")
+                }
                 App($.UrlParam("page"), $.UrlParam("par1"), $.UrlParam("par2"), $.UrlParam("par3"))
             } else {
                 App("home")
