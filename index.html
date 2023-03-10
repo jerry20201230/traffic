@@ -657,13 +657,13 @@
                 <div class="card m-1"   onclick="App('TRAsearch')" data-id="TRA"><div class="card-body"><h5 class="card-title">台鐵</h5><h6 class="card-subtitle mb-2 text-muted">指定站點的台鐵列車資料</h6><p class="card-text"></p><button class="btn btn-primary"  onclick="App('TRAsearch')">開始查詢</button></div></div>
                 <div class="card m-1"   onclick="App('HSRsearch')" data-id="HSR"><div class="card-body"><h5 class="card-title">高鐵</h5><h6 class="card-subtitle mb-2 text-muted">指定站點的高鐵時刻表</h6><p class="card-text"></p><button class="btn btn-primary"  onclick="App('HSRsearch')">開始查詢</button></div></div>
                 <div class="card m-1"   onclick="App('InterBUSsearch')" data-id="InterBus"><div class="card-body"><h5 class="card-title">公路客運</h5><h6 class="card-subtitle mb-2 text-muted">公路客運即時動態</h6><p class="card-text"></p><button class="btn btn-primary"  onclick="App('InterBUSsearch')">開始查詢</button></div></div>
-                <div class="card m-1"   onclick="App('CityBUSsearch')"> data-id="CityBus"><div class="card-body"><h5 class="card-title">市區客運</h5><h6 class="card-subtitle mb-2 text-muted">市區客運即時動態</h6><p class="card-text"></p><button class="btn btn-primary"  onclick="App('CityBUSsearch')">開始查詢</button></div></div>
+                <div class="card m-1"   onclick="App('CityBUSsearch')" data-id="CityBus"><div class="card-body"><h5 class="card-title">市區客運</h5><h6 class="card-subtitle mb-2 text-muted">市區客運即時動態</h6><p class="card-text"></p><button class="btn btn-primary"  onclick="App('CityBUSsearch')">開始查詢</button></div></div>
                 <div class="card m-1"   onclick="App('BIKEsearch')" data-id="Bike"><div class="card-body"><h5 class="card-title">公共自行車</h5><h6 class="card-subtitle mb-2 text-muted">公共自行車即時剩餘位置資料</h6><p class="card-text"></p><button class="btn btn-primary"  onclick="App('BIKEsearch')">開始查詢</button></div></div>
                 </div>
                 `)
 
 
-                    var sortable = Sortable.create(document.getElementById('items'), {
+                    /*var sortable = Sortable.create(document.getElementById('items'), {
                         animation: 200,
                         store: {
 
@@ -680,7 +680,7 @@
                             }
                         }
 
-                    });
+                    });*/
                 }
                 else if (page === "setting") {
                     $("#header").text("設定")
