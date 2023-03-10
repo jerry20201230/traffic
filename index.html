@@ -130,7 +130,7 @@
                     <a href="#" tabindex="-1" class="btn btn-primary disabled placeholder col-6"></a>
                 </div>
             </div>
-            
+
         </div>
 
 
@@ -357,6 +357,43 @@
 
         }
 
+
+
+        var BikeStationData = "";
+        function BikeStationDataOpt(type, lat, lng, par1) {
+            if (type == "search") {
+
+                if (par1 > 1000 || par1 < 10) {
+                    $("#alert").text("搜尋半徑 : 10~1000(公尺)")
+                } else {
+
+                    let accesstoken = JSON.parse($("#req_header").text());
+
+                    $.ajax({
+                        url: `https://tdx.transportdata.tw/api/advanced/v2/Bike/Station/NearBy?%24spatialFilter=nearby%28${lat}%2C%20${lng}%2C%20${par1}%29&%24format=JSON`,
+                        method: "GET",
+                        dataType: "json",
+                        headers: {
+                            "authorization": "Bearer " + accesstoken.access_token,
+                        },
+                        success: function (res) {
+                            //TrainStationData = res;
+                            console.log(res);
+                            for(i=0;i<res.length;i++){
+                                
+                            }
+
+                        },
+                        error: function (xhr, textStatus, thrownError) {
+
+                        }
+                    })
+                }
+            }
+        }
+
+
+
         var
             MRTStationData = "",
             MRTStationIndex;
@@ -496,7 +533,6 @@
                 <div class="card mb-1"><div class="card-body"><h5 class="card-title">${par1}車站</h5><h6 class="card-subtitle mb-2 text-muted">${stationLvL}</h6><p class="card-text">地址 : ${TrainStationData.Stations[par3].StationAddress}<br>電話 : ${TrainStationData.Stations[par3].StationPhone}<br><div id="map" style="height:50vh"><div style="display: flex;align-items: center;justify-content: center;text-align: center;height: 100%;"><div id="OSM-loading" style="text-align: center;"><h4>OpenStreetMap</h4>資料讀取中...</div></div></div></p><a href="${TrainStationData.Stations[par3].StationURL}" target="_blank" class="card-link">詳細資料 <i class="bi bi-box-arrow-up-right"></i></a><a href="${location.pathname}?page=${page}&par1=${par1}&par2=${par2}&par3=${par3}" target="_blank" class="card-link">分享 <i class="bi bi-share"></i></a></div></div>
                 <div class="card mb-1"><div class="card-body"><h5 class="card-title">即時到離站看板</h5><h6 class="card-subtitle mb-2 text-muted">顯示30分鐘內的列車資料<br>每2分鐘更新</h6><p class="card-text">
                 <div class="btn-group" role="group">
-                   
                     <input type="radio" class="btn-check" name="btnradio" onchange='queryTheApi("https://tdx.transportdata.tw/api/basic/v2/Rail/TRA/LiveBoard/Station/${TrainStationData.Stations[par3].StationID}?%24format=JSON","#railway-lightbox", "TRA_Direction",0)' id="btnradio1" autocomplete="off" checked>
                     <label class="btn btn-outline-primary" for="btnradio1">北上</label>
                     
@@ -532,9 +568,22 @@
                     $("#header").text("公共自行車 - 搜尋")
                     $("#main-content").html(`    
                     <div id="map" style="height:50vh"><div style="display: flex;align-items: center;justify-content: center;text-align: center;height: 100%;"><div id="OSM-loading" style="text-align: center;"><h4>OpenStreetMap</h4>資料讀取中...</div></div></div>
-                    選擇資料提供方式:
-                    <div class="form-check"><input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked><label class="form-check-label" for="flexRadioDefault1">使用我的位置資訊(需開啟定位)</label></div>
-                    <div class="form-check"><input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2"><label class="form-check-label" for="flexRadioDefault2">使用地圖上的標記</label></div>`)
+                 
+                    <div class="d-flex mt-2">
+                    <input type=text id=lng class="form-control form-control-sm me-1" placeholder="經度">
+                 <input type=text id=lat class="form-control form-control-sm me-1" placeholder="緯度">
+                 </div>
+                 <div class="d-flex mt-2">
+                 <div class="input-group input-group-sm">
+  <span class="input-group-text" id="basic-addon1">搜尋半徑</span>
+  <input type=number id=r class="form-control form-control-sm me-1" value=500 max=1000 min=10 onfocus="$('#alert').text('')">
+
+</div>
+                 <button class="btn btn-primary bi bi-search btn-sm" onclick="BikeStationDataOpt('search',$('#lat').val(),$('#lng').val(),$('#r').val())"></button>
+                 </div>
+                 <span class="text-secondary" id="summary">按下 <i class="bi bi-geo-alt-fill"></i>或點擊地圖任意位置</span>
+                 <br><span class="text-danger" id=alert></span>
+                 `)
                     var center = [23.75518176611264, 120.9406086935125], MyLoc = []
 
                     var map = L.map('map').setView(center, 7);
@@ -578,12 +627,17 @@
                         let lng = e.latlng.lng; // 經度
                         popup.setLatLng(e.latlng).setContent(`<b>此地點</b><br>經度：${lng}<br/>緯度：${lat}`).openOn(map);
                         $("#lat").val(lat); $("#lng").val(lng)
+                        $("#summary").text("使用地圖上的標記")
+
                     }
                     map.on('click', onMapClick);
                     map.on('locationfound', function (e) {
                         console.log(e)
                         MyLoc[0] = e.latlng.lat
                         MyLoc[1] = e.latlng.lng
+                        $("#lat").val(e.latlng.lat); $("#lng").val(e.latlng.lng)
+                        $("#summary").text("使用你的定位點")
+
                     });
 
                 }
@@ -600,17 +654,31 @@
                     $("#header").text("大眾運輸查詢")
                     $("#main-content").html(`
                 <div id="items">
-                <div class="card m-1"><div class="card-body"><h5 class="card-title">台鐵</h5><h6 class="card-subtitle mb-2 text-muted">指定站點的台鐵列車資料</h6><p class="card-text"></p><button class="btn btn-primary"  onclick="App('TRAsearch')">開始查詢</button></div></div>
-                <div class="card m-1"><div class="card-body"><h5 class="card-title">高鐵</h5><h6 class="card-subtitle mb-2 text-muted">指定站點的高鐵時刻表</h6><p class="card-text"></p><button class="btn btn-primary"  onclick="App('HSRsearch')">開始查詢</button></div></div>
-                <div class="card m-1"><div class="card-body"><h5 class="card-title">公路客運</h5><h6 class="card-subtitle mb-2 text-muted">公路客運即時動態</h6><p class="card-text"></p><button class="btn btn-primary"  onclick="App('InterBUSsearch')">開始查詢</button></div></div>
-                <div class="card m-1"><div class="card-body"><h5 class="card-title">市區客運</h5><h6 class="card-subtitle mb-2 text-muted">市區客運即時動態</h6><p class="card-text"></p><button class="btn btn-primary"  onclick="App('CityBUSsearch')">開始查詢</button></div></div>
-                <div class="card m-1"><div class="card-body"><h5 class="card-title">公共自行車</h5><h6 class="card-subtitle mb-2 text-muted">公共自行車即時剩餘位置資料</h6><p class="card-text"></p><button class="btn btn-primary"  onclick="App('BIKEsearch')">開始查詢</button></div></div>
+                <div class="card m-1" data-id="TRA"><div class="card-body"><h5 class="card-title">台鐵</h5><h6 class="card-subtitle mb-2 text-muted">指定站點的台鐵列車資料</h6><p class="card-text"></p><button class="btn btn-primary"  onclick="App('TRAsearch')">開始查詢</button></div></div>
+                <div class="card m-1" data-id="HSR"><div class="card-body"><h5 class="card-title">高鐵</h5><h6 class="card-subtitle mb-2 text-muted">指定站點的高鐵時刻表</h6><p class="card-text"></p><button class="btn btn-primary"  onclick="App('HSRsearch')">開始查詢</button></div></div>
+                <div class="card m-1" data-id="InterBus"><div class="card-body"><h5 class="card-title">公路客運</h5><h6 class="card-subtitle mb-2 text-muted">公路客運即時動態</h6><p class="card-text"></p><button class="btn btn-primary"  onclick="App('InterBUSsearch')">開始查詢</button></div></div>
+                <div class="card m-1" data-id="CityBus"><div class="card-body"><h5 class="card-title">市區客運</h5><h6 class="card-subtitle mb-2 text-muted">市區客運即時動態</h6><p class="card-text"></p><button class="btn btn-primary"  onclick="App('CityBUSsearch')">開始查詢</button></div></div>
+                <div class="card m-1" data-id="Bike"><div class="card-body"><h5 class="card-title">公共自行車</h5><h6 class="card-subtitle mb-2 text-muted">公共自行車即時剩餘位置資料</h6><p class="card-text"></p><button class="btn btn-primary"  onclick="App('BIKEsearch')">開始查詢</button></div></div>
                 </div>
                 `)
 
 
                     var sortable = Sortable.create(document.getElementById('items'), {
                         animation: 200,
+                        store: {
+
+                            get: function (sortable) {
+                                // var order = localStorage.getItem(sortable.options.group.name);
+                                // return order ? order.split('|') : [];
+                            },
+
+
+                            set: function (sortable) {
+                                var order = sortable.toArray();
+                                console.log(order)
+                                // localStorage.setItem(sortable.options.group.name, order.join('|'));
+                            }
+                        }
 
                     });
                 }
