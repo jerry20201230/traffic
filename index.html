@@ -85,7 +85,7 @@
         </div>
         <div class="alert alert-info" id="loading-info">資料讀取中...</div>
         <nav aria-label="breadcrumb" class="ps-1 mt-3">
-            <ol class="breadcrumb ps-4 p-0 m-0"  id="nav-breadcrumb">
+            <ol class="breadcrumb ps-4 p-0 m-0" id="nav-breadcrumb">
                 <li class="breadcrumb-item"><a href="#">首頁</a></li>
                 <!-- <li class="breadcrumb-item active" aria-current="page">Library</li>-->
             </ol>
@@ -179,7 +179,7 @@
                 secs = DATE.getSeconds();
 
             if (type == "date") {
-                return `${year} / ${mont} / ${date}`
+                return `${year}/${mont}/${date}`
             } else
                 if (type == "time") {
                     return `${hour > 9 ? hour : '0' + hour}:${mins > 9 ? mins : '0' + mins}:${secs > 9 ? secs : '0' + secs}`
@@ -324,25 +324,9 @@
         }
         var TrainStationData = "";
         function TrainStationDataOpt(type, par1) {
-            if (type === "get") {
+            if (type === "get" && TrainStationData === "") {
                 if ($("#req_header").text() !== "" && TrainStationData === "") {
-                    let accesstoken = JSON.parse($("#req_header").text());
-                    $.ajax({
-                        url: `https://tdx.transportdata.tw/api/basic/v3/Rail/TRA/Station?%24format=JSON`,
-                        method: "GET",
-                        dataType: "json",
-                        headers: {
-                            "authorization": "Bearer " + accesstoken.access_token,
-                        },
-                        success: function (res) {
-                            TrainStationData = res;
-                            console.log(res);
-                            App("loadingDismiss");
-                        },
-                        error: function (xhr, textStatus, thrownError) {
-                            if (TrainStationData === "") { App("loadingFailed", "讀取台鐵車站資料"); }
-                        }
-                    })
+
                 } else {
                     if (TrainStationData === "") { App("loadingFailed", "讀取台鐵車站資料"); }
 
@@ -381,7 +365,7 @@
                         $("#header").text("公共自行車 - 搜尋結果")
                         $("#main-content").html(`
                     <div id="map-${OSM_mapid}" style="height:50vh"><div style="display: flex;align-items: center;justify-content: center;text-align: center;height: 100%;"><div id="OSM-loading" style="text-align: center;"><h4>OpenStreetMap</h4>資料讀取中...</div></div></div>
-                    <span class="text-secondary" id="summary"></span>
+                    <span class="text-secondary" id="summary2"></span>
                     `)
                         var _center = [23.75518176611264, 120.9406086935125]
                         var map = L.map("map-" + OSM_mapid).setView(_center, 7);
@@ -391,7 +375,7 @@
                             zoomControl: true,
                         }).addTo(map);
                         OSM_mapid++
-                        $("#summary").text(`找到 ${BikeStationData.bikeData.length} 個站點`)
+                        $("#summary2").text(`找到 ${BikeStationData.bikeData.length} 個站點`)
                         if (BikeStationData.bikeData.length !== 0 && BikeStationData.stationData.length !== 0) {
 
                             var circle = L.circle([lat, lng], {
@@ -518,23 +502,7 @@
         function HSRStationDataOpt(type, par1) {
             if (type === "get") {
                 if ($("#req_header").text() !== "" && HSRStationData === "") {
-                    let accesstoken = JSON.parse($("#req_header").text());
-                    $.ajax({
-                        url: `https://tdx.transportdata.tw/api/basic/v2/Rail/THSR/Station?%24format=JSON`,
-                        method: "GET",
-                        dataType: "json",
-                        headers: {
-                            "authorization": "Bearer " + accesstoken.access_token,
-                        },
-                        success: function (res) {
-                            HSRStationData = res;
-                            console.log(res);
-                            App("loadingDismiss");
-                        },
-                        error: function (xhr, textStatus, thrownError) {
-                            if (HSRStationData === "") { App("loadingFailed", "讀取高鐵車站資料") }
-                        }
-                    })
+                    
                 } else {
                     if (HSRStationData === "") { App("loadingFailed", "讀取高鐵車站資料") }
                 }
@@ -556,12 +524,12 @@
         }
 
 
-        function refreshbreadcrumb(list,par1){
-            
-            for(i=0;i<list.length-1;i++){
+        function refreshbreadcrumb(list, par1) {
+
+            for (i = 0; i < list.length - 1; i++) {
                 $("#nav-breadcrumb").append(`<li class="breadcrumb-item" onclick="${list[i].exe}"><a href="#">${list[i].text}</a></li>`)
             }
-        
+
         }
 
         var NowPage = "", historyArr = []
@@ -853,9 +821,9 @@
                 }
                 else {
                     var text = ""
-                    if(isFromUrl){
+                    if (isFromUrl) {
                         text = `如果你儲存了這個連結，請移除並<a href="#" onclick="App('home')">回到首頁</a>`
-                    }else{
+                    } else {
                         text = `請<a href="#" onclick="App('home')">回到首頁</a>`
                     }
                     $("#header").text("找不到頁面")
@@ -897,7 +865,54 @@
             });
         }
 
+
         document.body.onload = function (e) {
+
+            function loadApis(t) {
+                if (t === "all") {
+                    var accesstoken = JSON.parse($("#req_header").text());
+                    $.ajax({
+                        url: `https://tdx.transportdata.tw/api/basic/v3/Rail/TRA/Station?%24format=JSON`,
+                        method: "GET",
+                        dataType: "json",
+                        headers: {
+                            "authorization": "Bearer " + accesstoken.access_token,
+                        },
+                        success: function (res) {
+                            TrainStationData = res;
+                            localStorage.setItem("data","true")
+                            localStorage.setItem('data.TRA',JSON.stringify({data:res,update:getTime("date")}))
+                            console.log(res);
+                            App("loadingDismiss");
+                        },
+                        error: function (xhr, textStatus, thrownError) {
+                            if (TrainStationData === "") { App("loadingFailed", "讀取台鐵車站資料"); }
+                        }
+                    })
+
+                   
+                    $.ajax({
+                        url: `https://tdx.transportdata.tw/api/basic/v2/Rail/THSR/Station?%24format=JSON`,
+                        method: "GET",
+                        dataType: "json",
+                        headers: {
+                            "authorization": "Bearer " + accesstoken.access_token,
+                        },
+                        success: function (res) {
+                            HSRStationData = res;
+                            localStorage.setItem("data","true")
+                            localStorage.setItem('data.HSR',JSON.stringify({data:res,update:getTime("date")}))
+                            console.log(res);
+                            App("loadingDismiss");
+                        },
+                        error: function (xhr, textStatus, thrownError) {
+                            if (HSRStationData === "") { App("loadingFailed", "讀取高鐵車站資料") }
+                        }
+                    })
+                }
+            }
+
+
             TDXlogin()
             timeDisplay()
             if ($.UrlParam("page") !== null) {
@@ -915,6 +930,13 @@
                 }
             } else {
                 App("home")
+            }
+
+            if (!localStorage.getItem("data")) {
+                loadApis("all")
+            }else{
+                TrainStationData = JSON.parse(localStorage.getItem("data.TRA")).data
+                HSRStationData = JSON.parse(localStorage.getItem("data.HSR")).data
             }
 
         }
