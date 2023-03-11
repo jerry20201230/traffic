@@ -84,8 +84,8 @@
             <h3 class="p-0 m-0">時間顯示</h3>
         </div>
         <div class="alert alert-info" id="loading-info">資料讀取中...</div>
-        <nav aria-label="breadcrumb" class="ps-1 mt-3" id="nav-breadcrumb">
-            <ol class="breadcrumb ps-4 p-0 m-0">
+        <nav aria-label="breadcrumb" class="ps-1 mt-3">
+            <ol class="breadcrumb ps-4 p-0 m-0"  id="nav-breadcrumb">
                 <li class="breadcrumb-item"><a href="#">首頁</a></li>
                 <!-- <li class="breadcrumb-item active" aria-current="page">Library</li>-->
             </ol>
@@ -555,8 +555,17 @@
             }
         }
 
+
+        function refreshbreadcrumb(list,par1){
+            
+            for(i=0;i<list.length-1;i++){
+                $("#nav-breadcrumb").append(`<li class="breadcrumb-item" onclick="${list[i].exe}"><a href="#">${list[i].text}</a></li>`)
+            }
+        
+        }
+
         var NowPage = "", historyArr = []
-        function App(page, par1, par2, par3, isFromUrl,isFromHistory) {
+        function App(page, par1, par2, par3, isFromUrl, isFromHistory) {
             if (page === "loading" || page === "loadingFailed" || page === "loadingDismiss") {
                 if (page === "loading") {
                     $("#loading-info").attr("class", "alert alert-info").text(`正在讀取資料集:${par1}`).show()
@@ -566,21 +575,21 @@
                     $("#loading-info").hide()
                 }
             } else {
-            if(!isFromHistory){
-                if (historyArr.length > 0) {
-                    if (historyArr[historyArr.length - 1].page == page) {
-                        console.log(true)
+                if (!isFromHistory) {
+                    if (historyArr.length > 0) {
+                        if (historyArr[historyArr.length - 1].page == page) {
+                            console.log(true)
+                        } else {
+                            history.pushState({ "page": page, "par1": par1, "par2": par2, "par3": par3 }, null, "#");
+                            historyArr.push({ "page": page, "par1": par1, "par2": par2, "par3": par3 })
+
+                        }
                     } else {
                         history.pushState({ "page": page, "par1": par1, "par2": par2, "par3": par3 }, null, "#");
                         historyArr.push({ "page": page, "par1": par1, "par2": par2, "par3": par3 })
 
                     }
-                } else {
-                    history.pushState({ "page": page, "par1": par1, "par2": par2, "par3": par3 }, null, "#");
-                    historyArr.push({ "page": page, "par1": par1, "par2": par2, "par3": par3 })
-
                 }
-            }
                 if (page === "TRAsearch") {
                     $("#header").text("台鐵車站 - 搜尋")
                     $("#main-content").html(`<div class="d-flex"><input type="text" class="form-control me-1" oninput="TrainStationDataOpt('search',$('#trainStationNameInput').val())" id="trainStationNameInput" placeholder="輸入台鐵車站名稱..."><button class="btn btn-primary bi bi-search" onclick="TrainStationDataOpt('search',$('#trainStationNameInput').val()) "></button></div><div class="list-group mt-2" id="search-result"></div>`)
@@ -668,7 +677,44 @@
 
                 }
                 else if (page === "HSRstation") {
-                    $("#main-content").html(`${HSRStationData[par3].StationAddress}`)
+
+                    $("#main-content").html(`
+             
+                <div class="card mb-1">
+                    <div class="card-body">
+                        <h5 class="card-title">${par1}車站</h5>
+                 
+                        <p class="card-text">地址 : ${HSRStationData[par3].StationAddress}<br>
+                            <div id="map-${OSM_mapid}" style="height:50vh">
+                                <div style="display: flex;align-items: center;justify-content: center;text-align: center;height: 100%;">
+                                    <div id="OSM-loading" style="text-align: center;">
+                                        <h4>OpenStreetMap</h4>資料讀取中...</div>
+                                    </div>
+                                </div>
+                        </p>
+                        <a href="${location.pathname}?page=${page}&par1=${par1}&par2=${par2}&par3=${par3}" target="_blank" class="card-link">分享 <i class="bi bi-share"></i></a>
+
+                    </div>
+                </div>
+                    
+                    `)
+                    var center = [HSRStationData[par3].StationPosition.PositionLat, HSRStationData[par3].StationPosition.PositionLon]
+
+                    var map = L.map('map-' + OSM_mapid).setView(center, 20);
+                    OSM_mapid++
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        attribution: '© OpenStreetMap',
+                        maxZoom: 19,
+                        zoomControl: true,
+                    }).addTo(map);
+
+                    var marker = L.marker(center);
+                    marker.addTo(map);
+                    marker.bindPopup(`<b>${par1}車站</b>`).openPopup();
+
+                    marker.on('click', function () {
+                        marker.bindPopup(`<b>${par1}車站</b>`).openPopup();
+                    })
                 }
                 else if (page === "BIKEsearch") {
                     $("#header").text("公共自行車 - 搜尋")
@@ -797,24 +843,26 @@
                 else if (page === "setting") {
                     $("#header").text("設定")
                     $("#main-content").html(`
-                    <h3>
-                        時間顯示
-                    </h3>
-                    <div class="form-check"><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"><label class="form-check-label" for="flexCheckDefault">顯示時間</label></div>
-                    <div class="form-check"><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault2"><label class="form-check-label" for="flexCheckDefault2">顯示秒數</label></div>
-                    <h3>
-                        搜尋選項
-                    </h3>
-                    <div class="form-check"><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault3"><label class="form-check-label" for="flexCheckDefault3">自動轉換 台/臺</label></div>
-                    
-                    <button class="btn btn-primary">儲存設定</button>
+                   
+                    <ul class="list-group">
+                        <a href="#" class="list-group-item list-group-item-action"><h4 class="p-0 m-0">資料集</h4><span class="text-secondary">更新資料</span></a>
+                        <a href="#" class="list-group-item list-group-item-action"><h4 class="p-0 m-0">搜尋</h4><span class="text-secondary">搜尋建議、自動轉換</span></a>
+                        <a href="#" class="list-group-item list-group-item-action"><h4 class="p-0 m-0">時間</h4><span class="text-secondary">時間設定、時鐘</span></a>    
+                    </ul>
                     `)
                 }
                 else {
+                    var text = ""
+                    if(isFromUrl){
+                        text = `如果你儲存了這個連結，請移除並<a href="#" onclick="App('home')">回到首頁</a>`
+                    }else{
+                        text = `請<a href="#" onclick="App('home')">回到首頁</a>`
+                    }
                     $("#header").text("找不到頁面")
+
                     $("#main-content").html(`
                 <h1>404</h1>
-                <p>找不到這個頁面<br>該連結可能已經過時、失效或者不存在<br>如果你儲存了這個連結，請移除並<a href="#" onclick="App('home')">回到首頁</a></p>
+                <p>找不到這個頁面<br>該連結可能已經過時、失效或者不存在<br>${text}</p>
                 
                 `)
                     console.warn(`${page} - 404 Not Found`)
@@ -823,7 +871,6 @@
                 NowPage = page
             }
         }
-
 
         function TDXlogin() {
             var tdxLogin = {
@@ -850,9 +897,6 @@
             });
         }
 
-
-
-
         document.body.onload = function (e) {
             TDXlogin()
             timeDisplay()
@@ -878,15 +922,10 @@
         window.addEventListener("popstate", function (e) {
             if (e.state && NowPage !== e.state.page) {
                 console.log(e.state.page)
-                App(e.state.page, e.state.par1, e.state.par2, e.state.par3,false,true)
+                App(e.state.page, e.state.par1, e.state.par2, e.state.par3, false, true)
             }
         });
-
-
-
     </script>
-
-
 </body>
 
 </html>
