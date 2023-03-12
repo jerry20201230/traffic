@@ -551,6 +551,10 @@
                 $("#nav-breadcrumb").append(`<li class="breadcrumb-item active">搜尋結果</li>`)
             }
 
+            else if(page === "setting.data"){
+                $("#nav-breadcrumb").append(`<li class="breadcrumb-item" onclick="App('setting')"><a href="#">設定</a></li>`)
+                $("#nav-breadcrumb").append(`<li class="breadcrumb-item active">資料集</li>`)
+            }
 
         }
 
@@ -837,11 +841,18 @@
                     $("#main-content").html(`
                    
                     <ul class="list-group">
-                        <a href="#" class="list-group-item list-group-item-action"><h4 class="p-0 m-0">資料集</h4><span class="text-secondary">更新資料</span></a>
+                        <a href="#" class="list-group-item list-group-item-action" onclick="App('setting.data')"><h4 class="p-0 m-0">資料集</h4><span class="text-secondary">更新資料、刪除資料</span></a>
                         <a href="#" class="list-group-item list-group-item-action"><h4 class="p-0 m-0">搜尋</h4><span class="text-secondary">搜尋建議、自動轉換</span></a>
                         <a href="#" class="list-group-item list-group-item-action"><h4 class="p-0 m-0">時間</h4><span class="text-secondary">時間設定、時鐘</span></a>    
                     </ul>
                     `)
+                }
+                else if(page === "setting.data"){
+                    $("#header").text("資料集")
+                    $("#main-content").html(`
+                    <span class="text-secondary">更新或刪除資料集</span>
+                    `)
+
                 }
 
                 else if (page === "bookmark") {
@@ -880,7 +891,7 @@
                 grant_type: "client_credentials",
                 client_id: "jerry20200815-905e4c2d-f4f9-42dd",
                 client_secret: "df5c085e-f262-4258-b1d6-518e40138f71"
-            };
+            }; 
 
             $.ajax({
                 type: "POST",
