@@ -667,6 +667,11 @@
                 }
                 else if (page === "HSRstation") {
                     $("#header").text("高鐵" + par1 + "站")
+                    if (isFromUrl) {
+                        par3 = Number(par3)
+                        par1 = TrainStationData.Stations[par3].StationName.Zh_tw
+                    //    par2 = TrainStationData.Stations[par3].StationID
+                    }
                     $("#main-content").html(`
              
                 <div class="card mb-1">
@@ -802,7 +807,8 @@
                 <h4>關於 大眾運輸查詢系統</h4>
                 <p><i>"整合交通資料，達到最佳效能"</i></p>
                 <p>資料來源:<a href="https://tdx.transportdata.tw/" target="_blank"><img alt="" height="30" src="https://tdx.transportdata.tw/images/tdxlogo.png" /></a></p>
- 
+
+                <span class="text-secondary">v1.0 BETA 2023.03 BY Jerry</span>
                 `)
                 }
                 else if (page === "home") {
