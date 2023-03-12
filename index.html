@@ -874,9 +874,21 @@
                     
                     </ul>
                     `)
-                    var dbName = ["TRA","HSR"]
+                    var dbID = ["TRA","HSR"],
+                        dbName = ["台鐵車站資料","高鐵車站資料"]
                     
                     console.log(Number(localStorage.getItem("data")))
+
+                    for(i=0;i<dbID.length;i++){
+                        if(localStorage.getItem(`data.${dbID[i]}`)){
+                            $("#database-group").append(`
+                            <a href="#" class="list-group-item list-group-item-action">
+                                <h4 class="p-0 m-0">${dbName[i]}</h4>
+                                <span class="text-secondary">更新日期:${JSON.parse(localStorage.getItem(`data.${dbID[i]}`)).update}</span><br>
+                                <span class="text-secondary">共 ${JSON.parse(localStorage.getItem(`data.${dbID[i]}`)).data.length} 筆資料</span>
+                            </a>`)
+                        }
+                    }
 
                 }
 
