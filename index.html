@@ -106,36 +106,7 @@
                     <a href="#" tabindex="-1" class="btn btn-primary disabled placeholder col-6"></a>
                 </div>
             </div>
-            <div class="card" aria-hidden="true">
-                <div class="card-body">
-                    <h5 class="card-title placeholder-glow">
-                        <span class="placeholder col-6"></span>
-                    </h5>
-                    <p class="card-text placeholder-glow">
-                        <span class="placeholder col-7"></span>
-                        <span class="placeholder col-4"></span>
-                        <span class="placeholder col-4"></span>
-                        <span class="placeholder col-6"></span>
-                        <span class="placeholder col-8"></span>
-                    </p>
-                    <a href="#" tabindex="-1" class="btn btn-primary disabled placeholder col-6"></a>
-                </div>
-            </div>
-            <div class="card" aria-hidden="true">
-                <div class="card-body">
-                    <h5 class="card-title placeholder-glow">
-                        <span class="placeholder col-6"></span>
-                    </h5>
-                    <p class="card-text placeholder-glow">
-                        <span class="placeholder col-7"></span>
-                        <span class="placeholder col-4"></span>
-                        <span class="placeholder col-4"></span>
-                        <span class="placeholder col-6"></span>
-                        <span class="placeholder col-8"></span>
-                    </p>
-                    <a href="#" tabindex="-1" class="btn btn-primary disabled placeholder col-6"></a>
-                </div>
-            </div>
+
 
         </div>
 
@@ -406,7 +377,7 @@
                             for (i = 0; i < BikeStationData.stationData.length; i++) {
                                 console.log(i)
                                 let center = [BikeStationData.stationData[i].StationPosition.PositionLat, BikeStationData.stationData[i].StationPosition.PositionLon]
-                                map.setView(center, 15)
+                                
                                 console.log(center)
 
                                 var marker = L.marker(center, {
@@ -416,6 +387,7 @@
                                 marker.addTo(map);
                                 marker.bindPopup(`<b>${BikeStationData.stationData[i].StationName.Zh_tw}</b>`)
                             }
+                            map.setView([lat,lng], 15)
                         }
                     }
 
@@ -502,7 +474,7 @@
         function HSRStationDataOpt(type, par1) {
             if (type === "get") {
                 if ($("#req_header").text() !== "" && HSRStationData === "") {
-                    
+
                 } else {
                     if (HSRStationData === "") { App("loadingFailed", "讀取高鐵車站資料") }
                 }
@@ -524,11 +496,29 @@
         }
 
 
-        function refreshbreadcrumb(list, par1) {
-
-            for (i = 0; i < list.length - 1; i++) {
-                $("#nav-breadcrumb").append(`<li class="breadcrumb-item" onclick="${list[i].exe}"><a href="#">${list[i].text}</a></li>`)
+        function refreshbreadcrumb(page, par1) {
+            $("#nav-breadcrumb").html("")
+            if (page === "TRAsearch") {
+                $("#nav-breadcrumb").append(`<li class="breadcrumb-item" onclick="App('home')"><a href="#">首頁</a></li>`)
+                $("#nav-breadcrumb").append(`<li class="breadcrumb-item active">台鐵車站搜尋</li>`)
+            } else if (page === "HSRsearch") {
+                $("#nav-breadcrumb").append(`<li class="breadcrumb-item" onclick="App('home')"><a href="#">首頁</a></li>`)
+                $("#nav-breadcrumb").append(`<li class="breadcrumb-item active">高鐵車站搜尋</li>`)
+            } else if(page === "BIKEsearch"){
+                $("#nav-breadcrumb").append(`<li class="breadcrumb-item" onclick="App('home')"><a href="#">首頁</a></li>`)
+                $("#nav-breadcrumb").append(`<li class="breadcrumb-item active">公共自行車站點搜尋</li>`)
             }
+
+            else if(page === "TRAstation"){
+                $("#nav-breadcrumb").append(`<li class="breadcrumb-item" onclick="App('home')"><a href="#">首頁</a></li>`)
+                $("#nav-breadcrumb").append(`<li class="breadcrumb-item" onclick="App('TRAsearch')"><a href="#">台鐵車站搜尋</a></li>`)
+                $("#nav-breadcrumb").append(`<li class="breadcrumb-item active">台鐵${par1}車站</li>`)
+            } else if(page === "HSRstation"){
+                $("#nav-breadcrumb").append(`<li class="breadcrumb-item" onclick="App('home')"><a href="#">首頁</a></li>`)
+                $("#nav-breadcrumb").append(`<li class="breadcrumb-item" onclick="App('HSRsearch')"><a href="#">高鐵車站搜尋</a></li>`)
+                $("#nav-breadcrumb").append(`<li class="breadcrumb-item active">高鐵${par1}站</li>`)
+            }
+            
 
         }
 
@@ -543,6 +533,7 @@
                     $("#loading-info").hide()
                 }
             } else {
+                refreshbreadcrumb(page, par1)
                 if (!isFromHistory) {
                     if (historyArr.length > 0) {
                         if (historyArr[historyArr.length - 1].page == page) {
@@ -580,7 +571,7 @@
                         par2 = TrainStationData.Stations[par3].StationID
                     }
                     let stationLvL;
-                    $("#header").text("台鐵 - " + par1 + "車站")
+                    $("#header").text("台鐵" + par1 + "車站")
                     //['0: 特等', '1: 一等', '2: 二等', '3: 三等', '4: 簡易', '5: 招呼', '6: 號誌', 'A: 貨運', 'B: 基地', 'X: 非車']
                     if (TrainStationData.Stations[par3].StationClass == 0) {
                         stationLvL = "特等站"
@@ -645,12 +636,12 @@
 
                 }
                 else if (page === "HSRstation") {
-
+                    $("#header").text("高鐵"+par1+"站")
                     $("#main-content").html(`
              
                 <div class="card mb-1">
                     <div class="card-body">
-                        <h5 class="card-title">${par1}車站</h5>
+                        <h5 class="card-title">${par1}</h5>
                  
                         <p class="card-text">地址 : ${HSRStationData[par3].StationAddress}<br>
                             <div id="map-${OSM_mapid}" style="height:50vh">
@@ -880,8 +871,8 @@
                         },
                         success: function (res) {
                             TrainStationData = res;
-                            localStorage.setItem("data","true")
-                            localStorage.setItem('data.TRA',JSON.stringify({data:res,update:getTime("date")}))
+                            localStorage.setItem("data", "true")
+                            localStorage.setItem('data.TRA', JSON.stringify({ data: res, update: getTime("date") }))
                             console.log(res);
                             App("loadingDismiss");
                         },
@@ -890,7 +881,7 @@
                         }
                     })
 
-                   
+
                     $.ajax({
                         url: `https://tdx.transportdata.tw/api/basic/v2/Rail/THSR/Station?%24format=JSON`,
                         method: "GET",
@@ -900,8 +891,8 @@
                         },
                         success: function (res) {
                             HSRStationData = res;
-                            localStorage.setItem("data","true")
-                            localStorage.setItem('data.HSR',JSON.stringify({data:res,update:getTime("date")}))
+                            localStorage.setItem("data", "true")
+                            localStorage.setItem('data.HSR', JSON.stringify({ data: res, update: getTime("date") }))
                             console.log(res);
                             App("loadingDismiss");
                         },
@@ -934,7 +925,7 @@
 
             if (!localStorage.getItem("data")) {
                 loadApis("all")
-            }else{
+            } else {
                 TrainStationData = JSON.parse(localStorage.getItem("data.TRA")).data
                 HSRStationData = JSON.parse(localStorage.getItem("data.HSR")).data
             }
