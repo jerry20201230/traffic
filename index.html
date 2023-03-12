@@ -717,7 +717,7 @@
                     $("#header").text("公共自行車 - 搜尋")
                     $("#main-content").html(`    
                     <div id="map-${OSM_mapid}" style="height:50vh"><div style="display: flex;align-items: center;justify-content: center;text-align: center;height: 100%;"><div id="OSM-loading" style="text-align: center;"><h4>OpenStreetMap</h4>資料讀取中...</div></div></div>
-                    <div class="d-flex mt-2"><input type=text id=lng class="form-control form-control-sm me-1" placeholder="經度" onfocus="$('#alert').text('')"><input type=text id=lat class="form-control form-control-sm me-1" placeholder="緯度" onfocus="$('#alert').text('')"></div><div class="d-flex mt-2"><div class="input-group input-group-sm"><span class="input-group-text" id="basic-addon1">搜尋半徑</span><input type=number id=r class="form-control form-control-sm me-1" value=500 max=1000 min=10 onfocus="$('#alert').text('')"></div><button class="btn btn-primary bi bi-search btn-sm" onclick="App('BIKEsearch_result',$('#lat').val(),$('#lng').val(),$('#r').val())"></button></div><span class="text-secondary" id="summary">按下 <i class="bi bi-geo-alt-fill"></i>或點擊地圖任意位置</span><br><span class="text-danger" id=alert></span><div class="form-check form-switch"><input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked><label class="form-check-label" for="flexSwitchCheckChecked">自動填入定位</label></div><div class="mt-2"></div>
+                    <div class="d-flex mt-2"><input type=text id=lng class="form-control form-control-sm me-1" placeholder="經度" onfocus="$('#alert').text('')"><input type=text id=lat class="form-control form-control-sm me-1" placeholder="緯度" onfocus="$('#alert').text('')"></div><div class="d-flex mt-2"><div class="input-group input-group-sm"><span class="input-group-text" id="basic-addon1">搜尋半徑</span><input type=number id=r class="form-control form-control-sm me-1" value=500 max=1000 min=10 onfocus="$('#alert').text('')"></div><button class="btn btn-primary bi bi-search btn-sm" onclick="App('BIKEsearch_result',$('#lat').val(),$('#lng').val(),$('#r').val())"></button></div><span class="text-secondary" id="summary">按下 <i class="bi bi-geo-alt-fill"></i>使用定位或點擊地圖任意位置<br>若要使用定位，請先開啟下方開關</span><br><span class="text-danger" id=alert></span><div class="form-check form-switch"><input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked"><label class="form-check-label" for="flexSwitchCheckChecked">自動填入定位</label></div><div class="mt-2"></div>
                     `)
                     var center = [23.75518176611264, 120.9406086935125], MyLoc = []
 
@@ -759,6 +759,7 @@
                     var popup = L.popup();
                     function onMapClick(e) {
                         console.log(e)
+                        document.getElementById("flexSwitchCheckChecked").checked = false
                         let lat = e.latlng.lat; // 緯度
                         let lng = e.latlng.lng; // 經度
                         popup.setLatLng(e.latlng).setContent(`<b>此地點</b><br>經度：${lng}<br/>緯度：${lat}`).openOn(map);
@@ -770,7 +771,7 @@
                     map.on('locationfound', function (e) {
                         if (NowPage === "BIKEsearch")
                             if (document.getElementById("flexSwitchCheckChecked").checked) {
-                                document.getElementById("flexSwitchCheckChecked").checked = false
+                                
                                 console.log(e)
                                 MyLoc[0] = e.latlng.lat
                                 MyLoc[1] = e.latlng.lng
@@ -791,7 +792,7 @@
                 <p><i>"整合交通資料，達到最佳效能"</i></p>
                 <p>資料來源:<a href="https://tdx.transportdata.tw/" target="_blank"><img alt="" height="30" src="https://tdx.transportdata.tw/images/tdxlogo.png" /></a></p>
 
-                <span class="text-secondary">v1.0 BETA 2023.03 BY Jerry</span>
+                <span class="text-secondary">v1.0 BETA<br>2023.03 By Jerry</span>
                 `)
                 }
                 else if (page === "home") {
