@@ -861,8 +861,13 @@
                 else if (page === "setting.data") {
                     $("#header").text("資料集")
                     $("#main-content").html(`
-                    <span class="text-secondary">更新或刪除資料集</span>
+                    <span class="text-secondary">以下列出你所有的資料集，你可以更新或刪除資料集</span>
+                    <ul class="list-group" id="database-group">
+                    
+                    </ul>
                     `)
+
+                    console.log(localStorage.getItem(data))
 
                 }
 
