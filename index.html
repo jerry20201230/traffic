@@ -517,6 +517,10 @@
                 $("#nav-breadcrumb").append(`<li class="breadcrumb-item" onclick="App('home')"><a href="#">首頁</a></li>`)
                 $("#nav-breadcrumb").append(`<li class="breadcrumb-item" onclick="App('HSRsearch')"><a href="#">高鐵車站搜尋</a></li>`)
                 $("#nav-breadcrumb").append(`<li class="breadcrumb-item active">高鐵${par1}站</li>`)
+            } else if(page === "BIKEsearch_result"){
+                $("#nav-breadcrumb").append(`<li class="breadcrumb-item" onclick="App('home')"><a href="#">首頁</a></li>`)
+                $("#nav-breadcrumb").append(`<li class="breadcrumb-item" onclick="App('BIKEsearch')"><a href="#">公共自行車站點搜尋</a></li>`)
+                $("#nav-breadcrumb").append(`<li class="breadcrumb-item active">搜尋結果</li>`)
             }
             
 
