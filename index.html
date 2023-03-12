@@ -813,8 +813,8 @@
                     $("#header").text("大眾運輸查詢")
                     $("#main-content").html(`
                     <div class="alert alert-danger fade show">
-                
-                <h4>請注意 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> </h4>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"  style="float:right;"></button>
+                <h4>請注意  </h4>
                 本系統所有資料<b>僅供參考</b><br>
                 如果你在車站內，請以站內顯示的資料為主   
                 </div>
@@ -847,6 +847,13 @@
 
                     });*/
                 }
+                else if(page === "history"){
+                    $("#header").text("歷史紀錄")
+                    $("#main-content").html(`
+                   <span class="text-secondary">查詢過的資料</span>
+  
+                    `)
+                }
                 else if (page === "setting") {
                     $("#header").text("設定")
                     $("#main-content").html(`
@@ -866,8 +873,9 @@
                     
                     </ul>
                     `)
-
-                    console.log(localStorage.getItem(data))
+                    var dbName = ["TRA","HSR"]
+                    
+                    console.log(Number(localStorage.getItem(data)))
 
                 }
 
