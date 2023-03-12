@@ -194,6 +194,9 @@
                         return par
                     }
         }
+        Array.prototype.remove = function (value) {
+            return this.filter(item => item !== value)
+        }
 
         function delay(n) {
             return new Promise(function (resolve) {
@@ -551,7 +554,7 @@
                 $("#nav-breadcrumb").append(`<li class="breadcrumb-item active">搜尋結果</li>`)
             }
 
-            else if(page === "setting.data"){
+            else if (page === "setting.data") {
                 $("#nav-breadcrumb").append(`<li class="breadcrumb-item" onclick="App('setting')"><a href="#">設定</a></li>`)
                 $("#nav-breadcrumb").append(`<li class="breadcrumb-item active">資料集</li>`)
             }
@@ -775,7 +778,7 @@
                     map.on('locationfound', function (e) {
                         if (NowPage === "BIKEsearch")
                             if (document.getElementById("flexSwitchCheckChecked").checked) {
-                                
+
                                 console.log(e)
                                 MyLoc[0] = e.latlng.lat
                                 MyLoc[1] = e.latlng.lng
@@ -788,6 +791,13 @@
                 }
                 else if (page === "BIKEsearch_result") {
                     BikeStationDataOpt("search", par1, par2, par3)
+                }
+
+
+                else if (page === "CityBUSsearch") {
+                    $("#header").text("設定")
+                    $("#main-content").html(`
+                    `)
                 }
                 else if (page === "about") {
                     $("#header").text("關於")
@@ -802,11 +812,11 @@
                 else if (page === "home") {
                     $("#header").text("大眾運輸查詢")
                     $("#main-content").html(`
-                    <div class="alert alert-danger">
-                <h4>請注意</h4>
+                    <div class="alert alert-danger fade show">
+                
+                <h4>請注意 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> </h4>
                 本系統所有資料<b>僅供參考</b><br>
                 如果你在車站內，請以站內顯示的資料為主   
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> 
                 </div>
                 <div id="items">
                 <div class="card m-1"   onclick="App('TRAsearch')" data-id="TRA"><div class="card-body"><h5 class="card-title">台鐵</h5><h6 class="card-subtitle mb-2 text-muted">指定站點的台鐵列車資料</h6><p class="card-text"></p><button class="btn btn-primary"  onclick="App('TRAsearch')">開始查詢</button></div></div>
@@ -848,7 +858,7 @@
                     </ul>
                     `)
                 }
-                else if(page === "setting.data"){
+                else if (page === "setting.data") {
                     $("#header").text("資料集")
                     $("#main-content").html(`
                     <span class="text-secondary">更新或刪除資料集</span>
@@ -892,7 +902,7 @@
                 grant_type: "client_credentials",
                 client_id: "jerry20200815-905e4c2d-f4f9-42dd",
                 client_secret: "df5c085e-f262-4258-b1d6-518e40138f71"
-            }; 
+            };
 
             $.ajax({
                 type: "POST",
@@ -990,8 +1000,8 @@
                 TrainStationData = JSON.parse(localStorage.getItem("data.TRA")).data
                 HSRStationData = JSON.parse(localStorage.getItem("data.HSR")).data
 
-                console.log({"TRA":TrainStationData})
-                console.log({"HSR":HSRStationData})
+                console.log({ "TRA": TrainStationData })
+                console.log({ "HSR": HSRStationData })
             }
 
         }
