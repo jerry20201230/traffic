@@ -557,6 +557,9 @@
             else if (page === "setting.data") {
                 $("#nav-breadcrumb").append(`<li class="breadcrumb-item" onclick="App('setting')"><a href="#">設定</a></li>`)
                 $("#nav-breadcrumb").append(`<li class="breadcrumb-item active">資料集</li>`)
+            } else if (page === "setting.home") {
+                $("#nav-breadcrumb").append(`<li class="breadcrumb-item" onclick="App('setting')"><a href="#">設定</a></li>`)
+                $("#nav-breadcrumb").append(`<li class="breadcrumb-item active">主畫面</li>`)
             }
 
         }
@@ -859,7 +862,7 @@
                     $("#main-content").html(`
                    
                     <ul class="list-group">
-                        <a href="#" class="list-group-item list-group-item-action"><h4 class="p-0 m-0">主畫面</h4><span class="text-secondary">卡片排列、小工具</span></a>    
+                        <a href="#" class="list-group-item list-group-item-action" onclick="App('setting.home')"><h4 class="p-0 m-0">主畫面</h4><span class="text-secondary">卡片排列、首頁</span></a>    
                         <a href="#" class="list-group-item list-group-item-action" onclick="App('setting.data')"><h4 class="p-0 m-0">資料集</h4><span class="text-secondary">更新資料</span></a>
                         <a href="#" class="list-group-item list-group-item-action"><h4 class="p-0 m-0">搜尋</h4><span class="text-secondary">搜尋建議、自動轉換</span></a>
                         <a href="#" class="list-group-item list-group-item-action"><h4 class="p-0 m-0">時間</h4><span class="text-secondary">時間設定、時鐘</span></a>    
@@ -881,24 +884,20 @@
 
                     for(i=0;i<dbID.length;i++){
                         if(localStorage.getItem(`data.${dbID[i]}`)){
-                            $("#database-group").append(`
-                           
-                            <div class="accordion-item">
-    <h2 class="accordion-header" id="panelsStayOpen-heading-${i}">
-      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse-${i}" aria-expanded="true" aria-controls="panelsStayOpen-collapse-${i}">
-        ${dbName[i]}
-      </button>
-    </h2>
-    <div id="panelsStayOpen-collapse-${i}" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-heading-${i}">
-      <div class="accordion-body">
-        <span class="text-secondary">更新日期:${JSON.parse(localStorage.getItem(`data.${dbID[i]}`)).update}</span><br>
-       
-      </div>
-    </div>
-  </div>`)
+                            $("#database-group").append(`<div class="accordion-item"><h2 class="accordion-header" id="panelsStayOpen-heading-${i}"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse-${i}" aria-expanded="true" aria-controls="panelsStayOpen-collapse-${i}">${dbName[i]}</button></h2><div id="panelsStayOpen-collapse-${i}" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-heading-${i}"><div class="accordion-body"><span class="text-secondary">更新日期:${JSON.parse(localStorage.getItem(`data.${dbID[i]}`)).update}</span><br></div></div></div>`)
                         }
                     }
 
+                }
+                else if (page === "setting.home") {
+                    $("#header").text("主畫面設定")
+                    $("#main-content").html(`
+                    <ul class="list-group">
+                        <a href="#" class="list-group-item list-group-item-action" onclick="App('setting.home.cards')"><h4 class="p-0 m-0">卡片排列</h4><span class="text-secondary"></span></a>    
+                        <a href="#" class="list-group-item list-group-item-action" onclick="App('setting.home.homepage')"><h4 class="p-0 m-0">首頁設定</h4><span class="text-secondary"></span></a>
+                      
+                    </ul>
+                    `)
                 }
 
                 else if (page === "bookmark") {
