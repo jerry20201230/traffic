@@ -912,7 +912,7 @@
                         },
                         success: function (res) {
                             TrainStationData = res;
-                            localStorage.setItem("data", "true")
+                            localStorage.setItem("data", Number(localStorage.getItem("data"))+1)
                             localStorage.setItem('data.TRA', JSON.stringify({ data: res, update: getTime("date") }))
                             console.log(res);
                             App("loadingDismiss");
@@ -932,7 +932,7 @@
                         },
                         success: function (res) {
                             HSRStationData = res;
-                            localStorage.setItem("data", "true")
+                            localStorage.setItem("data", Number(localStorage.getItem("data"))+1)
                             localStorage.setItem('data.HSR', JSON.stringify({ data: res, update: getTime("date") }))
                             console.log(res);
                             App("loadingDismiss");
@@ -964,7 +964,7 @@
                 App("home")
             }
 
-            if (!localStorage.getItem("data")) {
+            if (Number(localStorage.getItem("data")) < 2) {
                 loadApis("all")
             } else {
                 TrainStationData = JSON.parse(localStorage.getItem("data.TRA")).data
