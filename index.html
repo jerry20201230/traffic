@@ -50,15 +50,18 @@
             </div>
             <div class="offcanvas-body">
                 <div class="d-flex mb-1 pe-3">
-                    <div class="rounded-1 bg-secondary me-1 flex-grow-1 text-white text-center p-1 pt-2" style="cursor: pointer; user-select: none;">
+                    <div class="rounded-1 bg-secondary me-1 flex-grow-1 text-white text-center p-1 pt-2"
+                        style="cursor: pointer; user-select: none;">
                         <h3 class="bi bi-share m-0 p-0"></h3>
                         <span>分享</span>
                     </div>
-                    <div class="rounded-1 bg-secondary me-1 flex-grow-1 text-white text-center p-1 pt-2"  style="cursor: pointer; user-select: none;">
+                    <div class="rounded-1 bg-secondary me-1 flex-grow-1 text-white text-center p-1 pt-2"
+                        style="cursor: pointer; user-select: none;">
                         <h3 class="bi bi-bookmark-plus m-0 p-0"></h3>
                         <span>加入書籤</span>
                     </div>
-                    <div class="rounded-1 bg-secondary me-1 flex-grow-1 text-white text-center p-1 pt-2"  style="cursor: pointer; user-select: none;" onclick="App('home')" data-bs-dismiss="offcanvas">
+                    <div class="rounded-1 bg-secondary me-1 flex-grow-1 text-white text-center p-1 pt-2"
+                        style="cursor: pointer; user-select: none;" onclick="App('home')" data-bs-dismiss="offcanvas">
                         <h3 class="bi bi-house m-0 p-0"></h3>
                         <span>回首頁</span>
                     </div>
@@ -669,8 +672,8 @@
                     $("#header").text("高鐵" + par1 + "站")
                     if (isFromUrl) {
                         par3 = Number(par3)
-                        par1 = TrainStationData.Stations[par3].StationName.Zh_tw
-                    //    par2 = TrainStationData.Stations[par3].StationID
+                        par1 = HSRStationData[par3].StationName.Zh_tw
+                        //    par2 = TrainStationData.Stations[par3].StationID
                     }
                     $("#main-content").html(`
              
@@ -714,28 +717,8 @@
                     $("#header").text("公共自行車 - 搜尋")
                     $("#main-content").html(`    
                     <div id="map-${OSM_mapid}" style="height:50vh"><div style="display: flex;align-items: center;justify-content: center;text-align: center;height: 100%;"><div id="OSM-loading" style="text-align: center;"><h4>OpenStreetMap</h4>資料讀取中...</div></div></div>
-                 
-                    <div class="d-flex mt-2">
-                    <input type=text id=lng class="form-control form-control-sm me-1" placeholder="經度" onfocus="$('#alert').text('')">
-                 <input type=text id=lat class="form-control form-control-sm me-1" placeholder="緯度" onfocus="$('#alert').text('')">
-                 </div>
-                 <div class="d-flex mt-2">
-                 <div class="input-group input-group-sm">
-  <span class="input-group-text" id="basic-addon1">搜尋半徑</span>
-  <input type=number id=r class="form-control form-control-sm me-1" value=500 max=1000 min=10 onfocus="$('#alert').text('')">
-
-</div>
-                 <button class="btn btn-primary bi bi-search btn-sm" onclick="App('BIKEsearch_result',$('#lat').val(),$('#lng').val(),$('#r').val())"></button>
-                 </div>
-                 <span class="text-secondary" id="summary">按下 <i class="bi bi-geo-alt-fill"></i>或點擊地圖任意位置</span>
-                 <br><span class="text-danger" id=alert></span>
-
-                 <div class="form-check form-switch">
-  <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
-  <label class="form-check-label" for="flexSwitchCheckChecked">自動填入定位</label>
-</div>
-                 <div class="mt-2"></div>
-                 `)
+                    <div class="d-flex mt-2"><input type=text id=lng class="form-control form-control-sm me-1" placeholder="經度" onfocus="$('#alert').text('')"><input type=text id=lat class="form-control form-control-sm me-1" placeholder="緯度" onfocus="$('#alert').text('')"></div><div class="d-flex mt-2"><div class="input-group input-group-sm"><span class="input-group-text" id="basic-addon1">搜尋半徑</span><input type=number id=r class="form-control form-control-sm me-1" value=500 max=1000 min=10 onfocus="$('#alert').text('')"></div><button class="btn btn-primary bi bi-search btn-sm" onclick="App('BIKEsearch_result',$('#lat').val(),$('#lng').val(),$('#r').val())"></button></div><span class="text-secondary" id="summary">按下 <i class="bi bi-geo-alt-fill"></i>或點擊地圖任意位置</span><br><span class="text-danger" id=alert></span><div class="form-check form-switch"><input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked><label class="form-check-label" for="flexSwitchCheckChecked">自動填入定位</label></div><div class="mt-2"></div>
+                    `)
                     var center = [23.75518176611264, 120.9406086935125], MyLoc = []
 
                     var map = L.map('map-' + OSM_mapid).setView(center, 7);
@@ -855,7 +838,7 @@
                     `)
                 }
 
-                else if(page === "bookmark"){
+                else if (page === "bookmark") {
                     $("#header").text("書籤")
                     $("#main-content").html(`
                     <span class="text-secondary">你有 %d 個書籤</span>
@@ -926,7 +909,7 @@
                         },
                         success: function (res) {
                             TrainStationData = res;
-                            localStorage.setItem("data", Number(localStorage.getItem("data"))+1)
+                            localStorage.setItem("data", Number(localStorage.getItem("data")) + 1)
                             localStorage.setItem('data.TRA', JSON.stringify({ data: res, update: getTime("date") }))
                             console.log(res);
                             App("loadingDismiss");
@@ -946,7 +929,7 @@
                         },
                         success: function (res) {
                             HSRStationData = res;
-                            localStorage.setItem("data", Number(localStorage.getItem("data"))+1)
+                            localStorage.setItem("data", Number(localStorage.getItem("data")) + 1)
                             localStorage.setItem('data.HSR', JSON.stringify({ data: res, update: getTime("date") }))
                             console.log(res);
                             App("loadingDismiss");
@@ -978,11 +961,11 @@
                 App("home")
             }
 
-            if (Number(localStorage.getItem("data")) < 2 &&　Number(localStorage.getItem("data"))　!== NaN) {
+            if (Number(localStorage.getItem("data")) < 2 && Number(localStorage.getItem("data")) !== NaN) {
                 loadApis("all")
 
-                localStorage.setItem("user.bookmark",[])
-                localStorage.setItem("user.setting",[])
+                localStorage.setItem("user.bookmark", [])
+                localStorage.setItem("user.setting", [])
             } else {
                 TrainStationData = JSON.parse(localStorage.getItem("data.TRA")).data
                 HSRStationData = JSON.parse(localStorage.getItem("data.HSR")).data
