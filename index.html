@@ -795,18 +795,19 @@
                 <h4>關於 大眾運輸查詢系統</h4>
                 <p><i>"整合交通資料，達到最佳效能"</i></p>
                 <p>資料來源:<a href="https://tdx.transportdata.tw/" target="_blank"><img alt="" height="30" src="https://tdx.transportdata.tw/images/tdxlogo.png" /></a></p>
-
-                <p><div class="alert alert-danger">
-                <h4>請注意</h4>
-                本系統所有資料<b>僅供參考</b><br>
-                如果你在車站內，請以站內顯示的資料為主    
-                </div></p>
+                
                 <span class="text-secondary">v1.0 BETA<br>2023.03 By Jerry</span>
                 `)
                 }
                 else if (page === "home") {
                     $("#header").text("大眾運輸查詢")
                     $("#main-content").html(`
+                    <div class="alert alert-danger">
+                <h4>請注意</h4>
+                本系統所有資料<b>僅供參考</b><br>
+                如果你在車站內，請以站內顯示的資料為主   
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> 
+                </div>
                 <div id="items">
                 <div class="card m-1"   onclick="App('TRAsearch')" data-id="TRA"><div class="card-body"><h5 class="card-title">台鐵</h5><h6 class="card-subtitle mb-2 text-muted">指定站點的台鐵列車資料</h6><p class="card-text"></p><button class="btn btn-primary"  onclick="App('TRAsearch')">開始查詢</button></div></div>
                 <div class="card m-1"   onclick="App('HSRsearch')" data-id="HSR"><div class="card-body"><h5 class="card-title">高鐵</h5><h6 class="card-subtitle mb-2 text-muted">指定站點的高鐵時刻表</h6><p class="card-text"></p><button class="btn btn-primary"  onclick="App('HSRsearch')">開始查詢</button></div></div>
@@ -988,6 +989,9 @@
             } else {
                 TrainStationData = JSON.parse(localStorage.getItem("data.TRA")).data
                 HSRStationData = JSON.parse(localStorage.getItem("data.HSR")).data
+
+                console.log({"TRA":TrainStationData})
+                console.log({"HSR":HSRStationData})
             }
 
         }
