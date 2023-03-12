@@ -49,6 +49,20 @@
                     aria-label="Close"></button>
             </div>
             <div class="offcanvas-body">
+                <div class="d-flex mb-1 pe-3">
+                    <div class="rounded-1 bg-secondary me-1 flex-grow-1 text-white text-center p-1" style="cursor: pointer; user-select: none;">
+                        <h3 class="bi bi-share m-0 p-0"></h3>
+                        <span>分享</span>
+                    </div>
+                    <div class="rounded-1 bg-secondary me-1 flex-grow-1 text-white text-center p-1"  style="cursor: pointer; user-select: none;">
+                        <h3 class="bi bi-bookmark-plus m-0 p-0"></h3>
+                        <span>加入書籤</span>
+                    </div>
+                    <div class="rounded-1 bg-secondary me-1 flex-grow-1 text-white text-center p-1"  style="cursor: pointer; user-select: none;" onclick="App('home')" data-bs-dismiss="offcanvas">
+                        <h3 class="bi bi-house m-0 p-0"></h3>
+                        <span>回首頁</span>
+                    </div>
+                </div>
                 <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
 
 
@@ -131,7 +145,7 @@
 
 
 
-<!--~
+    <!--~
         <script src="https://unpkg.com/vconsole@latest/dist/vconsole.min.js"></script>
         <script>
           // VConsole will be exported to `window.VConsole` by default.
@@ -337,11 +351,11 @@
         function BikeStationDataOpt(type, lat, lng, par1) {
             if (type == "search") {
 
-                if (par1 > 1000 || par1 < 10 ) {
+                if (par1 > 1000 || par1 < 10) {
                     $("#alert").text("搜尋半徑 : 10~1000(公尺)")
-                } else if( lat === "" || lng === ""){
+                } else if (lat === "" || lng === "") {
                     $("#alert").text("請填寫經緯度!")
-                }else{
+                } else {
                     function read() {
                         $("#header").text("公共自行車 - 搜尋結果")
                         $("#main-content").html(`
@@ -766,14 +780,14 @@
                     }
                     map.on('click', onMapClick);
                     map.on('locationfound', function (e) {
-                    if(NowPage === "BIKEsearch")
-                        if(document.getElementById("flexSwitchCheckChecked").checked){
-                        console.log(e)
-                        MyLoc[0] = e.latlng.lat
-                        MyLoc[1] = e.latlng.lng
-                        $("#lat").val(e.latlng.lat); $("#lng").val(e.latlng.lng)
-                        $("#summary").text("使用你的定位點")
-                        }
+                        if (NowPage === "BIKEsearch")
+                            if (document.getElementById("flexSwitchCheckChecked").checked) {
+                                console.log(e)
+                                MyLoc[0] = e.latlng.lat
+                                MyLoc[1] = e.latlng.lng
+                                $("#lat").val(e.latlng.lat); $("#lng").val(e.latlng.lng)
+                                $("#summary").text("使用你的定位點")
+                            }
 
                     });
 
