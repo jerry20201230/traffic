@@ -366,7 +366,10 @@
                         $("#header").text("公共自行車 - 搜尋結果")
                         $("#main-content").html(`
                     <div id="map-${OSM_mapid}" style="height:50vh"><div style="display: flex;align-items: center;justify-content: center;text-align: center;height: 100%;"><div id="OSM-loading" style="text-align: center;"><h4>OpenStreetMap</h4>資料讀取中...</div></div></div>
-                    <span class="text-secondary" id="summary2"></span>
+                    <span class="text-secondary" id="summary2">
+                       找到 ${BikeStationData.bikeData.length} 個站點<br>地圖資料不一定準確，完整資料請參考下方列表
+                        
+                        </span>
 
                     <table class="table table-sm">
                     
@@ -383,7 +386,6 @@
                             zoomControl: true,
                         }).addTo(map);
                         OSM_mapid++
-                        $("#summary2").text(`找到 ${BikeStationData.bikeData.length} 個站點<br>地圖資料不一定準確，完整資料請參考下方列表`)
                         if (BikeStationData.bikeData.length !== 0 && BikeStationData.stationData.length !== 0) {
 
                             var circle = L.circle([lat, lng], {
