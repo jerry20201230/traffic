@@ -319,6 +319,8 @@
                         $(inner).html(`<tr><td colspan="6" style="text-align:center">無資料</td></tr>`)
 
                     }
+                } else if (c === "TRAalert") {
+
                 }
             }
         }
@@ -604,7 +606,37 @@
                 }
                 if (page === "TRAsearch") {
                     $("#header").text("台鐵車站 - 搜尋")
-                    $("#main-content").html(`<div class="d-flex"><input type="text" class="form-control me-1" oninput="TrainStationDataOpt('search',$('#trainStationNameInput').val())" id="trainStationNameInput" placeholder="輸入台鐵車站名稱..."><button class="btn btn-primary bi bi-search" onclick="TrainStationDataOpt('search',$('#trainStationNameInput').val()) "></button></div><div class="list-group mt-2" id="search-result"></div>`)
+                    $("#main-content").html(`<div class="d-flex"><input type="text" class="form-control me-1" oninput="TrainStationDataOpt('search',$('#trainStationNameInput').val())" id="trainStationNameInput" placeholder="輸入台鐵車站名稱..."><button class="btn btn-primary bi bi-search" onclick="TrainStationDataOpt('search',$('#trainStationNameInput').val()) "></button></div><div class="list-group mt-2" id="search-result"></div>
+                
+                    <div class="card"><div class="card-body"><h5 class="card-title">即時通阻資料</h5><p class="card-text"><ul class="list-group" id="TRAalert"></ul></p></div></div>
+                    `)
+
+                    let accesstoken = JSON.parse($("#req_header").text());
+
+                    $.ajax({
+                        url: `https://tdx.transportdata.tw/api/basic/v3/Rail/TRA/Alert?%24format=JSON`,
+                        method: "GET",
+                        dataType: "json",
+                        headers: {
+                            "authorization": "Bearer " + accesstoken.access_token,
+                        },
+                        success: function (res) {
+                            
+                            for (i = 0; i < res.Alerts.length; i++) {
+                                $("#TRAalert").append(`
+                        <li class="list-group-item">
+                        <h5>${res.Alerts[i].Title}</h5>
+                        <span>${res.Alerts[i].Description}</span>    
+                        </li>
+                        `)
+                            }
+                        },
+                        error: function (xhr, textStatus, thrownError) {
+                            //  if (MRTStationData === "") { App("loadingFailed", "讀取捷運車站資料"); }
+                        }
+                    })
+
+
                     TrainStationDataOpt("get")
                 }
                 else if (page === "HSRsearch") {
@@ -613,282 +645,9 @@
                     HSRStationDataOpt("get")
 
                 }
-                else if(page === "MRTsearch"){
+                else if (page === "MRTsearch") {
                     $("#main-content").html(`
-                    <div class="row d-flex justify-content-center mt-70 mb-70">
-
-<div class="col-md-6">
-
-  <div class="main-card mb-3 card">
-                              <div class="card-body">
-                                  <h5 class="card-title">User Timeline</h5>
-                                  <div class="vertical-timeline vertical-timeline--animate vertical-timeline--one-column">
-                                      <div class="vertical-timeline-item vertical-timeline-element">
-                                          <div>
-                                              <span class="vertical-timeline-element-icon bounce-in">
-                                                  <i class="badge badge-dot badge-dot-xl badge-success"></i>
-                                              </span>
-                                              <div class="vertical-timeline-element-content bounce-in">
-                                                  <h4 class="timeline-title">Meeting with client</h4>
-                                                  <p>Meeting with USA Client, today at <a href="javascript:void(0);" data-abc="true">12:00 PM</a></p>
-                                                  <span class="vertical-timeline-element-date">9:30 AM</span>
-                                              </div>
-                                          </div>
-                                      </div>
-                                      <div class="vertical-timeline-item vertical-timeline-element">
-                                          <div>
-                                              <span class="vertical-timeline-element-icon bounce-in">
-                                                  <i class="badge badge-dot badge-dot-xl badge-warning"> </i>
-                                              </span>
-                                              <div class="vertical-timeline-element-content bounce-in">
-                                                  <p>Another meeting with UK client today, at <b class="text-danger">3:00 PM</b></p>
-                                                  <p>Yet another one, at <span class="text-success">5:00 PM</span></p>
-                                                  <span class="vertical-timeline-element-date">12:25 PM</span>
-                                              </div>
-                                          </div>
-                                      </div>
-                                      <div class="vertical-timeline-item vertical-timeline-element">
-                                          <div>
-                                              <span class="vertical-timeline-element-icon bounce-in">
-                                                  <i class="badge badge-dot badge-dot-xl badge-danger"> </i>
-                                              </span>
-                                              <div class="vertical-timeline-element-content bounce-in">
-                                                  <h4 class="timeline-title">Discussion with team about new product launch</h4>
-                                                  <p>meeting with team mates about the launch of new product. and tell them about new features</p>
-                                                  <span class="vertical-timeline-element-date">6:00 PM</span>
-                                              </div>
-                                          </div>
-                                      </div>
-                                      <div class="vertical-timeline-item vertical-timeline-element">
-                                          <div>
-                                              <span class="vertical-timeline-element-icon bounce-in">
-                                                  <i class="badge badge-dot badge-dot-xl badge-primary"> </i>
-                                              </span>
-                                              <div class="vertical-timeline-element-content bounce-in">
-                                                  <h4 class="timeline-title text-success">Discussion with marketing team</h4>
-                                                  <p>Discussion with marketing team about the popularity of last product</p>
-                                                  <span class="vertical-timeline-element-date">9:00 AM</span>
-                                              </div>
-                                          </div>
-                                      </div>
-                                      <div class="vertical-timeline-item vertical-timeline-element">
-                                          <div>
-                                              <span class="vertical-timeline-element-icon bounce-in">
-                                                  <i class="badge badge-dot badge-dot-xl badge-success"> </i>
-                                              </span>
-                                              <div class="vertical-timeline-element-content bounce-in">
-                                                  <h4 class="timeline-title">Purchase new hosting plan</h4>
-                                                  <p>Purchase new hosting plan as discussed with development team, today at <a href="javascript:void(0);" data-abc="true">10:00 AM</a></p>
-                                                  <span class="vertical-timeline-element-date">10:30 PM</span>
-                                              </div>
-                                          </div>
-                                      </div>
-                                      <div class="vertical-timeline-item vertical-timeline-element">
-                                          <div>
-                                              <span class="vertical-timeline-element-icon bounce-in">
-                                                  <i class="badge badge-dot badge-dot-xl badge-warning"> </i>
-                                              </span>
-                                              <div class="vertical-timeline-element-content bounce-in">
-                                                  <p>Another conference call today, at <b class="text-danger">11:00 AM</b></p>
-                                                  <p>Yet another one, at <span class="text-success">1:00 PM</span></p>
-                                                  <span class="vertical-timeline-element-date">12:25 PM</span>
-                                              </div>
-                                          </div>
-                                      </div>
-
-
-                                      <div class="vertical-timeline-item vertical-timeline-element">
-                                          <div>
-                                              <span class="vertical-timeline-element-icon bounce-in">
-                                                  <i class="badge badge-dot badge-dot-xl badge-warning"> </i>
-                                              </span>
-                                              <div class="vertical-timeline-element-content bounce-in">
-                                                  <p>Another meeting with UK client today, at <b class="text-danger">3:00 PM</b></p>
-                                                  <p>Yet another one, at <span class="text-success">5:00 PM</span></p>
-                                                  <span class="vertical-timeline-element-date">12:25 PM</span>
-                                              </div>
-                                          </div>
-                                      </div>
-                                      <div class="vertical-timeline-item vertical-timeline-element">
-                                          <div>
-                                              <span class="vertical-timeline-element-icon bounce-in">
-                                                  <i class="badge badge-dot badge-dot-xl badge-danger"> </i>
-                                              </span>
-                                              <div class="vertical-timeline-element-content bounce-in">
-                                                  <h4 class="timeline-title">Discussion with team about new product launch</h4>
-                                                  <p>meeting with team mates about the launch of new product. and tell them about new features</p>
-                                                  <span class="vertical-timeline-element-date">6:00 PM</span>
-                                              </div>
-                                          </div>
-                                      </div>
-                                      <div class="vertical-timeline-item vertical-timeline-element">
-                                          <div>
-                                              <span class="vertical-timeline-element-icon bounce-in">
-                                                  <i class="badge badge-dot badge-dot-xl badge-primary"> </i>
-                                              </span>
-                                              <div class="vertical-timeline-element-content bounce-in">
-                                                  <h4 class="timeline-title text-success">Discussion with marketing team</h4>
-                                                  <p>Discussion with marketing team about the popularity of last product</p>
-                                                  <span class="vertical-timeline-element-date">9:00 AM</span>
-                                              </div>
-                                          </div>
-                                      </div>
-                                      <div class="vertical-timeline-item vertical-timeline-element">
-                                          <div>
-                                              <span class="vertical-timeline-element-icon bounce-in">
-                                                  <i class="badge badge-dot badge-dot-xl badge-success"> </i>
-                                              </span>
-                                              <div class="vertical-timeline-element-content bounce-in">
-                                                  <h4 class="timeline-title">Purchase new hosting plan</h4>
-                                                  <p>Purchase new hosting plan as discussed with development team, today at <a href="javascript:void(0);" data-abc="true">10:00 AM</a></p>
-                                                  <span class="vertical-timeline-element-date">10:30 PM</span>
-                                              </div>
-                                          </div>
-                                      </div>
-                                      <div class="vertical-timeline-item vertical-timeline-element">
-                                          <div>
-                                              <span class="vertical-timeline-element-icon bounce-in">
-                                                  <i class="badge badge-dot badge-dot-xl badge-warning"> </i>
-                                              </span>
-                                              <div class="vertical-timeline-element-content bounce-in">
-                                                  <p>Another conference call today, at <b class="text-danger">11:00 AM</b></p>
-                                                  <p>Yet another one, at <span class="text-success">1:00 PM</span></p>
-                                                  <span class="vertical-timeline-element-date">12:25 PM</span>
-                                              </div>
-                                          </div>
-                                      </div>
-                                      
-                                      
-                                         
-                                      
-                                  </div>
-                              </div>
-                          </div>        
- 
-                      </div> </div>
                     
-                    <style>
-                        
-                        .mt-70{
-     margin-top: 70px;
-}
-
-.mb-70{
-     margin-bottom: 70px;
-}
-
-.card {
-    box-shadow: 0 0.46875rem 2.1875rem rgba(4,9,20,0.03), 0 0.9375rem 1.40625rem rgba(4,9,20,0.03), 0 0.25rem 0.53125rem rgba(4,9,20,0.05), 0 0.125rem 0.1875rem rgba(4,9,20,0.03);
-    border-width: 0;
-    transition: all .2s;
-}
-
-.card {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-    word-wrap: break-word;
-    background-color: #fff;
-    background-clip: border-box;
-    border: 1px solid rgba(26,54,126,0.125);
-    border-radius: .25rem;
-}
-
-.card-body {
-    flex: 1 1 auto;
-    padding: 1.25rem;
-}
-.vertical-timeline {
-    width: 100%;
-    position: relative;
-    padding: 1.5rem 0 1rem;
-}
-
-.vertical-timeline::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 67px;
-    height: 100%;
-    width: 4px;
-    background: #e9ecef;
-    border-radius: .25rem;
-}
-
-.vertical-timeline-element {
-    position: relative;
-    margin: 0 0 1rem;
-}
-
-.vertical-timeline--animate .vertical-timeline-element-icon.bounce-in {
-    visibility: visible;
-    animation: cd-bounce-1 .8s;
-}
-.vertical-timeline-element-icon {
-    position: absolute;
-    top: 0;
-    left: 60px;
-}
-
-.vertical-timeline-element-icon .badge-dot-xl {
-    box-shadow: 0 0 0 5px #fff;
-}
-
-.badge-dot-xl {
-    width: 18px;
-    height: 18px;
-    position: relative;
-}
-.badge:empty {
-    display: none;
-}
-
-
-.badge-dot-xl::before {
-    content: '';
-    width: 10px;
-    height: 10px;
-    border-radius: .25rem;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    margin: -5px 0 0 -5px;
-    background: #fff;
-}
-
-.vertical-timeline-element-content {
-    position: relative;
-    margin-left: 90px;
-    font-size: .8rem;
-}
-
-.vertical-timeline-element-content .timeline-title {
-    font-size: .8rem;
-    text-transform: uppercase;
-    margin: 0 0 .5rem;
-    padding: 2px 0 0;
-    font-weight: bold;
-}
-
-.vertical-timeline-element-content .vertical-timeline-element-date {
-    display: block;
-    position: absolute;
-    left: -90px;
-    top: 0;
-    padding-right: 10px;
-    text-align: right;
-    color: #adb5bd;
-    font-size: .7619rem;
-    white-space: nowrap;
-}
-
-.vertical-timeline-element-content:after {
-    content: "";
-    display: table;
-    clear: both;
-}    
-                    </style>
                     `)
                 }
 
@@ -1110,11 +869,13 @@
                 如果你在車站內，請以站內顯示的資料為主   
                 </div>
                 <div id="items">
-                <div class="card m-1"   onclick="App('TRAsearch')" data-id="TRA"><div class="card-body"><h5 class="card-title">台鐵</h5><h6 class="card-subtitle mb-2 text-muted">指定站點的台鐵列車資料</h6><p class="card-text"></p><button class="btn btn-primary"  onclick="App('TRAsearch')">開始查詢</button></div></div>
-                <div class="card m-1"   onclick="App('HSRsearch')" data-id="HSR"><div class="card-body"><h5 class="card-title">高鐵</h5><h6 class="card-subtitle mb-2 text-muted">指定站點的高鐵時刻表</h6><p class="card-text"></p><button class="btn btn-primary"  onclick="App('HSRsearch')">開始查詢</button></div></div>
-                <div class="card m-1"   onclick="App('InterBUSsearch')" data-id="InterBus"><div class="card-body"><h5 class="card-title">公路客運</h5><h6 class="card-subtitle mb-2 text-muted">公路客運即時動態</h6><p class="card-text"></p><button class="btn btn-primary"  onclick="App('InterBUSsearch')">開始查詢</button></div></div>
-                <div class="card m-1"   onclick="App('CityBUSsearch')" data-id="CityBus"><div class="card-body"><h5 class="card-title">市區客運</h5><h6 class="card-subtitle mb-2 text-muted">市區客運即時動態</h6><p class="card-text"></p><button class="btn btn-primary"  onclick="App('CityBUSsearch')">開始查詢</button></div></div>
-                <div class="card m-1"   onclick="App('BIKEsearch')" data-id="Bike"><div class="card-body"><h5 class="card-title">公共自行車</h5><h6 class="card-subtitle mb-2 text-muted">公共自行車即時剩餘位置資料</h6><p class="card-text"></p><button class="btn btn-primary"  onclick="App('BIKEsearch')">開始查詢</button></div></div>
+                <div class="card m-1" data-id="TRA"><div class="card-body"><h5 class="card-title">台鐵</h5><h6 class="card-subtitle mb-2 text-muted">指定站點的台鐵列車資料</h6><p class="card-text"></p><button class="btn btn-primary"  onclick="App('TRAsearch')">開始查詢</button></div></div>
+                <div class="card m-1" data-id="HSR"><div class="card-body"><h5 class="card-title">高鐵</h5><h6 class="card-subtitle mb-2 text-muted">指定站點的高鐵時刻表</h6><p class="card-text"></p><button class="btn btn-primary"  onclick="App('HSRsearch')">開始查詢</button></div></div>
+                <div class="card m-1" data-id="MRT"><div class="card-body"><h5 class="card-title">捷運</h5><h6 class="card-subtitle mb-2 text-muted">捷運即時動態</h6><p class="card-text"></p><button class="btn btn-primary"  onclick="App('MRTsearch')">開始查詢</button></div></div>
+                <div class="card m-1" data-id="InterBus"><div class="card-body"><h5 class="card-title">公路客運</h5><h6 class="card-subtitle mb-2 text-muted">公路客運即時動態</h6><p class="card-text"></p><button class="btn btn-primary"  onclick="App('InterBUSsearch')">開始查詢</button></div></div>
+                
+                <div class="card m-1" data-id="CityBus"><div class="card-body"><h5 class="card-title">市區客運</h5><h6 class="card-subtitle mb-2 text-muted">市區客運即時動態</h6><p class="card-text"></p><button class="btn btn-primary"  onclick="App('CityBUSsearch')">開始查詢</button></div></div>
+                <div class="card m-1" data-id="Bike"><div class="card-body"><h5 class="card-title">公共自行車</h5><h6 class="card-subtitle mb-2 text-muted">公共自行車即時剩餘位置資料</h6><p class="card-text"></p><button class="btn btn-primary"  onclick="App('BIKEsearch')">開始查詢</button></div></div>
                 </div>
                 `)
 
