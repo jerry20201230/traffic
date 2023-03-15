@@ -146,6 +146,9 @@
     <script src='https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js'
         integrity='sha512-Eezs+g9Lq4TCCq0wae01s9PuNWzHYoCMkE97e2qdkYthpI0pzC3UGB03lgEHn2XM85hDOUF6qgqqszs+iXU4UA=='
         crossorigin='anonymous'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js'
+        integrity='sha512-CeIsOAsgJnmevfCi2C7Zsyy6bQKi43utIjdA87Q0ZY84oDqnI0uwfM9+bKiIkI75lUeI00WG/+uJzOmuHlesMA=='
+        crossorigin='anonymous'></script>
 
 
 
@@ -606,9 +609,9 @@
                 }
                 if (page === "TRAsearch") {
                     $("#header").text("台鐵車站 - 搜尋")
-                    $("#main-content").html(`<div class="d-flex"><input type="text" class="form-control me-1" oninput="TrainStationDataOpt('search',$('#trainStationNameInput').val())" id="trainStationNameInput" placeholder="輸入台鐵車站名稱..."><button class="btn btn-primary bi bi-search" onclick="TrainStationDataOpt('search',$('#trainStationNameInput').val()) "></button></div><div class="list-group mt-2" id="search-result"></div>
+                    $("#main-content").html(`<div class="d-flex"><input type="text" class="form-control me-1" oninput="TrainStationDataOpt('search',$('#trainStationNameInput').val())" id="trainStationNameInput" placeholder="輸入台鐵車站名稱..."><button class="btn btn-primary bi bi-search" onclick="TrainStationDataOpt('search',$('#trainStationNameInput').val()) "></button></div><div class="list-group mt-2 mb-2" id="search-result"></div>
                 
-                    <div class="card"><div class="card-body"><h5 class="card-title">即時通阻資料</h5><p class="card-text"><ul class="list-group" id="TRAalert"></ul></p></div></div>
+                    <div class="card"><div class="card-body"><h5 class="card-title">即時通阻資料</h5><p class="card-text"><ul class="list-group" id="TRAalert"><li class="list-group-item">資料讀取中</li></ul></p></div></div>
                     `)
 
                     let accesstoken = JSON.parse($("#req_header").text());
@@ -621,14 +624,18 @@
                             "authorization": "Bearer " + accesstoken.access_token,
                         },
                         success: function (res) {
-                            
-                            for (i = 0; i < res.Alerts.length; i++) {
-                                $("#TRAalert").append(`
+                            $("#TRAalert").html('')
+                            if (res.Count == 0) {
+                                $("#TRAalert").html(`<li class="list-group-item">無資料</li>`)
+                            } else {
+                                for (i = 0; i < res.Alerts.length; i++) {
+                                    $("#TRAalert").append(`
                         <li class="list-group-item">
                         <h5>${res.Alerts[i].Title}</h5>
                         <span>${res.Alerts[i].Description}</span>    
                         </li>
                         `)
+                                }
                             }
                         },
                         error: function (xhr, textStatus, thrownError) {
@@ -646,8 +653,15 @@
 
                 }
                 else if (page === "MRTsearch") {
+                    $("#header").text("捷運車站 - 搜尋")
                     $("#main-content").html(`
-                    
+                    <span class="text-secondary"></span>
+                    <div class="card m-1" data-id="TRTC"><div class="card-body"><h5 class="card-title">台北捷運</h5><h6 class="card-subtitle mb-2 text-muted">台北捷運列車與車站資料
+                        
+                        <br><i class="bi bi-check-circle-fill text-success"></i>提供即時進站資料</h6><p class="card-text"></p><button class="btn btn-primary"  onclick="App('MRT.TRTC')">開始查詢</button></div></div>
+                <div class="card m-1" data-id="KRTC"><div class="card-body"><h5 class="card-title">高雄捷運</h5><h6 class="card-subtitle mb-2 text-muted">高雄捷運列車與車站資料<br><i class="bi bi-check-circle-fill text-success"></i>提供即時進站資料</h6><p class="card-text"></p><button class="btn btn-primary"  onclick="App('MRT.KRTC')">開始查詢</button></div></div>
+                <div class="card m-1" data-id="KLRT"><div class="card-body"><h5 class="card-title">高雄輕軌</h5><h6 class="card-subtitle mb-2 text-muted">高雄輕軌列車與車站資料<br><i class="bi bi-check-circle-fill text-success"></i>提供即時進站資料</h6><p class="card-text"></p><button class="btn btn-primary"  onclick="App('MRT.KLRT')">開始查詢</button></div></div>
+                
                     `)
                 }
 
