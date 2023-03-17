@@ -283,8 +283,11 @@
         }
 
 
-        async function queryTheApi(url, inner, c, s) {
-
+         function queryTheApi(url, inner, c, s) {
+            console.log(ApiUrl)
+            console.log(inner)
+            console.log(c)
+            console.log(s)
             if (ApiUrl === url) {
                 if (c == "TRA_Direction") {
                     $(inner).html("")
