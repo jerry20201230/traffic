@@ -290,7 +290,9 @@
                     $(inner).html("")
                     console.log(ApiData.StationLiveBoards)
                     var res = ApiData.StationLiveBoards, TSwitch = s
+                    console.log(TSwitch)
                     for (i = 0; i < res.length; i++) {
+
                         if (TSwitch == res[i].Direction) {
                             let line, time, badge = ""
                             if (res[i].TripLine == 0) {
