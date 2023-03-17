@@ -284,12 +284,13 @@
 
 
          function queryTheApi(url, inner, c, s) {
-            console.log(ApiUrl)
+
+            if (ApiUrl === url) {
+                if (c == "TRA_Direction") {
+                    console.log(ApiUrl)
             console.log(inner)
             console.log(c)
             console.log(s)
-            if (ApiUrl === url) {
-                if (c == "TRA_Direction") {
                     $(inner).html("")
                     console.log(ApiData.StationLiveBoards)
                     var res = ApiData.StationLiveBoards, TSwitch = s
