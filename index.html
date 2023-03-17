@@ -1025,7 +1025,12 @@
                     console.warn(`${page} - 404 Not Found`)
 
                 }
-                NowPage = page
+                NowPage = {
+                    'page':page,
+                    'par1':par1,
+                    'par2':par2,
+                    'par3':par3,
+                }
             }
         }
 
@@ -1033,10 +1038,10 @@
 
             if (page === "bookmark.set") {
                 console.log(NowPage)
-                var mark = JSON.stringify(localStorage.getItem("user.bookmark").mark)
+                var mark = JSON.parse(localStorage.getItem("user.bookmark").mark)
                 console.log(mark)
 
-                if (mark.includes()) {
+                if (mark.includes(NowPage.page)) {
 
                 }
 
