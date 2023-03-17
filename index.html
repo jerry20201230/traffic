@@ -1046,7 +1046,14 @@
                     $("#bookmark-status").parent().attr("class","bg-auccess")
                     $("#bookmark-status").attr("class","bi bi-bookmark-dash m-0 p-0")
                 }
-
+            }else if(page === "bookmark.btn.set"){
+                if (mark.includes(NowPage.page)) {
+                    $("#bookmark-status").parent().attr("class","bg-auccess")
+                    $("#bookmark-status").attr("class","bi bi-bookmark-dash m-0 p-0")
+                }else{
+                    $("#bookmark-status").parent().attr("class","")
+                    $("#bookmark-status").attr("class","bi bi-bookmark-plus m-0 p-0")
+                }
             }
         }
 
