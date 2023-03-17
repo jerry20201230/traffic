@@ -1009,10 +1009,12 @@
                     `)
 
                     for(i=0;i<JSON.parse(localStorage.getItem("user.bookmark")).mark.length;i++){
+                        var pageMapping = ["home"]
+                        var pageID      = ["首頁"]
                         var mark = JSON.parse(localStorage.getItem("user.bookmark")).mark
                         console.log(mark[i].page)
                         $("#bookmarklist").append(`
-                        <li class="list-group-item">${mark[i]}</li>
+                        <li class="list-group-item">${mark[i].page}</li>
                         `)
                     }
                 }
