@@ -1032,7 +1032,7 @@
                     'par2': par2,
                     'par3': par3,
                 }
-                // Ui("bookmark.btn.set")
+                 Ui("bookmark.btn.set")
             }
         }
 
@@ -1053,6 +1053,8 @@
                     $("#bookmark-status").attr("class", "bi bi-bookmark-plus m-0 p-0")
                 }
             } else if (page === "bookmark.btn.set") {
+                var mark = JSON.parse(localStorage.getItem("user.bookmark")).mark
+                console.log(mark)
                 if (mark.includes(NowPage.page)) {
                     $("#bookmark-status").parent().attr("class", "rounded-1 bg-success  flex-grow-1 text-white text-center p-1 pt-2 me-1")
                     $("#bookmark-status").attr("class", "bi bi-bookmark-dash m-0 p-0")
