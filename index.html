@@ -55,9 +55,9 @@
                         <h3 class="bi bi-share m-0 p-0"></h3>
                         <span>分享</span>
                     </div>
-                    <div class="rounded-1 bg-secondary me-1 flex-grow-1 text-white text-center p-1 pt-2"
+                    <div  class="rounded-1 bg-secondary me-1 flex-grow-1 text-white text-center p-1 pt-2"
                         style="cursor: pointer; user-select: none;" onclick="Ui('bookmark.set')">
-                        <h3 class="bi bi-bookmark-plus m-0 p-0"></h3>
+                        <h3 id="bookmark-status" class="bi bi-bookmark-plus m-0 p-0"></h3>
                         <span>書籤</span>
                     </div>
                     <div class="rounded-1 bg-secondary  flex-grow-1 text-white text-center p-1 pt-2"
@@ -1042,8 +1042,9 @@
                 var mark = JSON.parse(localStorage.getItem("user.bookmark").mark)
                 console.log(mark)
 
-                if (mark.includes(NowPage.page)) {
-
+                if (!mark.includes(NowPage.page)) {
+                    $("#bookmark-status").parent().attr("class","bg-auccess")
+                    $("#bookmark-status").attr("class","bi bi-bookmark-dash m-0 p-0")
                 }
 
             }
