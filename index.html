@@ -1002,7 +1002,19 @@
                     $("#header").text("書籤")
                     $("#main-content").html(`
                     <span class="text-secondary">你有 ${JSON.parse(localStorage.getItem("user.bookmark")).mark.length} 個書籤</span>
+                    <ul class="list-group" id="bookmarklist">
+                        
+                        
+                    </ul>
                     `)
+
+                    for(i=0;i<JSON.parse(localStorage.getItem("user.bookmark")).mark.length;i++){
+                        var mark = JSON.parse(localStorage.getItem("user.bookmark")).mark
+                        console.log(mark[i])
+                        $("#bookmarklist").append(`
+                        <li class="list-group-item">${mark[i]}</li>
+                        `)
+                    }
                 }
 
                 else if (page === "error") {
@@ -1047,7 +1059,7 @@
                     $("#bookmark-status").parent().attr("class", "rounded-1 bg-success  flex-grow-1 text-white text-center p-1 pt-2 me-1")
                     $("#bookmark-status").attr("class", "bi bi-bookmark-dash m-0 p-0")
                     mark.push(NowPage)
-                    localStorage.setItem("user.bookmark",JSON.stringify({"mark":mark}   ))
+                    localStorage.setItem("user.bookmark",JSON.stringify({"mark":mark}))
                 }
                 else {
                     $("#bookmark-status").parent().attr("class", "rounded-1 bg-secondary  flex-grow-1 text-white text-center p-1 pt-2 me-1")
