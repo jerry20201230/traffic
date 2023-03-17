@@ -316,7 +316,7 @@
 
 
                             }
-                            $(inner).append(`<tr><td>${res[i].ScheduledDepartureTime.split(":")[0]}:${res[i].ScheduledArrivalTime.split(":")[1]}${badge}</td><td>${res[i].TrainNo}</td><td>${res[i].TrainTypeName.Zh_tw.split("(")[0]}</td><td>${line}</td><td>${res[i].EndingStationName.Zh_tw}</td><td>${time}</td></tr>`)
+                            $(inner).append(`<tr><td>${res[i].ScheduledDepartureTime}${badge}</td><td>${res[i].TrainNo}</td><td>${res[i].TrainTypeName.Zh_tw.split("(")[0]}</td><td>${line}</td><td>${res[i].EndingStationName.Zh_tw}</td><td>${time}</td></tr>`)
                         }
                     }
                     if ($(inner).html() == "") {
@@ -890,8 +890,6 @@
                 else if (page === "BIKEsearch_result") {
                     BikeStationDataOpt("search", par1, par2, par3)
                 }
-
-
                 else if (page === "CityBUSsearch") {
                     $("#header").text("設定")
                     $("#main-content").html(`
@@ -1008,9 +1006,9 @@
                     </ul>
                     `)
 
-                    for(i=0;i<JSON.parse(localStorage.getItem("user.bookmark")).mark.length;i++){
-                        var pageMapping = ["home"]
-                        var pageID      = ["首頁"]
+                    for (i = 0; i < JSON.parse(localStorage.getItem("user.bookmark")).mark.length; i++) {
+                        var pageMapping = ["home", "TRASearch", "HSR"]
+                        var pageID = ["首頁"]
                         var mark = JSON.parse(localStorage.getItem("user.bookmark")).mark
                         console.log(mark[i].page)
                         $("#bookmarklist").append(`
@@ -1046,7 +1044,7 @@
                     'par2': par2,
                     'par3': par3,
                 }
-                 Ui("bookmark.btn.set")
+                Ui("bookmark.btn.set")
             }
         }
 
@@ -1061,7 +1059,7 @@
                     $("#bookmark-status").parent().attr("class", "rounded-1 bg-success  flex-grow-1 text-white text-center p-1 pt-2 me-1")
                     $("#bookmark-status").attr("class", "bi bi-bookmark-dash m-0 p-0")
                     mark.push(NowPage)
-                    localStorage.setItem("user.bookmark",JSON.stringify({"mark":mark}))
+                    localStorage.setItem("user.bookmark", JSON.stringify({ "mark": mark }))
                 }
                 else {
                     $("#bookmark-status").parent().attr("class", "rounded-1 bg-secondary  flex-grow-1 text-white text-center p-1 pt-2 me-1")
