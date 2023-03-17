@@ -1047,6 +1047,7 @@
                     $("#bookmark-status").parent().attr("class", "rounded-1 bg-success  flex-grow-1 text-white text-center p-1 pt-2 me-1")
                     $("#bookmark-status").attr("class", "bi bi-bookmark-dash m-0 p-0")
                     mark.push(NowPage)
+                    localStorage.setItem("user.bookmark",JSON.stringify({"mark":mark}   ))
                 }
                 else {
                     $("#bookmark-status").parent().attr("class", "rounded-1 bg-secondary  flex-grow-1 text-white text-center p-1 pt-2 me-1")
