@@ -1139,8 +1139,8 @@
             if (Number(localStorage.getItem("data")) < 2 && Number(localStorage.getItem("data")) !== NaN) {
                 loadApis("all")
 
-                localStorage.setItem("user.bookmark", { "mark": [] })
-                localStorage.setItem("user.setting", {})
+                localStorage.setItem("user.bookmark", JSON.stringify({ "mark": [] }))
+                localStorage.setItem("user.setting", JSON.stringify({}) )
                 //TrainStationData = JSON.parse(localStorage.getItem("data.TRA")).data
                 //HSRStationData = JSON.parse(localStorage.getItem("data.HSR")).data
             } else {
