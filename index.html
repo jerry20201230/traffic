@@ -1010,7 +1010,7 @@
 
                     for(i=0;i<JSON.parse(localStorage.getItem("user.bookmark")).mark.length;i++){
                         var mark = JSON.parse(localStorage.getItem("user.bookmark")).mark
-                        console.log(mark[i])
+                        console.log(mark[i].page)
                         $("#bookmarklist").append(`
                         <li class="list-group-item">${mark[i]}</li>
                         `)
