@@ -56,8 +56,7 @@
                         <span>分享</span>
                     </div>
                     <div class="rounded-1 bg-secondary me-1 flex-grow-1 text-white text-center p-1 pt-2"
-                        style="cursor: pointer; user-select: none;"
-                        onclick="App('setBookMark')">
+                        style="cursor: pointer; user-select: none;" onclick="Ui('bookmark.set')">
                         <h3 class="bi bi-bookmark-plus m-0 p-0"></h3>
                         <span>書籤</span>
                     </div>
@@ -80,7 +79,7 @@
                         <li class="list-group-item list-group-item-dark" data-bs-dismiss="offcanvas">公路客運</li>
                         <li class="list-group-item list-group-item-dark" data-bs-dismiss="offcanvas">市區客運</li>
                         <li class="list-group-item list-group-item-dark" data-bs-dismiss="offcanvas"
-                            onclick="App('BIKEsearch')">共享單車</li>
+                            onclick="App('BIKEsearch')">公共自行車</li>
                     </ul>
                     <ul class="list-group mb-1" id="toolbar-2" style="cursor: pointer;">
                         <li class="list-group-item list-group-item-dark" data-bs-dismiss="offcanvas"
@@ -998,11 +997,13 @@
                 }
 
                 else if (page === "bookmark") {
+
                     $("#header").text("書籤")
                     $("#main-content").html(`
                     <span class="text-secondary">你有 ${JSON.stringify(localStorage.getItem("user.bookmark"))} 個書籤</span>
                     `)
                 }
+
                 else if (page === "error") {
                     $("#header").text("發生錯誤")
                     $("#main-content").html(`發生未知錯誤`)
@@ -1025,6 +1026,20 @@
 
                 }
                 NowPage = page
+            }
+        }
+
+        function Ui(page, par1) {
+
+            if (page === "bookmark.set") {
+                console.log(NowPage)
+                var mark = JSON.stringify(localStorage.getItem("user.bookmark").mark)
+                console.log(mark)
+
+                if (mark.includes()) {
+
+                }
+
             }
         }
 
@@ -1124,7 +1139,7 @@
             if (Number(localStorage.getItem("data")) < 2 && Number(localStorage.getItem("data")) !== NaN) {
                 loadApis("all")
 
-                localStorage.setItem("user.bookmark", {})
+                localStorage.setItem("user.bookmark", { "mark": [] })
                 localStorage.setItem("user.setting", {})
                 //TrainStationData = JSON.parse(localStorage.getItem("data.TRA")).data
                 //HSRStationData = JSON.parse(localStorage.getItem("data.HSR")).data
