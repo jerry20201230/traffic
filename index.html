@@ -1001,7 +1001,7 @@
 
                     $("#header").text("書籤")
                     $("#main-content").html(`
-                    <span class="text-secondary">你有 ${JSON.stringify(localStorage.getItem("user.bookmark"))} 個書籤</span>
+                    <span class="text-secondary">你有 ${JSON.parse(localStorage.getItem("user.bookmark")).mark.length} 個書籤</span>
                     `)
                 }
 
