@@ -287,10 +287,6 @@
 
             if (ApiUrl === url) {
                 if (c == "TRA_Direction") {
-                    console.log(ApiUrl)
-            console.log(inner)
-            console.log(c)
-            console.log(s)
                     $(inner).html("")
                     console.log(ApiData.StationLiveBoards)
                     var res = ApiData.StationLiveBoards, TSwitch = s
@@ -749,11 +745,11 @@
                 <div id="map-${OSM_mapid}" style="height:50vh"><div style="display: flex;align-items: center;justify-content: center;text-align: center;height: 100%;"><div id="OSM-loading" style="text-align: center;"><h4>OpenStreetMap</h4>資料讀取中...</div></div></div></p><a href="${TrainStationData.Stations[par3].StationURL}" target="_blank" class="card-link">詳細資料 <i class="bi bi-box-arrow-up-right"></i></a><a href="${location.pathname}?page=${page}&par1=${par1}&par2=${par2}&par3=${par3}" target="_blank" class="card-link">分享 <i class="bi bi-share"></i></a></div></div>
                 <div class="card mb-1"><div class="card-body"><h5 class="card-title">即時到離站看板</h5><h6 class="card-subtitle mb-2 text-muted">顯示30分鐘內的列車資料<br>每2分鐘更新</h6><p class="card-text">
                 <div class="btn-group" role="group">
-                    <input type="radio" class="btn-check" name="btnradio" onchange='queryTheApi("https://tdx.transportdata.tw/api/basic/v2/Rail/TRA/LiveBoard/Station/${TrainStationData.Stations[par3].StationID}?%24format=JSON","#railway-lightbox", "TRA_Direction",0)' id="btnradio1" autocomplete="off" checked>
-                    <label class="btn btn-outline-primary" for="btnradio1" onclick='queryTheApi("https://tdx.transportdata.tw/api/basic/v2/Rail/TRA/LiveBoard/Station/${TrainStationData.Stations[par3].StationID}?%24format=JSON","#railway-lightbox", "TRA_Direction",1)'>北上</label>
+                    <input type="radio" class="btn-check" name="btnradio" onchange='queryTheApi("https://tdx.transportdata.tw/api//basic/v3/Rail/TRA/StationLiveBoard/Station/${TrainStationData.Stations[par3].StationID}?%24format=JSON","#railway-lightbox", "TRA_Direction",0)' id="btnradio1" autocomplete="off" checked>
+                    <label class="btn btn-outline-primary" for="btnradio1">北上</label>
                     
-                    <input type="radio" class="btn-check" name="btnradio"  onchange='queryTheApi("https://tdx.transportdata.tw/api/basic/v2/Rail/TRA/LiveBoard/Station/${TrainStationData.Stations[par3].StationID}?%24format=JSON","#railway-lightbox", "TRA_Direction",1)' id="btnradio2" autocomplete="off">
-                    <label class="btn btn-outline-primary" onclick='queryTheApi("https://tdx.transportdata.tw/api/basic/v2/Rail/TRA/LiveBoard/Station/${TrainStationData.Stations[par3].StationID}?%24format=JSON","#railway-lightbox", "TRA_Direction",1)' for="btnradio2">南下</label>
+                    <input type="radio" class="btn-check" name="btnradio"  onchange='queryTheApi("https://tdx.transportdata.tw/api//basic/v3/Rail/TRA/StationLiveBoard/Station/${TrainStationData.Stations[par3].StationID}?%24format=JSON","#railway-lightbox", "TRA_Direction",1)' id="btnradio2" autocomplete="off">
+                    <label class="btn btn-outline-primary" for="btnradio2">南下</label>
                     
                 </div>
                     <div class="progress mt-1"><div id="railway_refresh_prog" class="progress-bar" role="progressbar" aria-label="auto refresh process"style="width: 25%"></div></div><table class="table table-sm" style="text-align:center"><thead><tr><th scope="col">時間</th><th scope="col">車次</th><th scope="col">車種</th><th scope="col">經</th><th scope="col">往</th><th scope="col">備註</th></tr></thead><tbody id="railway-lightbox"><tr id="railway-lightboxloading"><td colspan="6" style="text-align:center">正在取得資料</td></tr></tbody></table></p></div></div>
