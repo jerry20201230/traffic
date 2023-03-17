@@ -56,7 +56,8 @@
                         <span>分享</span>
                     </div>
                     <div class="rounded-1 bg-secondary me-1 flex-grow-1 text-white text-center p-1 pt-2"
-                        style="cursor: pointer; user-select: none;">
+                        style="cursor: pointer; user-select: none;"
+                        onclick="App('setBookMark')">
                         <h3 class="bi bi-bookmark-plus m-0 p-0"></h3>
                         <span>書籤</span>
                     </div>
@@ -667,17 +668,17 @@
                             $("#TRAalert").html('')
                             if (res.Level !== 1) {
                                 $("#TRAalert").html(`<li class="list-group-item">
-                                    <span class="bi bi-check-circle-fill text-successful">全線正常</span>
+                                    <span class="bi bi-check-circle-fill text-success">全線正常</span>
                                     </li>`)
                             } else {
-                          
-                                    $("#TRAalert").append(`
+
+                                $("#TRAalert").append(`
                         <li class="list-group-item">
                         <h5>${res.Alerts.Title}</h5>
                         <span>${res.Alerts.Description}</span>    
                         </li>
                         `)
-                                
+
                             }
                         },
                         error: function (xhr, textStatus, thrownError) {
@@ -999,7 +1000,7 @@
                 else if (page === "bookmark") {
                     $("#header").text("書籤")
                     $("#main-content").html(`
-                    <span class="text-secondary">你有 %d 個書籤</span>
+                    <span class="text-secondary">你有 ${JSON.stringify(localStorage.getItem("user.bookmark"))} 個書籤</span>
                     `)
                 }
                 else if (page === "error") {
@@ -1026,6 +1027,7 @@
                 NowPage = page
             }
         }
+
 
         function TDXlogin() {
             var tdxLogin = {
@@ -1122,8 +1124,8 @@
             if (Number(localStorage.getItem("data")) < 2 && Number(localStorage.getItem("data")) !== NaN) {
                 loadApis("all")
 
-                localStorage.setItem("user.bookmark", [])
-                localStorage.setItem("user.setting", [])
+                localStorage.setItem("user.bookmark", {})
+                localStorage.setItem("user.setting", {})
                 //TrainStationData = JSON.parse(localStorage.getItem("data.TRA")).data
                 //HSRStationData = JSON.parse(localStorage.getItem("data.HSR")).data
             } else {
