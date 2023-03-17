@@ -769,7 +769,7 @@
                     marker.on('click', function () {
                         marker.bindPopup(`<b>${par1}車站</b>`).openPopup();
                     })
-                    refreshTheApi(120, `https://tdx.transportdata.tw/api/basic/v2/Rail/TRA/LiveBoard/Station/${TrainStationData.Stations[par3].StationID}?%24format=JSON`, "#railway-lightbox", "#railway_refresh_prog", "btnradio")
+                    refreshTheApi(120, `https://tdx.transportdata.tw/api/basic/v3/Rail/TRA/LiveBoard/Station/${TrainStationData.Stations[par3].StationID}?%24format=JSON`, "#railway-lightbox", "#railway_refresh_prog", "btnradio")
 
                 }
                 else if (page === "HSRstation") {
