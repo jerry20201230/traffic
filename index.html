@@ -55,7 +55,7 @@
                         <h3 class="bi bi-share m-0 p-0"></h3>
                         <span>分享</span>
                     </div>
-                    <div  class="rounded-1 bg-secondary me-1 flex-grow-1 text-white text-center p-1 pt-2"
+                    <div class="rounded-1 bg-secondary me-1 flex-grow-1 text-white text-center p-1 pt-2"
                         style="cursor: pointer; user-select: none;" onclick="Ui('bookmark.set')">
                         <h3 id="bookmark-status" class="bi bi-bookmark-plus m-0 p-0"></h3>
                         <span>書籤</span>
@@ -1027,12 +1027,12 @@
 
                 }
                 NowPage = {
-                    'page':page,
-                    'par1':par1,
-                    'par2':par2,
-                    'par3':par3,
+                    'page': page,
+                    'par1': par1,
+                    'par2': par2,
+                    'par3': par3,
                 }
-               // Ui("bookmark.btn.set")
+                // Ui("bookmark.btn.set")
             }
         }
 
@@ -1044,16 +1044,16 @@
                 console.log(mark)
 
                 if (!mark.includes(NowPage.page)) {
-                    $("#bookmark-status").parent().attr("class","bg-auccess")
-                    $("#bookmark-status").attr("class","bi bi-bookmark-dash m-0 p-0")
+                    $("#bookmark-status").parent().attr("class", "rounded-1 bg-success  flex-grow-1 text-white text-center p-1 pt-2")
+                    $("#bookmark-status").attr("class", "bi bi-bookmark-dash m-0 p-0")
                 }
-            }else if(page === "bookmark.btn.set"){
+            } else if (page === "bookmark.btn.set") {
                 if (mark.includes(NowPage.page)) {
-                    $("#bookmark-status").parent().attr("class","bg-auccess")
-                    $("#bookmark-status").attr("class","bi bi-bookmark-dash m-0 p-0")
-                }else{
-                    $("#bookmark-status").parent().attr("class","")
-                    $("#bookmark-status").attr("class","bi bi-bookmark-plus m-0 p-0")
+                    $("#bookmark-status").parent().attr("class", "rounded-1 bg-success  flex-grow-1 text-white text-center p-1 pt-2")
+                    $("#bookmark-status").attr("class", "bi bi-bookmark-dash m-0 p-0")
+                } else {
+                    $("#bookmark-status").parent().attr("class", "rounded-1 bg-secondary  flex-grow-1 text-white text-center p-1 pt-2")
+                    $("#bookmark-status").attr("class", "bi bi-bookmark-plus m-0 p-0")
                 }
             }
         }
@@ -1155,7 +1155,7 @@
                 loadApis("all")
 
                 localStorage.setItem("user.bookmark", JSON.stringify({ "mark": [] }))
-                localStorage.setItem("user.setting", JSON.stringify({}) )
+                localStorage.setItem("user.setting", JSON.stringify({}))
                 //TrainStationData = JSON.parse(localStorage.getItem("data.TRA")).data
                 //HSRStationData = JSON.parse(localStorage.getItem("data.HSR")).data
             } else {
