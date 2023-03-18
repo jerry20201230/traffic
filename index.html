@@ -1020,7 +1020,7 @@
                         $("#bookmarklist").append(`
                         <li class="list-group-item">${mark[i].page}</li>
                         `)
-                        
+                    }
                       }catch(e){
                       localStorage.setItem("user.bookmark", JSON.stringify({ "mark": [] }))
 
@@ -1042,7 +1042,7 @@
                     `)
                       }
                     }
-                }
+                
 
                 else if (page === "error") {
                     $("#header").text("發生錯誤")
@@ -1100,7 +1100,7 @@ localStorage.setItem("user.bookmark", JSON.stringify({ "mark": [] }))
 
 
             } else if (page === "bookmark.btn.set") {
-                if(!(localStorage.getItem("user.bookmark")).mark)){
+                if(!(localStorage.getItem("user.bookmark")).mark){
                     localStorage.setItem("user.bookmark", JSON.stringify({ "mark": [] }))
                     var mark = JSON.parse(localStorage.getItem("user.bookmark")).mark
                     console.log(mark)
