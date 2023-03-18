@@ -1002,6 +1002,7 @@
 
                 else if (page === "bookmark") {
 
+                    try{
                     $("#header").text("書籤")
                     $("#main-content").html(`
                     <span class="text-secondary">你有 ${JSON.parse(localStorage.getItem("user.bookmark")).mark.length} 個書籤</span>
@@ -1019,6 +1020,27 @@
                         $("#bookmarklist").append(`
                         <li class="list-group-item">${mark[i].page}</li>
                         `)
+                        
+                      }catch(e){
+                      localStorage.setItem("user.bookmark", JSON.stringify({ "mark": [] }))
+
+               
+                      $("#header").text("書籤")
+
+                    $("#main-content").html(`
+
+                    <span class="text-secondary">你有 ${JSON.parse(localStorage.getItem("user.bookmark")).mark.length} 個書籤</span>
+
+                    <ul class="list-group" id="bookmarklist">
+
+                        
+
+                        
+
+                    </ul>
+
+                    `)
+                      }
                     }
                 }
 
