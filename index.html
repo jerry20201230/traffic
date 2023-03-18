@@ -1072,6 +1072,7 @@
                         $("#bookmark-status").attr("class", "bi bi-bookmark-plus m-0 p-0")
                     }
                 } catch (e) {
+localStorage.setItem("user.bookmark", JSON.stringify({ "mark": [] }))
 
                 }
 
@@ -1088,7 +1089,9 @@
                         $("#bookmark-status").attr("class", "bi bi-bookmark-plus m-0 p-0")
                     }
                 } catch (e) {
+localStorage.setItem("user.bookmark", JSON.stringify({ "mark": [] }))
 
+               
                 }
 
             }
