@@ -154,10 +154,10 @@
 
     
         <script src="https://unpkg.com/vconsole@latest/dist/vconsole.min.js"></script>
-        <script>
+       <!-- <script>
           // VConsole will be exported to `window.VConsole` by default.
           var vConsole = new window.VConsole();
-        </script>
+        </script>-->
     <!--Main script-->
     <script>
 
@@ -317,7 +317,7 @@
 
 
                             }
-                            $(inner).append(`<tr><td>${res[i].ScheduleDepartureTime.split(":")[0]}:${res[i].ScheduleDepartureTime.split(":")[1]}${badge}</td><td>${res[i].TrainNo}</td><td>${res[i].TrainTypeName.Zh_tw.split("(")[0]}</td><td>${line}</td><td>${res[i].EndingStationName.Zh_tw}</td><td>${time}</td></tr>`)
+                            $(inner).append(`<tr><td>${res[i].ScheduledDepartureTime.split(":")[0]}:${res[i].ScheduledDepartureTime.split(":")[1]}${badge}</td><td>${res[i].TrainNo}</td><td>${res[i].TrainTypeName.Zh_tw.split("(")[0]}</td><td>${line}</td><td>${res[i].EndingStationName.Zh_tw}</td><td>${time}</td></tr>`)
                         }
                     }
                     if ($(inner).html() == "") {
