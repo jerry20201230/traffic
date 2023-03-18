@@ -152,13 +152,13 @@
 
 
 
-    
-        <script src="https://unpkg.com/vconsole@latest/dist/vconsole.min.js"></script>
-       <script>
-          // VConsole will be exported to `window.VConsole` by default.
-          var vConsole = new window.VConsole();
-        </script>
-
+<!--
+    <script src="https://unpkg.com/vconsole@latest/dist/vconsole.min.js"></script>
+    <script>
+        // VConsole will be exported to `window.VConsole` by default.
+        var vConsole = new window.VConsole();
+    </script>
+-->
 
     <!--Main script-->
     <script>
@@ -285,7 +285,7 @@
         }
 
 
-         function queryTheApi(url, inner, c, s) {
+        function queryTheApi(url, inner, c, s) {
 
             if (ApiUrl === url) {
                 if (c == "TRA_Direction") {
@@ -294,7 +294,7 @@
                     var res = ApiData, TSwitch = s
                     console.log(TSwitch)
                     for (i = 0; i < res.length; i++) {
-                       
+
                         if (TSwitch == res[i].Direction) {
                             let line, time, badge = ""
                             if (res[i].TripLine == 0) {
@@ -1002,9 +1002,9 @@
 
                 else if (page === "bookmark") {
 
-                    try{
-                    $("#header").text("書籤")
-                    $("#main-content").html(`
+                    try {
+                        $("#header").text("書籤")
+                        $("#main-content").html(`
                     <span class="text-secondary">你有 ${JSON.parse(localStorage.getItem("user.bookmark")).mark.length} 個書籤</span>
                     <ul class="list-group" id="bookmarklist">
                         
@@ -1012,22 +1012,22 @@
                     </ul>
                     `)
 
-                    for (i = 0; i < JSON.parse(localStorage.getItem("user.bookmark")).mark.length; i++) {
-                        var pageMapping = ["home", "TRASearch", "HSR"]
-                        var pageID = ["首頁"]
-                        var mark = JSON.parse(localStorage.getItem("user.bookmark")).mark
-                        console.log(mark[i].page)
-                        $("#bookmarklist").append(`
+                        for (i = 0; i < JSON.parse(localStorage.getItem("user.bookmark")).mark.length; i++) {
+                            var pageMapping = ["home", "TRASearch", "HSR"]
+                            var pageID = ["首頁"]
+                            var mark = JSON.parse(localStorage.getItem("user.bookmark")).mark
+                            console.log(mark[i].page)
+                            $("#bookmarklist").append(`
                         <li class="list-group-item">${mark[i].page}</li>
                         `)
-                    }
-                      }catch(e){
-                      localStorage.setItem("user.bookmark", JSON.stringify({ "mark": [] }))
+                        }
+                    } catch (e) {
+                        localStorage.setItem("user.bookmark", JSON.stringify({ "mark": [] }))
 
-               
-                      $("#header").text("書籤")
 
-                    $("#main-content").html(`
+                        $("#header").text("書籤")
+
+                        $("#main-content").html(`
 
                     <span class="text-secondary">你有 ${JSON.parse(localStorage.getItem("user.bookmark")).mark.length} 個書籤</span>
 
@@ -1040,9 +1040,9 @@
                     </ul>
 
                     `)
-                      }
                     }
-                
+                }
+
 
                 else if (page === "error") {
                     $("#header").text("發生錯誤")
@@ -1071,7 +1071,7 @@
                     'par2': par2,
                     'par3': par3,
                 }
-              //  Ui("bookmark.btn.set")
+                Ui("bookmark.btn.set")
             }
         }
 
@@ -1090,17 +1090,18 @@
                         localStorage.setItem("user.bookmark", JSON.stringify({ "mark": mark }))
                     }
                     else {
-                        $("#bookmark-status").parent().attr("class", "rounded-1 bg-secondary  flex-grow-1 text-white text-center p-1 pt-2 me-1")
+                        console.log("E")
+                        $("#bookmark-status").parent().attr("class", "rounded-1 bg-secondary flex-grow-1 text-white text-center p-1 pt-2 me-1")
                         $("#bookmark-status").attr("class", "bi bi-bookmark-plus m-0 p-0")
                     }
                 } catch (e) {
-localStorage.setItem("user.bookmark", JSON.stringify({ "mark": [] }))
+                    localStorage.setItem("user.bookmark", JSON.stringify({ "mark": [] }))
 
                 }
 
 
             } else if (page === "bookmark.btn.set") {
-                if(!(localStorage.getItem("user.bookmark")).mark){
+                if (!JSON.parse(localStorage.getItem("user.bookmark"))) {
                     localStorage.setItem("user.bookmark", JSON.stringify({ "mark": [] }))
                     var mark = JSON.parse(localStorage.getItem("user.bookmark")).mark
                     console.log(mark)
@@ -1111,8 +1112,8 @@ localStorage.setItem("user.bookmark", JSON.stringify({ "mark": [] }))
                         $("#bookmark-status").parent().attr("class", "rounded-1 bg-secondary  flex-grow-1 text-white text-center p-1 pt-2 me-1")
                         $("#bookmark-status").attr("class", "bi bi-bookmark-plus m-0 p-0")
                     }
-                } else{
-var mark = JSON.parse(localStorage.getItem("user.bookmark")).mark
+                } else {
+                    var mark = JSON.parse(localStorage.getItem("user.bookmark")).mark
 
                     console.log(mark)
 
@@ -1129,7 +1130,7 @@ var mark = JSON.parse(localStorage.getItem("user.bookmark")).mark
                         $("#bookmark-status").attr("class", "bi bi-bookmark-plus m-0 p-0")
 
                     }
-               
+
                 }
 
             }
