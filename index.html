@@ -702,7 +702,6 @@
                 
                     `)
                 }
-
                 else if (page === "TRAstation") {
                     if (TrainStationData === "") {
                         TrainStationDataOpt("get")
@@ -894,9 +893,8 @@
                 else if (page === "BIKEsearch_result") {
                     BikeStationDataOpt("search", par1, par2, par3)
                 }
-
                 else if (page === "CityBUSsearch") {
-                    $("#header").text("設定")
+                    $("#header").text("市區公車 - 選擇縣市")
                     $("#main-content").html(`
                     `)
                 }
@@ -1013,13 +1011,21 @@
                     `)
 
                         for (i = 0; i < JSON.parse(localStorage.getItem("user.bookmark")).mark.length; i++) {
-                            var pageMapping = ["home", "TRASearch", "HSR"]
-                            var pageID = ["首頁"]
+                            var pageMapping = ["home", "TRASearch", "HSRSearch","MRTsearch","TRAstation","HSRstation","BIKEsearch","BIKEsearch_result","CityBUSsearch","about","home"]
+                            var pageTitle = ["首頁","台鐵車站搜尋","高鐵車站搜尋","捷運車站搜尋","台鐵 %s 車站","高鐵 %s 站","公共自行車 - 站點搜尋","公共自行車 - 站點搜尋結果\\n在 (%lat,%lon) 附近 %r 公尺的站點","市區公車 - 選擇縣市","關於","首頁"]
                             var mark = JSON.parse(localStorage.getItem("user.bookmark")).mark
                             console.log(mark[i].page)
+
+                            if(pageMapping.indexOf(mark[i].page) !== -1){
+
                             $("#bookmarklist").append(`
-                        <li class="list-group-item">${mark[i].page}</li>
+                        <li class="list-group-item">${pageTitle[pageMapping.indexOf(mark[i].page)].replace("\\n","<br>").replace("%s",par1)}</li>
                         `)
+                            }else{
+                                $("#bookmarklist").append(`
+                        <li class="list-group-item">無法辨識的頁面</li>
+                        `)
+                            }
                         }
                     } catch (e) {
                         localStorage.setItem("user.bookmark", JSON.stringify({ "mark": [] }))
@@ -1032,10 +1038,6 @@
                     <span class="text-secondary">你有 ${JSON.parse(localStorage.getItem("user.bookmark")).mark.length} 個書籤</span>
 
                     <ul class="list-group" id="bookmarklist">
-
-                        
-
-                        
 
                     </ul>
 
@@ -1127,7 +1129,7 @@
                     }
                     if(!Include){
                         $("#bookmark-status").parent().attr("class", "rounded-1 bg-success  flex-grow-1 text-white text-center p-1 pt-2 me-1")
-                        $("#bookmark-status").attr("class", "bi bi-bookmark-dash m-0 p-0")
+                        $("#bookmark-status").attr("class", "bi bi-bookmark-check m-0 p-0")
                        
                        
                     }
@@ -1146,7 +1148,7 @@
 
                         $("#bookmark-status").parent().attr("class", "rounded-1 bg-secondary  flex-grow-1 text-white text-center p-1 pt-2 me-1")
 
-                        $("#bookmark-status").attr("class", "bi bi-bookmark-plus m-0 p-0")
+                        $("#bookmark-status").attr("class", "bi bi-bookmark-check m-0 p-0")
 
                     }
 
