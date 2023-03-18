@@ -1076,6 +1076,9 @@
         }
 
         function Ui(page, par1) {
+            function comparePage(page1,page2) {
+                return page1.page === page2.page && page1.par1 === page2.par1 && page1.par2 === page2.par2 && page1.par3 === page2.par3
+            }
 
             if (page === "bookmark.set") {
                 console.log(NowPage)
@@ -1083,16 +1086,22 @@
                     var mark = JSON.parse(localStorage.getItem("user.bookmark")).mark
                     console.log(mark)
 
-                    if (!mark.includes(NowPage)) {
+                    var Include = false
+                    for(i=0;i<mark.length;i++){
+                        if(comparePage(mark[i],NowPage)){
+                            Include = true  
+                            $("#bookmark-status").parent().attr("class", "rounded-1 bg-secondary flex-grow-1 text-white text-center p-1 pt-2 me-1")
+                            $("#bookmark-status").attr("class", "bi bi-bookmark-plus m-0 p-0")
+                            break
+                        }else{
+
+                        }
+                    }
+                    if(!Include){
                         $("#bookmark-status").parent().attr("class", "rounded-1 bg-success  flex-grow-1 text-white text-center p-1 pt-2 me-1")
                         $("#bookmark-status").attr("class", "bi bi-bookmark-dash m-0 p-0")
                         mark.push(NowPage)
                         localStorage.setItem("user.bookmark", JSON.stringify({ "mark": mark }))
-                    }
-                    else {
-                        console.log("E")
-                        $("#bookmark-status").parent().attr("class", "rounded-1 bg-secondary flex-grow-1 text-white text-center p-1 pt-2 me-1")
-                        $("#bookmark-status").attr("class", "bi bi-bookmark-plus m-0 p-0")
                     }
                 } catch (e) {
                     localStorage.setItem("user.bookmark", JSON.stringify({ "mark": [] }))
