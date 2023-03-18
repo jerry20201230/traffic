@@ -1100,7 +1100,8 @@ localStorage.setItem("user.bookmark", JSON.stringify({ "mark": [] }))
 
 
             } else if (page === "bookmark.btn.set") {
-                try {
+                if(!(localStorage.getItem("user.bookmark")).mark)){
+                    localStorage.setItem("user.bookmark", JSON.stringify({ "mark": [] }))
                     var mark = JSON.parse(localStorage.getItem("user.bookmark")).mark
                     console.log(mark)
                     if (mark.includes(NowPage.page)) {
@@ -1110,9 +1111,24 @@ localStorage.setItem("user.bookmark", JSON.stringify({ "mark": [] }))
                         $("#bookmark-status").parent().attr("class", "rounded-1 bg-secondary  flex-grow-1 text-white text-center p-1 pt-2 me-1")
                         $("#bookmark-status").attr("class", "bi bi-bookmark-plus m-0 p-0")
                     }
-                } catch (e) {
-localStorage.setItem("user.bookmark", JSON.stringify({ "mark": [] }))
+                } else{
+var mark = JSON.parse(localStorage.getItem("user.bookmark")).mark
 
+                    console.log(mark)
+
+                    if (mark.includes(NowPage.page)) {
+
+                        $("#bookmark-status").parent().attr("class", "rounded-1 bg-success  flex-grow-1 text-white text-center p-1 pt-2 me-1")
+
+                        $("#bookmark-status").attr("class", "bi bi-bookmark-dash m-0 p-0")
+
+                    } else {
+
+                        $("#bookmark-status").parent().attr("class", "rounded-1 bg-secondary  flex-grow-1 text-white text-center p-1 pt-2 me-1")
+
+                        $("#bookmark-status").attr("class", "bi bi-bookmark-plus m-0 p-0")
+
+                    }
                
                 }
 
