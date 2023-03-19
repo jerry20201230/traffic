@@ -387,7 +387,7 @@
                         <thead>
                         <tr><td>站點名稱</td><td>車輛</td><td>空位</td><td>備註</td></tr>    
                         </thead>
-                        <tbody>
+                        <tbody id="bike-display-table">
                         <tr></tr>    
                         </tbody>
                         
@@ -441,6 +441,14 @@
                                 marker.addTo(map);
                                 marker.bindPopup(`<b>${BikeStationData.stationData[i].StationName.Zh_tw}</b>`)
                             }
+                            map.setView([lat, lng], 15)
+                        } else {
+                            var circle = L.circle([lat, lng], {
+                                color: 'blue',
+                                fillColor: '#0d6efd',
+                                fillOpacity: 0.5,
+                                radius: par1
+                            }).addTo(map);
                             map.setView([lat, lng], 15)
                         }
                     }
@@ -525,13 +533,14 @@
             }
         }
 
-        function MRTStationOpt(par1) {
-            var MRTsystem = ["TRTC", "KRTC", "KLRT", "TMRT"]
-            var MRTtext = ["台北捷運", "高雄捷運", "高雄輕軌", "台中捷運"]
+        function MRTStationOpt(par1, par2, par3) {
+            if (par3 !== 'callback') {
+                var MRTsystem = ["TRTC", "KRTC", "KLRT", "TMRT"]
+                var MRTtext = ["台北捷運", "高雄捷運", "高雄輕軌", "台中捷運"]
 
-            if (MRTsystem.indexOf(par1) !== -1) {
-                $("#header").text(MRTtext[MRTsystem.indexOf(par1)])
-                $("#main-content").html(`
+                if (MRTsystem.indexOf(par1) !== -1) {
+                    $("#header").text(MRTtext[MRTsystem.indexOf(par1)])
+                    $("#main-content").html(`
                    
                     <div class="d-flex">
                         <select id="MRTroute" class="form-select me-1">
@@ -539,13 +548,39 @@
                         <option value="undefind">請選擇捷運路線</option>    
                         </select>
 
-                        <button class="bi bi-search btn btn-primary" onclick=""></button>
+                        <button class="bi bi-search btn btn-primary" onclick="MRTStationOpt('${par1}',$('#MRTroute').val(),'callback')"></button>
                     </div>
                     <span class="text-primary" id="data-loading">資料準備中</span>
 
                    <div id="data-display"></div>
 
                         `)
+                    let accesstoken = JSON.parse($("#req_header").text());
+                    $.ajax({
+                        url: `https://tdx.transportdata.tw/api/basic/v2/Rail/Metro/Line/${par1}?%24format=JSON`,
+                        method: "GET",
+                        dataType: "json",
+                        headers: {
+                            "authorization": "Bearer " + accesstoken.access_token,
+                        },
+                        success: function (res) {
+                            $("#data-loading").remove()
+                            console.log(res)
+                            for (i = 0; i < res.length; i++) {
+                                $("#MRTroute").append(`
+                                <option value="${res[i].LineID}">${res[i].LineID}.&nbsp;${res[i].LineName.Zh_tw}</option>
+                            `)
+                            }
+
+                        },
+                        error: function (xhr, textStatus, thrownError) {
+                            //  if (MRTStationData === "") { App("loadingFailed", "讀取捷運車站資料"); }
+                        }
+                    })
+                } else {
+                    App("404")
+                }
+            } else {
                 let accesstoken = JSON.parse($("#req_header").text());
                 $.ajax({
                     url: `https://tdx.transportdata.tw/api/basic/v2/Rail/Metro/Line/${par1}?%24format=JSON`,
@@ -555,22 +590,21 @@
                         "authorization": "Bearer " + accesstoken.access_token,
                     },
                     success: function (res) {
-                        $("#data-loading").remove()
-                        console.log(res)
                         for (i = 0; i < res.length; i++) {
-                            $("#MRTroute").append(`
-                                <option value="${res[i].LineID}">${res[i].LineID}.&nbsp;${res[i].LineName.Zh_tw}</option>
+                            if (res[i].LineID === par2) {
+
+                                $("#data-display").append(`
+                                <div class="card" style="border-color:${res[i].LineColor}"><div class="card-body"><h5 class="card-title"><span class="badge text-white" style="background:${res[i].LineColor}">${res[i].LineNo}</span>${res[i].LineSectionName.Zh_tw}</h5><p class="card-text"></p></div></div>
                                 `)
+                                break;
+                            }
                         }
-
-
                     },
                     error: function (xhr, textStatus, thrownError) {
                         //  if (MRTStationData === "") { App("loadingFailed", "讀取捷運車站資料"); }
                     }
                 })
-            } else {
-                App("404")
+
             }
         }
 
@@ -919,7 +953,7 @@
                         position: 'topleft',
                         title: '進入全螢幕',
                         titleCancel: '離開全螢幕',
-                        
+
                         forceSeparateButton: true,
                         forcePseudoFullscreen: true,
                         fullscreenElement: false
