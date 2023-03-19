@@ -578,7 +578,7 @@
                             $("#data-loading").remove()
                             console.log(res)
                             for (i = 0; i < res.length; i++) {
-                                $("#MRTroute").html(`
+                                $("#MRTroute").append(`
                                 <option value="${res[i].LineID}">${res[i].LineID}.&nbsp;${res[i].LineName.Zh_tw}</option>
                             `)
                             }
@@ -604,8 +604,8 @@
                         for (i = 0; i < res.length; i++) {
                             if (res[i].LineID === par2) {
 
-                                $("#data-display").append(`
-                                <div class="card mt-2" style="border-color:${res[i].LineColor}"><div class="card-body"><h5 class="card-title"><span class="badge text-white" style="background:${res[i].LineColor}">${res[i].LineID}</span>${res[i].LineName.Zh_tw}</h5><p class="card-text"></p></div></div>
+                                $("#data-display").html(`
+                                <div class="card mt-2" style="border-color:${res[i].LineColor}"><div class="card-body"><h5 class="card-title"><span class="badge text-white" style="background:${res[i].LineColor}">${res[i].LineID}</span> ${res[i].LineName.Zh_tw}</h5><p class="card-text"></p></div></div>
                                 `)
                                 break;
                             }
