@@ -440,6 +440,17 @@
 
                                 marker.addTo(map);
                                 marker.bindPopup(`<b>${BikeStationData.stationData[i].StationName.Zh_tw}</b>`)
+
+                                $("#bike-display-table").append(`
+                                
+                                <tr>
+                                <td><span class="badge bg-primary">${BikeStationData.stationData[i].StationName.Zh_tw.split("_")[0]}</span>${BikeStationData.stationData[i].StationName.Zh_tw.split("_")[1]}</td>
+                                <td>一般:${BikeStationData.bikeData.AvailableRentBikesDetail.GeneralBikes}<br>電輔:${BikeStationData.bikeData.AvailableRentBikesDetail.ElectricBikes}</td>
+                                <td>${BikeStationData.bikeData.AvailableReturnBikes}</td>
+                                <td></td>    
+                                </tr>
+                                    `)
+
                             }
                             map.setView([lat, lng], 15)
                         } else {
@@ -567,7 +578,7 @@
                             $("#data-loading").remove()
                             console.log(res)
                             for (i = 0; i < res.length; i++) {
-                                $("#MRTroute").append(`
+                                $("#MRTroute").html(`
                                 <option value="${res[i].LineID}">${res[i].LineID}.&nbsp;${res[i].LineName.Zh_tw}</option>
                             `)
                             }
@@ -594,7 +605,7 @@
                             if (res[i].LineID === par2) {
 
                                 $("#data-display").append(`
-                                <div class="card" style="border-color:${res[i].LineColor}"><div class="card-body"><h5 class="card-title"><span class="badge text-white" style="background:${res[i].LineColor}">${res[i].LineNo}</span>${res[i].LineSectionName.Zh_tw}</h5><p class="card-text"></p></div></div>
+                                <div class="card mt-2" style="border-color:${res[i].LineColor}"><div class="card-body"><h5 class="card-title"><span class="badge text-white" style="background:${res[i].LineColor}">${res[i].LineID}</span>${res[i].LineName.Zh_tw}</h5><p class="card-text"></p></div></div>
                                 `)
                                 break;
                             }
