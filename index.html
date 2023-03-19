@@ -716,6 +716,23 @@
                         <option value="undefind">請選擇捷運路線</option>    
                         </select>
                         `)
+                        let accesstoken = JSON.parse($("#req_header").text());
+                    $.ajax({
+                        url: `https://tdx.transportdata.tw/api/basic/v2/Rail/Metro/StationOfLine/${par1}?%24format=JSON`,
+                        method: "GET",
+                        dataType: "json",
+                        headers: {
+                            "authorization": "Bearer " + accesstoken.access_token,
+                        },
+                        success: function (res) {
+                            console.log(res)
+
+                            
+                        },
+                        error: function (xhr, textStatus, thrownError) {
+                            //  if (MRTStationData === "") { App("loadingFailed", "讀取捷運車站資料"); }
+                        }
+                    })
                     }else{
                         App("404")
                     }
