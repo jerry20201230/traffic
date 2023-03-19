@@ -445,8 +445,8 @@
                                 
                                 <tr>
                                 <td><span class="badge bg-primary">${BikeStationData.stationData[i].StationName.Zh_tw.split("_")[0]}</span>${BikeStationData.stationData[i].StationName.Zh_tw.split("_")[1]}</td>
-                                <td>一般:${BikeStationData.bikeData.AvailableRentBikesDetail.GeneralBikes}<br>電輔:${BikeStationData.bikeData.AvailableRentBikesDetail.ElectricBikes}</td>
-                                <td>${BikeStationData.bikeData.AvailableReturnBikes}</td>
+                                <td>一般:${BikeStationData.bikeData[i].AvailableRentBikesDetail.GeneralBikes}<br>電輔:${BikeStationData.bikeData[i].AvailableRentBikesDetail.ElectricBikes}</td>
+                                <td>${BikeStationData.bikeData[i].AvailableReturnBikes}</td>
                                 <td></td>    
                                 </tr>
                                     `)
