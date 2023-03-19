@@ -718,7 +718,7 @@
                         `)
                         let accesstoken = JSON.parse($("#req_header").text());
                     $.ajax({
-                        url: `https://tdx.transportdata.tw/api/basic/v2/Rail/Metro/StationOfLine/${par1}?%24format=JSON`,
+                        url: `https://tdx.transportdata.tw/api/basic/v2/Rail/Metro/Line/${par1}?%24format=JSON`,
                         method: "GET",
                         dataType: "json",
                         headers: {
@@ -726,6 +726,11 @@
                         },
                         success: function (res) {
                             console.log(res)
+                            for(i=0;i<res.length;i++){
+                                $("#MRTroute").append(`
+                                <option value="${res[i].LineID}">${res[i].LineID}&nbsp;${res[i].LineName.Zh_tw}</option>
+                                `)
+                            }
 
                             
                         },
