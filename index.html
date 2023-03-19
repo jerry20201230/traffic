@@ -656,7 +656,7 @@
                 }
                 else if (page === "HSRsearch") {
                     $("#header").text("高鐵車站 - 搜尋")
-                    $("#main-content").html(`<div class="d-flex"><input type="text" class="form-control me-1" oninput="HSRStationDataOpt('search',$('#trainStationNameInput').val())" id="trainStationNameInput" placeholder="輸入高鐵車站名稱..."><button class="btn btn-primary bi bi-search" onclick="HSRStationDataOpt('search',$('#trainStationNameInput').val()) "></button></div><div class="list-group mt-2" id="search-result"></div>
+                    $("#main-content").html(`<div class="d-flex"><input type="text" class="form-control me-1" oninput="HSRStationDataOpt('search',$('#trainStationNameInput').val())" id="trainStationNameInput" placeholder="輸入高鐵車站名稱..."><button class="btn btn-primary bi bi-search" onclick="HSRStationDataOpt('search',$('#trainStationNameInput').val()) "></button></div><div class="list-group mt-2 mb-2" id="search-result"></div>
                     <div class="card"><div class="card-body"><h5 class="card-title">即時通阻資料</h5><p class="card-text"><ul class="list-group" id="TRAalert"><li class="list-group-item">資料讀取中</li></ul></p></div></div>`)
                     HSRStationDataOpt("get")
 
@@ -695,26 +695,31 @@
                     $("#header").text("選擇捷運系統")
                     $("#main-content").html(`
                     <span class="text-secondary"></span>
-                    <div class="card m-1" data-id="TRTC"><div class="card-body"><h5 class="card-title">台北捷運</h5><h6 class="card-subtitle mb-2 text-muted">台北捷運列車與車站資料
-                        </h6><p class="card-text"><span class="bi bi-check-circle-fill text-success">提供即時進站資料</span></p><button class="btn btn-primary"  onclick="App('MRTsystem','TRTC')">開始查詢</button></div></div>
+                
+                <div class="card m-1" data-id="TRTC"><div class="card-body"><h5 class="card-title">台北捷運</h5><h6 class="card-subtitle mb-2 text-muted">台北捷運列車與車站資料</h6><p class="card-text"><span class="bi bi-check-circle-fill text-success">提供即時進站資料</span></p><button class="btn btn-primary"  onclick="App('MRTsystem','TRTC')">開始查詢</button></div></div>
                 <div class="card m-1" data-id="KRTC"><div class="card-body"><h5 class="card-title">高雄捷運</h5><h6 class="card-subtitle mb-2 text-muted">高雄捷運列車與車站資料</h6><p class="card-text"><span class="bi bi-check-circle-fill text-success">提供即時進站資料</span></p><button class="btn btn-primary"  onclick="App('MRTsystem','KRTC')">開始查詢</button></div></div>
                 <div class="card m-1" data-id="KLRT"><div class="card-body"><h5 class="card-title">高雄輕軌</h5><h6 class="card-subtitle mb-2 text-muted">高雄輕軌列車與車站資料</h6><p class="card-text"><span class="bi bi-check-circle-fill text-success">提供即時進站資料</span></p><button class="btn btn-primary"  onclick="App('MRTsystem','KLRT')">開始查詢</button></div></div>
+                <div class="card m-1" data-id="KLRT"><div class="card-body"><h5 class="card-title">台中捷運</h5><h6 class="card-subtitle mb-2 text-muted">台中捷運列車與車站資料</h6><p class="card-text"><button class="btn btn-primary"  onclick="App('MRTsystem','TMRT')">開始查詢</button></div></div>
                 
                     `)
                 }
 
                 else if(page === "MRTsystem"){
-                    var MRTsystem = ["TRTC","KRTC","KLRT"]
-                    var MRTtext   = ["台北捷運","高雄捷運","高雄輕軌"]
+                    var MRTsystem = ["TRTC","KRTC","KLRT","TMRT"]
+                    var MRTtext   = ["台北捷運","高雄捷運","高雄輕軌","台中捷運"]
 
                     if(MRTsystem.indexOf(par1) !== -1){
                         $("#header").text(MRTtext[MRTsystem.indexOf(par1)])
                         $("#main-content").html(`
                    
-                        <select id="MRTroute" class="form-select">
+                    <div class="d-flex">
+                        <select id="MRTroute" class="form-select me-1">
                             
                         <option value="undefind">請選擇捷運路線</option>    
                         </select>
+
+                        <button class="bi bi-search btn btn-primary"></button>
+                    </div>
                         `)
                         let accesstoken = JSON.parse($("#req_header").text());
                     $.ajax({
@@ -728,7 +733,7 @@
                             console.log(res)
                             for(i=0;i<res.length;i++){
                                 $("#MRTroute").append(`
-                                <option value="${res[i].LineID}">${res[i].LineID}&nbsp;${res[i].LineName.Zh_tw}</option>
+                                <option value="${res[i].LineID}">${res[i].LineID}.&nbsp;${res[i].LineName.Zh_tw}</option>
                                 `)
                             }
 
