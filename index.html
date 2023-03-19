@@ -702,6 +702,24 @@
                 
                     `)
                 }
+
+                else if(page === "MRTsystem"){
+                    var MRTsystem = ["TRTC","KRTC","KLRT"]
+                    var MRTtext   = ["台北捷運","高雄捷運","高雄輕軌"]
+
+                    if(MRTsystem.indexOf(par1) !== -1){
+                        $("#header").text(MRTtext[MRTsystem.indexOf(par1)])
+                        $("#main-content").html(`
+                   
+                        <select id="MRTroute" class="form-select">
+                            
+                        <option value="undefind">請選擇捷運路線</option>    
+                        </select>
+                        `)
+                    }else{
+                        App("404")
+                    }
+                }
                 else if (page === "TRAstation") {
                     if (TrainStationData === "") {
                         TrainStationDataOpt("get")
