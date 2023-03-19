@@ -520,6 +520,57 @@
 
             }
         }
+
+        function MRTStationOpt(par1) {
+            var MRTsystem = ["TRTC", "KRTC", "KLRT", "TMRT"]
+            var MRTtext = ["台北捷運", "高雄捷運", "高雄輕軌", "台中捷運"]
+
+            if (MRTsystem.indexOf(par1) !== -1) {
+                $("#header").text(MRTtext[MRTsystem.indexOf(par1)])
+                $("#main-content").html(`
+                   
+                    <div class="d-flex">
+                        <select id="MRTroute" class="form-select me-1">
+                            
+                        <option value="undefind">請選擇捷運路線</option>    
+                        </select>
+
+                        <button class="bi bi-search btn btn-primary" onclick=""></button>
+                    </div>
+                    <span class="text-primary" id="data-loading">資料準備中</span>
+
+                   <div id="data-display"></div>
+
+                        `)
+                let accesstoken = JSON.parse($("#req_header").text());
+                $.ajax({
+                    url: `https://tdx.transportdata.tw/api/basic/v2/Rail/Metro/Line/${par1}?%24format=JSON`,
+                    method: "GET",
+                    dataType: "json",
+                    headers: {
+                        "authorization": "Bearer " + accesstoken.access_token,
+                    },
+                    success: function (res) {
+                        $("#data-loading").remove()
+                        console.log(res)
+                        for (i = 0; i < res.length; i++) {
+                            $("#MRTroute").append(`
+                                <option value="${res[i].LineID}">${res[i].LineID}.&nbsp;${res[i].LineName.Zh_tw}</option>
+                                `)
+                        }
+
+
+                    },
+                    error: function (xhr, textStatus, thrownError) {
+                        //  if (MRTStationData === "") { App("loadingFailed", "讀取捷運車站資料"); }
+                    }
+                })
+            } else {
+                App("404")
+            }
+        }
+
+
         var HSRStationData = ""
         function HSRStationDataOpt(type, par1) {
             if (type === "get") {
@@ -704,48 +755,8 @@
                     `)
                 }
 
-                else if(page === "MRTsystem"){
-                    var MRTsystem = ["TRTC","KRTC","KLRT","TMRT"]
-                    var MRTtext   = ["台北捷運","高雄捷運","高雄輕軌","台中捷運"]
-
-                    if(MRTsystem.indexOf(par1) !== -1){
-                        $("#header").text(MRTtext[MRTsystem.indexOf(par1)])
-                        $("#main-content").html(`
-                   
-                    <div class="d-flex">
-                        <select id="MRTroute" class="form-select me-1">
-                            
-                        <option value="undefind">請選擇捷運路線</option>    
-                        </select>
-
-                        <button class="bi bi-search btn btn-primary"></button>
-                    </div>
-                        `)
-                        let accesstoken = JSON.parse($("#req_header").text());
-                    $.ajax({
-                        url: `https://tdx.transportdata.tw/api/basic/v2/Rail/Metro/Line/${par1}?%24format=JSON`,
-                        method: "GET",
-                        dataType: "json",
-                        headers: {
-                            "authorization": "Bearer " + accesstoken.access_token,
-                        },
-                        success: function (res) {
-                            console.log(res)
-                            for(i=0;i<res.length;i++){
-                                $("#MRTroute").append(`
-                                <option value="${res[i].LineID}">${res[i].LineID}.&nbsp;${res[i].LineName.Zh_tw}</option>
-                                `)
-                            }
-
-                            
-                        },
-                        error: function (xhr, textStatus, thrownError) {
-                            //  if (MRTStationData === "") { App("loadingFailed", "讀取捷運車站資料"); }
-                        }
-                    })
-                    }else{
-                        App("404")
-                    }
+                else if (page === "MRTsystem") {
+                    MRTStationOpt(par1)
                 }
                 else if (page === "TRAstation") {
                     if (TrainStationData === "") {
@@ -1138,15 +1149,16 @@
                         if (comparePage(mark[i], NowPage)) {
                             Include = true
                             $("#bookmark-status").parent().attr("class", "rounded-1 bg-success  flex-grow-1 text-white text-center p-1 pt-2 me-1")
-                        $("#bookmark-status").attr("class", "bi bi-bookmark-check m-0 p-0")
+                            $("#bookmark-status").attr("class", "bi bi-bookmark-check m-0 p-0")
                             break
                         } else {
 
                         }
                     }
-                    if (!Include) {$("#bookmark-status").parent().attr("class", "rounded-1 bg-secondary flex-grow-1 text-white text-center p-1 pt-2 me-1")
-                            $("#bookmark-status").attr("class", "bi bi-bookmark-plus m-0 p-0")
-                        
+                    if (!Include) {
+                        $("#bookmark-status").parent().attr("class", "rounded-1 bg-secondary flex-grow-1 text-white text-center p-1 pt-2 me-1")
+                        $("#bookmark-status").attr("class", "bi bi-bookmark-plus m-0 p-0")
+
                         mark.push(NowPage)
                         localStorage.setItem("user.bookmark", JSON.stringify({ "mark": mark }))
                     }
@@ -1185,7 +1197,7 @@
                     $("#bookmark-status").parent().attr("class", "rounded-1 bg-secondary  flex-grow-1 text-white text-center p-1 pt-2 me-1")
 
                     $("#bookmark-status").attr("class", "bi bi-bookmark-plus m-0 p-0")
-                   
+
 
                 }
 
