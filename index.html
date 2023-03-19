@@ -152,13 +152,12 @@
 
 
 
-    <!--
     <script src="https://unpkg.com/vconsole@latest/dist/vconsole.min.js"></script>
     <script>
         // VConsole will be exported to `window.VConsole` by default.
         var vConsole = new window.VConsole();
     </script>
--->
+
 
     <!--Main script-->
     <script>
@@ -441,10 +440,15 @@
                                 marker.addTo(map);
                                 marker.bindPopup(`<b>${BikeStationData.stationData[i].StationName.Zh_tw}</b>`)
 
+                                var badgeClass = "bg-secondary"
+                                if(BikeStationData.stationData[i].StationName.Zh_tw.split("_")[0].includes("2.0")){
+                                    badgeClass = "bg-primary"
+                                }
+
                                 $("#bike-display-table").append(`
                                 
                                 <tr>
-                                <td><span class="badge bg-primary">${BikeStationData.stationData[i].StationName.Zh_tw.split("_")[0]}</span>${BikeStationData.stationData[i].StationName.Zh_tw.split("_")[1]}</td>
+                                <td><span class="badge ${badgeClass}>${BikeStationData.stationData[i].StationName.Zh_tw.split("_")[0]}</span><br>${BikeStationData.stationData[i].StationName.Zh_tw.split("_")[1]}</td>
                                 <td>一般:${BikeStationData.bikeData[i].AvailableRentBikesDetail.GeneralBikes}<br>電輔:${BikeStationData.bikeData[i].AvailableRentBikesDetail.ElectricBikes}</td>
                                 <td>${BikeStationData.bikeData[i].AvailableReturnBikes}</td>
                                 <td></td>    
@@ -960,15 +964,7 @@
                         }
                     }).addTo(map);
 
-                    L.control.fullscreen({
-                        position: 'topleft',
-                        title: '進入全螢幕',
-                        titleCancel: '離開全螢幕',
-
-                        forceSeparateButton: true,
-                        forcePseudoFullscreen: true,
-                        fullscreenElement: false
-                    }).addTo(map);
+                   
                     var popup = L.popup();
                     function onMapClick(e) {
                         console.log(e)
