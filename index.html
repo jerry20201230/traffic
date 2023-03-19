@@ -152,7 +152,7 @@
 
 
 
-<!--
+    <!--
     <script src="https://unpkg.com/vconsole@latest/dist/vconsole.min.js"></script>
     <script>
         // VConsole will be exported to `window.VConsole` by default.
@@ -1011,17 +1011,17 @@
                     `)
 
                         for (i = 0; i < JSON.parse(localStorage.getItem("user.bookmark")).mark.length; i++) {
-                            var pageMapping = ["home", "TRAsearch", "HSRsearch","MRTsearch","TRAstation","HSRstation","BIKEsearch","BIKEsearch_result","CityBUSsearch","about","home"]
-                            var pageTitle = ["首頁","台鐵車站搜尋","高鐵車站搜尋","捷運車站搜尋","台鐵 %s 車站","高鐵 %s 站","公共自行車 - 站點搜尋","公共自行車 - 站點搜尋結果\\n在 (%lat,%lon) 附近 %r 公尺的站點","市區公車 - 選擇縣市","關於","首頁"]
+                            var pageMapping = ["home", "TRAsearch", "HSRsearch", "MRTsearch", "TRAstation", "HSRstation", "BIKEsearch", "BIKEsearch_result", "CityBUSsearch", "about", "home"]
+                            var pageTitle = ["首頁", "台鐵車站搜尋", "高鐵車站搜尋", "捷運車站搜尋", "台鐵 %s 車站", "高鐵 %s 站", "公共自行車 - 站點搜尋", "公共自行車 - 站點搜尋結果\\n在 (%lat,%lon) 附近 %r 公尺的站點", "市區公車 - 選擇縣市", "關於", "首頁"]
                             var mark = JSON.parse(localStorage.getItem("user.bookmark")).mark
                             console.log(mark[i].page)
 
-                            if(pageMapping.indexOf(mark[i].page) !== -1){
+                            if (pageMapping.indexOf(mark[i].page) !== -1) {
 
-                            $("#bookmarklist").append(`
-                        <li class="list-group-item">${pageTitle[pageMapping.indexOf(mark[i].page)].replace("\\n","<br>").replace("%s",par1)}</li>
+                                $("#bookmarklist").append(`
+                        <li class="list-group-item">${pageTitle[pageMapping.indexOf(mark[i].page)].replace("\\n", "<br>").replace("%s", par1)}</li>
                         `)
-                            }else{
+                            } else {
                                 $("#bookmarklist").append(`
                         <li class="list-group-item">無法辨識的頁面</li>
                         `)
@@ -1078,7 +1078,7 @@
         }
 
         function Ui(page, par1) {
-            function comparePage(page1,page2) {
+            function comparePage(page1, page2) {
                 return page1.page === page2.page && page1.par1 === page2.par1 && page1.par2 === page2.par2 && page1.par3 === page2.par3
             }
 
@@ -1089,19 +1089,19 @@
                     console.log(mark)
 
                     var Include = false
-                    for(i=0;i<mark.length;i++){
-                        if(comparePage(mark[i],NowPage)){
-                            Include = true  
+                    for (i = 0; i < mark.length; i++) {
+                        if (comparePage(mark[i], NowPage)) {
+                            Include = true
                             $("#bookmark-status").parent().attr("class", "rounded-1 bg-secondary flex-grow-1 text-white text-center p-1 pt-2 me-1")
                             $("#bookmark-status").attr("class", "bi bi-bookmark-plus m-0 p-0")
                             break
-                        }else{
+                        } else {
 
                         }
                     }
-                    if(!Include){
+                    if (!Include) {
                         $("#bookmark-status").parent().attr("class", "rounded-1 bg-success  flex-grow-1 text-white text-center p-1 pt-2 me-1")
-                        $("#bookmark-status").attr("class", "bi bi-bookmark-dash m-0 p-0")
+                        $("#bookmark-status").attr("class", "bi bi-bookmark-check m-0 p-0")
                         mark.push(NowPage)
                         localStorage.setItem("user.bookmark", JSON.stringify({ "mark": mark }))
                     }
@@ -1117,40 +1117,30 @@
                     var mark = JSON.parse(localStorage.getItem("user.bookmark")).mark
                     console.log(mark)
                     var Include = false
-                    for(i=0;i<mark.length;i++){
-                        if(comparePage(mark[i],NowPage)){
-                            Include = true  
+                    for (i = 0; i < mark.length; i++) {
+                        if (comparePage(mark[i], NowPage)) {
+                            Include = true
                             $("#bookmark-status").parent().attr("class", "rounded-1 bg-secondary flex-grow-1 text-white text-center p-1 pt-2 me-1")
                             $("#bookmark-status").attr("class", "bi bi-bookmark-plus m-0 p-0")
                             break
-                        }else{
+                        } else {
 
                         }
                     }
-                    if(!Include){
+                    if (!Include) {
                         $("#bookmark-status").parent().attr("class", "rounded-1 bg-success  flex-grow-1 text-white text-center p-1 pt-2 me-1")
                         $("#bookmark-status").attr("class", "bi bi-bookmark-check m-0 p-0")
-                       
-                       
+
+
                     }
                 } else {
                     var mark = JSON.parse(localStorage.getItem("user.bookmark")).mark
 
                     console.log(mark)
+                    $("#bookmark-status").parent().attr("class", "rounded-1 bg-secondary  flex-grow-1 text-white text-center p-1 pt-2 me-1")
 
-                    if (mark.includes(NowPage.page)) {
-
-                        $("#bookmark-status").parent().attr("class", "rounded-1 bg-success  flex-grow-1 text-white text-center p-1 pt-2 me-1")
-
-                        $("#bookmark-status").attr("class", "bi bi-bookmark-check m-0 p-0")
-
-                    } else {
-
-                        $("#bookmark-status").parent().attr("class", "rounded-1 bg-success  flex-grow-1 text-white text-center p-1 pt-2 me-1")
-
-                        $("#bookmark-status").attr("class", "bi bi-bookmark-check m-0 p-0")
-
-                    }
+                    $("#bookmark-status").attr("class", "bi bi-bookmark-plus m-0 p-0")
+                   
 
                 }
 
