@@ -150,7 +150,7 @@
         integrity='sha512-CeIsOAsgJnmevfCi2C7Zsyy6bQKi43utIjdA87Q0ZY84oDqnI0uwfM9+bKiIkI75lUeI00WG/+uJzOmuHlesMA=='
         crossorigin='anonymous'></script>
 
-<!--
+    <!--
 
     <script src="https://unpkg.com/vconsole@latest/dist/vconsole.min.js"></script>
     <script>
@@ -441,7 +441,7 @@
                                 marker.bindPopup(`<b>${BikeStationData.stationData[i].StationName.Zh_tw}</b>`)
 
                                 var badgeClass = "bg-secondary"
-                                if(BikeStationData.stationData[i].StationName.Zh_tw.split("_")[0].includes("2.0")){
+                                if (BikeStationData.stationData[i].StationName.Zh_tw.split("_")[0].includes("2.0")) {
                                     badgeClass = "bg-primary"
                                 }
 
@@ -550,8 +550,39 @@
         }
 
 
-        function initCanvas(id){
+        function initMRTCanvas(id, LineName, LineID, LineColor) {
+
             var canvas = new fabric.Canvas(id)
+            canvas.setHeight(500);
+            
+            let accesstoken = JSON.parse($("#req_header").text());
+            $.ajax({
+                url: `https://tdx.transportdata.tw/api/basic/v2/Rail/Metro/StationOfLine/${LineName}?%24filter=LineID%20eq%20%27${LineID}%27&%24format=JSON`,
+                method: "GET",
+                dataType: "json",
+                headers: {
+                    "authorization": "Bearer " + accesstoken.access_token,
+                },
+                success: function (res) {
+                    console.log(res)
+                    let count = 0
+                    for (i = 0; i < res[0].Stations.length; i++) {
+                        count++
+                        console.log(i)
+                    }
+                    console.log(count)
+                    canvas.add(new fabric.Rect({
+                        width: 20,
+                        height: 30 * (count),
+                        fill: LineColor
+                    }))
+                    canvas.renderAll()
+                },
+                error: function (xhr, textStatus, thrownError) {
+                    //  if (MRTStationData === "") { App("loadingFailed", "讀取捷運車站資料"); }
+                }
+            })
+
         }
         function MRTStationOpt(par1, par2, par3) {
             if (par3 !== 'callback') {
@@ -619,7 +650,7 @@
                             if (res[i].LineID === par2) {
 
                                 $("#data-display").html(`
-                                <div class="card mt-2" style="border-color:${res[i].LineColor}">
+                                <div class="card mt-2" style="border-color:${res[i].LineColor}" id="MRTcard-1">
                                     <div class="card-body"><h5 class="card-title">
                                         <span class="badge text-white" style="background:${res[i].LineColor}">
                                             ${res[i].LineID}</span> ${res[i].LineName.Zh_tw}
@@ -630,7 +661,7 @@
                                         
                                         </div></div>
                                 `)
-                                initCanvas("MRT-station-canvas")
+                                initMRTCanvas("MRT-station-canvas", par1, res[i].LineID, res[i].LineColor)
                                 break;
                             }
                         }
@@ -984,7 +1015,7 @@
                         }
                     }).addTo(map);
 
-                   
+
                     var popup = L.popup();
                     function onMapClick(e) {
                         console.log(e)
@@ -1053,20 +1084,20 @@
                     /*var sortable = Sortable.create(document.getElementById('items'), {
                         animation: 200,
                         store: {
-
+ 
                             get: function (sortable) {
                                 // var order = localStorage.getItem(sortable.options.group.name);
                                 // return order ? order.split('|') : [];
                             },
-
-
+ 
+ 
                             set: function (sortable) {
                                 var order = sortable.toArray();
                                 console.log(order)
                                 // localStorage.setItem(sortable.options.group.name, order.join('|'));
                             }
                         }
-
+ 
                     });*/
                 }
                 else if (page === "history") {
