@@ -150,15 +150,15 @@
         integrity='sha512-CeIsOAsgJnmevfCi2C7Zsyy6bQKi43utIjdA87Q0ZY84oDqnI0uwfM9+bKiIkI75lUeI00WG/+uJzOmuHlesMA=='
         crossorigin='anonymous'></script>
 
-
 <!--
+
     <script src="https://unpkg.com/vconsole@latest/dist/vconsole.min.js"></script>
     <script>
         // VConsole will be exported to `window.VConsole` by default.
         var vConsole = new window.VConsole();
     </script>
--->
 
+-->
     <!--Main script-->
     <script>
 
@@ -549,6 +549,10 @@
             }
         }
 
+
+        function initCanvas(id){
+            var canvas = new fabric.Canvas(id)
+        }
         function MRTStationOpt(par1, par2, par3) {
             if (par3 !== 'callback') {
                 var MRTsystem = ["TRTC", "KRTC", "KLRT", "TMRT"]
@@ -568,7 +572,12 @@
                     </div>
                     <span class="text-primary" id="data-loading">資料準備中</span>
 
-                   <div id="data-display"></div>
+                   <div id="data-display">
+                    
+
+                  
+
+                    </div>
 
                         `)
                     let accesstoken = JSON.parse($("#req_header").text());
@@ -610,8 +619,18 @@
                             if (res[i].LineID === par2) {
 
                                 $("#data-display").html(`
-                                <div class="card mt-2" style="border-color:${res[i].LineColor}"><div class="card-body"><h5 class="card-title"><span class="badge text-white" style="background:${res[i].LineColor}">${res[i].LineID}</span> ${res[i].LineName.Zh_tw}</h5><p class="card-text"></p></div></div>
+                                <div class="card mt-2" style="border-color:${res[i].LineColor}">
+                                    <div class="card-body"><h5 class="card-title">
+                                        <span class="badge text-white" style="background:${res[i].LineColor}">
+                                            ${res[i].LineID}</span> ${res[i].LineName.Zh_tw}
+                                        </h5>
+                                        
+                                        <p class="card-text"><canvas id="MRT-station-canvas">無法使用.</canvas></p>
+                                        
+                                        
+                                        </div></div>
                                 `)
+                                initCanvas("MRT-station-canvas")
                                 break;
                             }
                         }
@@ -1150,7 +1169,7 @@
 
                 else if (page === "error") {
                     $("#header").text("正在重新導向")
-                    $("#main-content").html(`正在重新導向<br>請稍候...`)
+                    $("#main-content").html(`正在重新導向<br>請稍候...<br>如果卡在這裡，請回到<a href="#" onclick="App('home')">首頁</a>`)
                 }
                 else {
                     var text = ""
