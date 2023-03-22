@@ -554,7 +554,7 @@
 
             var canvas = new fabric.Canvas(id)
             canvas.setHeight(500);
-            
+
             let accesstoken = JSON.parse($("#req_header").text());
             $.ajax({
                 url: `https://tdx.transportdata.tw/api/basic/v2/Rail/Metro/StationOfLine/${LineName}?%24filter=LineID%20eq%20%27${LineID}%27&%24format=JSON`,
@@ -565,17 +565,43 @@
                 },
                 success: function (res) {
                     console.log(res)
-                    let count = 0
-                    for (i = 0; i < res[0].Stations.length; i++) {
-                        count++
-                        console.log(i)
-                    }
-                    console.log(count)
+
                     canvas.add(new fabric.Rect({
-                        width: 20,
-                        height: 30 * (count),
+                        left: 60,
+                        top: 0,
+                        width: 10,
+                        height: 30 * (res[0].Stations.length-1),
                         fill: LineColor
                     }))
+
+                    for (i = 0; i < res[0].Stations.length; i++) {
+                        canvas.add(
+                            new fabric.Circle({
+                                radius: 10,
+                                fill: LineColor,
+                                left: 55,
+                                top: (i * 30),
+                                stroke: 'black',
+                                strokeWidth: 1
+                            })
+                        )
+                        canvas.add(
+                            new fabric.Text(res[0].Stations[i].StationName.Zh_tw,{
+                                left: 80,
+                                top: (i * 30)+2,
+                                fontSize: 17,
+                            })
+                        )
+                    }
+                    canvas.renderAll()
+
+                    canvas.discardActiveObject();
+                    var sel = new fabric.ActiveSelection(canvas.getObjects(), {
+                        canvas: canvas,
+                    });
+                    canvas.setActiveObject(sel);
+                    canvas.requestRenderAll();
+                    canvas.getActiveObject().toGroup()
                     canvas.renderAll()
                 },
                 error: function (xhr, textStatus, thrownError) {
