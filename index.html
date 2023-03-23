@@ -575,6 +575,30 @@
                     }))
 
                     for (i = 0; i < res[0].Stations.length; i++) {
+
+                        var textAttr
+                        if(res[0].Stations[i].StationID.length == 3){
+                            textAttr = {
+                                left: 90,
+                                top: (i * 50)+9,
+                                fontSize: 12,
+                            }
+                        }else  if(res[0].Stations[i].StationID.length >= 3){
+                            textAttr = {
+                                left: 87,
+                                top: (i * 50)+9,
+                                fontSize: 11,
+                            }
+                        }else{
+                            textAttr = {
+                                left: 90,
+                                top: (i * 50)+8,
+                                fontSize: 12,
+                            }
+                        }
+
+
+
                         canvas.add(
                             new fabric.Circle({
                                 radius: 15,
@@ -586,11 +610,7 @@
                             })
                         )
                         canvas.add(
-                            new fabric.Text(res[0].Stations[i].StationID,{
-                                left: 88,
-                                top: (i * 50)+7,
-                                fontSize: 12,
-                            })
+                            new fabric.Text(res[0].Stations[i].StationID,textAttr)
                         )
                         canvas.add(
                             new fabric.Text(res[0].Stations[i].StationName.Zh_tw,{
