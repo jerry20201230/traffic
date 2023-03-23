@@ -567,28 +567,35 @@
                     console.log(res)
 
                     canvas.add(new fabric.Rect({
-                        left: 60,
-                        top: 0,
-                        width: 10,
-                        height: 30 * (res[0].Stations.length-1),
+                        left: 90,
+                        top: 5,
+                        width: 20,
+                        height: 50 * (res[0].Stations.length-1),
                         fill: LineColor
                     }))
 
                     for (i = 0; i < res[0].Stations.length; i++) {
                         canvas.add(
                             new fabric.Circle({
-                                radius: 10,
+                                radius: 15,
                                 fill: LineColor,
-                                left: 55,
-                                top: (i * 30),
+                                left: 85,
+                                top: (i * 50),
                                 stroke: 'black',
                                 strokeWidth: 1
                             })
                         )
                         canvas.add(
+                            new fabric.Text(res[0].Stations[i].StationID,{
+                                left: 88,
+                                top: (i * 50)+7,
+                                fontSize: 12,
+                            })
+                        )
+                        canvas.add(
                             new fabric.Text(res[0].Stations[i].StationName.Zh_tw,{
-                                left: 80,
-                                top: (i * 30)+2,
+                                left: 125,
+                                top: (i * 50)+5,
                                 fontSize: 17,
                             })
                         )
