@@ -22,15 +22,16 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <style>
-.homepage-card{
-    width: 8em;
-    height: 8em;
-    --bs-border-opacity: .3;
+        .homepage-card {
+            width: 5em;
+            height: 5em;
+            --bs-border-opacity: .3;
 
-    cursor: pointer;
-    
-}
+            cursor: pointer;
+            max-width: 5em;
+            max-height: 5em;
 
+        }
     </style>
 
 </head>
@@ -86,7 +87,7 @@
                             onclick="App('TRAsearch')">台鐵</li>
                         <li class="list-group-item list-group-item-dark" data-bs-dismiss="offcanvas"
                             onclick="App('HSRsearch')">高鐵</li>
-                        <li class="list-group-item list-group-item-dark" ata-bs-dismiss="offcanvas"
+                        <li class="list-group-item list-group-item-dark" data-bs-dismiss="offcanvas"
                             onclick="App('MRTsearch')">捷運</li>
                         <li class="list-group-item list-group-item-dark" data-bs-dismiss="offcanvas">公路客運</li>
                         <li class="list-group-item list-group-item-dark" data-bs-dismiss="offcanvas">市區客運</li>
@@ -234,7 +235,22 @@
                 if (r != null) return (r[2]); return null;
             }
         })(jQuery);
+        function isElementOverflowing(element,maxWidth) {
+            var overflowX = element.offsetWidth < element.scrollWidth,
+                overflowY = element.offsetHeight < element.scrollHeight,
+                width = $(element).width()
 
+            return (overflowX || overflowY ||(width>maxWidth));
+        }
+
+        function wrapContentsInMarquee(element,width) {
+            var marquee = document.createElement('marquee'),
+                contents = element.innerText;
+
+            marquee.innerText = contents;
+            element.innerHTML = '';
+            element.appendChild(marquee);
+        }
         async function timeDisplay(Displaysec) {
             while (true) {
                 $("#Time").html(`<h3 class="p-0 m-0">${getTime("time")}</h3>`)
@@ -582,29 +598,29 @@
                         left: 90,
                         top: 5,
                         width: 20,
-                        height: 50 * (res[0].Stations.length-1),
+                        height: 50 * (res[0].Stations.length - 1),
                         fill: LineColor
                     }))
 
                     for (i = 0; i < res[0].Stations.length; i++) {
 
                         var textAttr
-                        if(res[0].Stations[i].StationID.length == 3){
+                        if (res[0].Stations[i].StationID.length == 3) {
                             textAttr = {
                                 left: 90,
-                                top: (i * 50)+9,
+                                top: (i * 50) + 9,
                                 fontSize: 12,
                             }
-                        }else  if(res[0].Stations[i].StationID.length >= 3){
+                        } else if (res[0].Stations[i].StationID.length >= 3) {
                             textAttr = {
                                 left: 87,
-                                top: (i * 50)+9,
+                                top: (i * 50) + 9,
                                 fontSize: 11,
                             }
-                        }else{
+                        } else {
                             textAttr = {
                                 left: 90,
-                                top: (i * 50)+8,
+                                top: (i * 50) + 8,
                                 fontSize: 12,
                             }
                         }
@@ -622,12 +638,12 @@
                             })
                         )
                         canvas.add(
-                            new fabric.Text(res[0].Stations[i].StationID,textAttr)
+                            new fabric.Text(res[0].Stations[i].StationID, textAttr)
                         )
                         canvas.add(
-                            new fabric.Text(res[0].Stations[i].StationName.Zh_tw,{
+                            new fabric.Text(res[0].Stations[i].StationName.Zh_tw, {
                                 left: 125,
-                                top: (i * 50)+5,
+                                top: (i * 50) + 5,
                                 fontSize: 17,
                             })
                         )
@@ -1143,8 +1159,7 @@
                 如果你在車站內，請以站內顯示的資料為主   
                 </div>
                 <div id="items">
-                <div class="card m-1" data-id="TRA"><div class="card-body"><h5 class="card-title">台鐵</h5><h6 class="card-subtitle mb-2 text-muted">指定站點的台鐵列車資料</h6><p class="card-text"></p><button class="btn btn-primary"  onclick="App('TRAsearch')">開始查詢</button></div></div>
-                <div class="card m-1" data-id="HSR"><div class="card-body"><h5 class="card-title">高鐵</h5><h6 class="card-subtitle mb-2 text-muted">指定站點的高鐵時刻表</h6><p class="card-text"></p><button class="btn btn-primary"  onclick="App('HSRsearch')">開始查詢</button></div></div>
+                
                 <div class="card m-1" data-id="MRT"><div class="card-body"><h5 class="card-title">捷運</h5><h6 class="card-subtitle mb-2 text-muted">捷運即時動態</h6><p class="card-text"></p><button class="btn btn-primary"  onclick="App('MRTsearch')">開始查詢</button></div></div>
                 <div class="card m-1" data-id="InterBus"><div class="card-body"><h5 class="card-title">公路客運</h5><h6 class="card-subtitle mb-2 text-muted">公路客運即時動態</h6><p class="card-text"></p><button class="btn btn-primary"  onclick="App('InterBUSsearch')">開始查詢</button></div></div>
                 
@@ -1153,16 +1168,30 @@
                 </div>
 
 
-                <div class="rounded shadow-sm homepage-card p-2 border" style="background: linear-gradient(315deg,#004da7 50px,transparent 0); "><h3>台鐵</h3></div>
-                <div class="rounded shadow-sm homepage-card p-2 border" style="background: linear-gradient(315deg,#e9602a 50px,transparent 0); "><h3>高鐵</h3></div>
+                
 <div class="container text-center">
   <div class="row">
-    <div class="col">col</div>
-    <div class="col">col</div>
-    <div class="col">col</div>
+    <div class="col">
+        <div onclick="App('TRAsearch')" class="rounded shadow-sm homepage-card p-2 border" style="background: linear-gradient(315deg,#004da7 30px,transparent 0); ">
+            <span class="h5 text-nowrap" id="TRA">台鐵</span>
+        </div>
+    </div>
+    <div class="col">
+        <div onclick="App('HSRsearch')" class="rounded shadow-sm homepage-card p-2 border" style="background: linear-gradient(315deg,#e9602a 30px,transparent 0); ">
+            <span class="h5 text-nowrap" id="HSR">高鐵</span>
+        </div> 
+    </div>
+    <div class="col">
+        <div onclick="App('TRAsearch')" class="rounded shadow-sm homepage-card p-2 border" style="background: linear-gradient(315deg,#004da7 30px,transparent 0); ">
+            <span class="h5 text-nowrap" id="BUS">台中市公車</span>
+        </div>
+    </div>
   </div>
 </div>
                 `)
+                    if (isElementOverflowing(document.getElementById("BUS"),70)) {
+                        wrapContentsInMarquee(document.getElementById("BUS"));
+                    }
 
 
                     /*var sortable = Sortable.create(document.getElementById('items'), {
