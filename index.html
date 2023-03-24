@@ -1101,6 +1101,14 @@
                 else if (page === "CityBUSsearch") {
                     $("#header").text("市區公車 - 選擇縣市")
                     $("#main-content").html(`
+                    <div class="d-flex">
+                    
+                    <select class="form-select">
+                    <option value="undefined">請選擇縣市</option>
+                    </select>
+                    
+                    <button class=“btn btn-primary bi bi-search”></button>
+                    </div>
                     `)
                 }
                 else if (page === "about") {
