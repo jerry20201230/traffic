@@ -1195,6 +1195,8 @@
                 <div class="h5 pb-2 mb-4 ps-3 text-primary border-bottom border-primary">附近車站</div>
                 <div class="card">
                     <div id="map-${OSM_mapid}" style="height:50vh"><div style="display: flex;align-items: center;justify-content: center;text-align: center;height: 100%;"><div id="OSM-loading" style="text-align: center;"><h4>OpenStreetMap</h4>資料讀取中...</div></div></div>
+                   
+                   
                     </div>
                 
                 `)
@@ -1252,12 +1254,39 @@
                         }
                     }).addTo(map);
                     map.on('locationfound', function (e) {
-                                   
-                                MyLoc[0] = e.latlng.lat
-                                MyLoc[1] = e.latlng.lng
-                                console.log(MyLoc)
+                        var MyLoc = [];
+                        MyLoc[0] = e.latlng.lat
+                        MyLoc[1] = e.latlng.lng
+                        console.log(MyLoc)
+
+                        let accesstoken = JSON.parse($("#req_header").text());
+                        $.ajax({
+                            url: `https://tdx.transportdata.tw/api/advanced/v2/Bus/Stop/NearBy?%24spatialFilter=nearby%28${MyLoc[0]}%2C%20${MyLoc[1]}%2C%20500%29&%24format=JSON`,
+                            method: "GET",
+                            dataType: "json",
+                            headers: {
+                                "authorization": "Bearer " + accesstoken.access_token,
+                            },
+                            success: function (res) {
+                                console.log(res)
+                                for (i = 0; i < res.length; i++) {
+                                    let center = [res[i].StopPosition.PositionLat,res[i].StopPosition.PositionLon]
+                                    var marker = L.marker(center);
+                                    marker.addTo(map);
+                                    marker.bindPopup(`<b><span class="badge bg-primary">公車</span> ${res[i].StopName.Zh_tw}</b>`).openPopup();
+
+                                  //  marker.on('click', function () {
+                                    //    marker.bindPopup(`<b>${res[i].StopName.Zh_tw}</b>`).openPopup();
+                                    //})
+                                }
+                            },
+                            error: function (xhr, textStatus, thrownError) {
+                                //  if (MRTStationData === "") { App("loadingFailed", "讀取捷運車站資料"); }
+                            }
+                        })
+
                     });
-             
+
 
                     /*var sortable = Sortable.create(document.getElementById('items'), {
                         animation: 200,
