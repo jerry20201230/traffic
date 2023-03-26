@@ -1232,6 +1232,32 @@
                         zoomControl: true,
                     }).addTo(map);
 
+                    L.control.locate({
+                        icon: 'bi bi-geo-alt-fill fs-5',
+                        position: 'topleft',
+                        locateOptions: {
+                            enableHighAccuracy: true
+                        },
+                        flyTo: true,
+                        strings: {
+                            title: '定位我的位置',
+                            metersUnit: '公尺',
+                            feetUnit: '英尺',
+                            popup: '<b>你的定位點</b><br>距離誤差：{distance}{unit}以內'
+                        },
+                        clickBehavior: {
+                            inView: 'stop',
+                            outOfView: 'setView',
+                            inViewNotFollowing: 'inView'
+                        }
+                    }).addTo(map);
+                    map.on('locationfound', function (e) {
+                                   
+                                MyLoc[0] = e.latlng.lat
+                                MyLoc[1] = e.latlng.lng
+                                console.log(MyLoc)
+                    });
+             
 
                     /*var sortable = Sortable.create(document.getElementById('items'), {
                         animation: 200,
