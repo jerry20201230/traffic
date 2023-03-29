@@ -1255,6 +1255,8 @@
                                 radius: 500
                             }).addTo(map);
 
+                    map.setView(MyLoc,15)
+
 
                         let accesstoken = JSON.parse($("#req_header").text());
                         let bikeStstus = [false, false]
@@ -1297,8 +1299,7 @@
 
                                     //  marker.on('click', function () {
                                     //    marker.bindPopup(`<b>${res[i].StopName.Zh_tw}</b>`).openPopup();
-                                    //})
-                                    map.setView(center,15)
+                                 
 
                                 }
                             },
@@ -1347,7 +1348,7 @@
 
                                 </tr>
                                     `)
-                                    map.setView(center,15)
+                                
 
                             }
                                 }
@@ -1402,7 +1403,7 @@
                                 </tr>
                                     `)
 
-                                    map.setView(center,15)
+                                   
                             }
                                 }
 
