@@ -1248,6 +1248,13 @@
                         MyLoc[0] = e.latlng.lat
                         MyLoc[1] = e.latlng.lng
                         console.log(MyLoc)
+                        var circle = L.circle([ MyLoc[0],  MyLoc[1]], {
+                                color: 'blue',
+                                fillColor: '#0d6efd',
+                                fillOpacity: 0.5,
+                                radius: 500
+                            }).addTo(map);
+
 
                         let accesstoken = JSON.parse($("#req_header").text());
                         let bikeStstus = [false, false]
@@ -1291,6 +1298,8 @@
                                     //  marker.on('click', function () {
                                     //    marker.bindPopup(`<b>${res[i].StopName.Zh_tw}</b>`).openPopup();
                                     //})
+                                    map.setView(center,15)
+
                                 }
                             },
                             error: function (xhr, textStatus, thrownError) {
@@ -1338,6 +1347,7 @@
 
                                 </tr>
                                     `)
+                                    map.setView(center,15)
 
                             }
                                 }
@@ -1392,6 +1402,7 @@
                                 </tr>
                                     `)
 
+                                    map.setView(center,15)
                             }
                                 }
 
