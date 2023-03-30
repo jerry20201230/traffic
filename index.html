@@ -1010,6 +1010,48 @@
                     marker.on('click', function () {
                         marker.bindPopup(`<b>${par1}車站</b>`).openPopup();
                     })
+
+                    $.ajax({
+                        url: `https://tdx.transportdata.tw/api/advanced/v2/Bus/Stop/NearBy?%24spatialFilter=nearby%28${MyLoc[0]}%2C%20${MyLoc[1]}%2C%20500%29&%24format=JSON`,
+                        method: "GET",
+                        dataType: "json",
+                        headers: {
+                            "authorization": "Bearer " + accesstoken.access_token,
+                        },
+                        success: function (res) {
+                            console.log(res)
+                            var BusData = []
+                            $("#station-display-table").html("")
+                            for (i = 0; i < res.length; i++) {
+                                let center = [res[i].StopPosition.PositionLat, res[i].StopPosition.PositionLon]
+                                var marker = L.marker(center);
+                                marker.addTo(map);
+                                marker.bindPopup(`<b><span class="badge bg-primary">公車</span> ${res[i].StopName.Zh_tw}</b>`).openPopup();
+
+                                if (!BusData.includes(res[i].StopName.Zh_tw)) {
+                                    $("#station-display-table").append(`
+                                        <tr>
+                                        <td><span class="badge bg-primary">公車</span> ${res[i].StopName.Zh_tw}</td>   
+                                        <td></td> 
+                                        </tr>
+                                        `)
+                                    BusData.push(res[i].StopName.Zh_tw)
+                                }
+                                // console.log(BusData)
+
+
+                                //  marker.on('click', function () {
+                                //    marker.bindPopup(`<b>${res[i].StopName.Zh_tw}</b>`).openPopup();
+
+
+                            }
+                        },
+                        error: function (xhr, textStatus, thrownError) {
+                            //  if (MRTStationData === "") { App("loadingFailed", "讀取捷運車站資料"); }
+                        }
+                    })
+
+
                     refreshTheApi(120, `https://tdx.transportdata.tw/api/basic/v2/Rail/TRA/LiveBoard/Station/${TrainStationData.Stations[par3].StationID}?%24format=JSON`, "#railway-lightbox", "#railway_refresh_prog", "btnradio")
 
                 }
@@ -1248,26 +1290,26 @@
                         MyLoc[0] = e.latlng.lat
                         MyLoc[1] = e.latlng.lng
                         console.log(MyLoc)
-                        var circle = L.circle([ MyLoc[0],  MyLoc[1]], {
-                                color: 'blue',
-                                fillColor: '#0d6efd',
-                                fillOpacity: 0.5,
-                                radius: 500
-                            }).addTo(map);
+                        var circle = L.circle([MyLoc[0], MyLoc[1]], {
+                            color: 'blue',
+                            fillColor: '#0d6efd',
+                            fillOpacity: 0.5,
+                            radius: 500
+                        }).addTo(map);
 
-                    map.setView(MyLoc,15)
+                        map.setView(MyLoc, 15)
 
 
                         let accesstoken = JSON.parse($("#req_header").text());
                         let bikeStstus = [false, false]
                         var greenIcon = new L.Icon({
-                                iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
-                                shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-                                iconSize: [25, 41],
-                                iconAnchor: [12, 41],
-                                popupAnchor: [1, -34],
-                                shadowSize: [41, 41]
-                            });
+                            iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+                            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+                            iconSize: [25, 41],
+                            iconAnchor: [12, 41],
+                            popupAnchor: [1, -34],
+                            shadowSize: [41, 41]
+                        });
                         $.ajax({
                             url: `https://tdx.transportdata.tw/api/advanced/v2/Bus/Stop/NearBy?%24spatialFilter=nearby%28${MyLoc[0]}%2C%20${MyLoc[1]}%2C%20500%29&%24format=JSON`,
                             method: "GET",
@@ -1283,7 +1325,7 @@
                                     let center = [res[i].StopPosition.PositionLat, res[i].StopPosition.PositionLon]
                                     var marker = L.marker(center);
                                     marker.addTo(map);
-                                    marker.bindPopup(`<b><span class="badge bg-primary">公車</span> ${res[i].StopName.Zh_tw}</b>`).openPopup();
+                                    marker.bindPopup(`<b><span class="badge bg-primary">公車</span> ${res[i].StopName.Zh_tw}</b>`)//.openPopup();
 
                                     if (!BusData.includes(res[i].StopName.Zh_tw)) {
                                         $("#station-display-table").append(`
@@ -1299,7 +1341,7 @@
 
                                     //  marker.on('click', function () {
                                     //    marker.bindPopup(`<b>${res[i].StopName.Zh_tw}</b>`).openPopup();
-                                 
+
 
                                 }
                             },
@@ -1322,25 +1364,27 @@
                                 bikeStstus[0] = true
                                 if (bikeStstus[1] == bikeStstus[0] == true) {
                                     for (i = 0; i < BikeStationData.stationData.length; i++) {
-                                console.log(i)
-                                let center = [BikeStationData.stationData[i].StationPosition.PositionLat, BikeStationData.stationData[i].StationPosition.PositionLon]
+                                        console.log(i)
+                                        let center = [BikeStationData.stationData[i].StationPosition.PositionLat, BikeStationData.stationData[i].StationPosition.PositionLon]
 
-                                console.log(center)
+                                        console.log(center)
 
-                                var marker = L.marker(center, {
-                                    icon: greenIcon
-                                }).addTo(map);
+                                        var marker = L.marker(center, {
+                                            icon: greenIcon
+                                        }).addTo(map);
 
-                                marker.addTo(map);
-                                marker.bindPopup(`<b>${BikeStationData.stationData[i].StationName.Zh_tw}</b>`)
+                                        marker.addTo(map);
 
-                                var badgeClass = "bg-secondary"
-                                if (BikeStationData.stationData[i].StationName.Zh_tw.split("_")[0].includes("2.0")) {
-                                    badgeClass = "bg-primary"
-                                }
+                                        var badgeClass = "bg-secondary"
+                                        if (BikeStationData.stationData[i].StationName.Zh_tw.split("_")[0].includes("2.0")) {
+                                            badgeClass = "bg-primary"
+                                        }
+                                        marker.bindPopup(`<span class="badge ${badgeClass}">${BikeStationData.stationData[i].StationName.Zh_tw.split("_")[0]}</span> ${BikeStationData.stationData[i].StationName.Zh_tw.split("_")[1]}`)
 
-                                console.log(BikeStationData.bikeData[i].AvailableRentBikesDetail)
-                                $("#station-display-table").append(`
+
+
+                                        console.log(BikeStationData.bikeData[i].AvailableRentBikesDetail)
+                                        $("#station-display-table").append(`
                                 
                                 <tr>
                                 <td><span class="badge ${badgeClass}">${BikeStationData.stationData[i].StationName.Zh_tw.split("_")[0]}</span><br>${BikeStationData.stationData[i].StationName.Zh_tw.split("_")[1]}</td>
@@ -1348,9 +1392,9 @@
 
                                 </tr>
                                     `)
-                                
 
-                            }
+
+                                    }
                                 }
 
                                 //TrainStationData = res;
@@ -1376,25 +1420,26 @@
                                 bikeStstus[1] = true
                                 if (bikeStstus[1] == bikeStstus[0] == true) {
                                     for (i = 0; i < BikeStationData.stationData.length; i++) {
-                                console.log(i)
-                                let center = [BikeStationData.stationData[i].StationPosition.PositionLat, BikeStationData.stationData[i].StationPosition.PositionLon]
+                                        console.log(i)
+                                        let center = [BikeStationData.stationData[i].StationPosition.PositionLat, BikeStationData.stationData[i].StationPosition.PositionLon]
 
-                                console.log(center)
+                                        console.log(center)
 
-                                var marker = L.marker(center, {
-                                    icon: greenIcon
-                                }).addTo(map);
+                                        var marker = L.marker(center, {
+                                            icon: greenIcon
+                                        }).addTo(map);
 
-                                marker.addTo(map);
-                                marker.bindPopup(`<b>${BikeStationData.stationData[i].StationName.Zh_tw}</b>`)
+                                        marker.addTo(map);
+                                        var badgeClass = "bg-secondary"
+                                        if (BikeStationData.stationData[i].StationName.Zh_tw.split("_")[0].includes("2.0")) {
+                                            badgeClass = "bg-primary"
+                                        }
+                                        marker.bindPopup(`<span class="badge ${badgeClass}">${BikeStationData.stationData[i].StationName.Zh_tw.split("_")[0]}</span> ${BikeStationData.stationData[i].StationName.Zh_tw.split("_")[1]}`)
 
-                                var badgeClass = "bg-secondary"
-                                if (BikeStationData.stationData[i].StationName.Zh_tw.split("_")[0].includes("2.0")) {
-                                    badgeClass = "bg-primary"
-                                }
 
-                                console.log(BikeStationData.bikeData[i].AvailableRentBikesDetail)
-                                $("#station-display-table").append(`
+
+                                        console.log(BikeStationData.bikeData[i].AvailableRentBikesDetail)
+                                        $("#station-display-table").append(`
                                 
                                 <tr>
                                 <td><span class="badge ${badgeClass}">${BikeStationData.stationData[i].StationName.Zh_tw.split("_")[0]}</span><br>${BikeStationData.stationData[i].StationName.Zh_tw.split("_")[1]}</td>
@@ -1403,8 +1448,8 @@
                                 </tr>
                                     `)
 
-                                   
-                            }
+
+                                    }
                                 }
 
                             },
