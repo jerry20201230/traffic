@@ -1381,6 +1381,7 @@
                 <div class="card p-2">
                     <span class="text-secondary">
                     開啟定位以搜尋附近車站<br>
+                    你的位置: <span id="loc-result">資料準備中...</span><br>
                     公車: <span id="bus-result">資料準備中...</span><br>    
                     公共自行車: <span id="bike-result">資料準備中...</span> 
                     </span>
@@ -1607,6 +1608,23 @@
                             }
                         })
 
+                        $.ajax({
+                            url: `https://tdx.transportdata.tw/api/advanced/V3/Map/GeoLocating/Markname/LocationX/${MyLoc[1]}/LocationY/${MyLoc[0]}?%24format=JSON`,
+                            //    https://tdx.transportdata.tw/api/advanced/V3/Map/GeoLocating/Markname/LocationX/120.3262535/LocationY/22.6483444%24format=JSON
+                            method: "GET",
+                            dataType: "json",
+                            headers: {
+                                "authorization": "Bearer " + accesstoken.access_token,
+                            },
+                            success: function (res) {
+                                console.log(res)
+                                  
+                                $("#loc-result").text(res[0].Markname + " 附近")
+                            },
+                            error: function (xhr, textStatus, thrownError) {
+                                //  if (MRTStationData === "") { App("loadingFailed", "讀取捷運車站資料"); }
+                            }
+                        })
 
                         map.stopLocate()
 
@@ -1840,6 +1858,7 @@
                 grant_type: "client_credentials",
                 client_id: "jerry20200815-905e4c2d-f4f9-42dd",
                 client_secret: "df5c085e-f262-4258-b1d6-518e40138f71"
+
             };
 
             $.ajax({
