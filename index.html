@@ -1061,7 +1061,7 @@
                                 let center = [res[i].StopPosition.PositionLat, res[i].StopPosition.PositionLon]
                                 var marker = L.marker(center);
                                 marker.addTo(map);
-                                marker.bindPopup(`<b><span class="badge bg-primary">公車</span> ${res[i].StopName.Zh_tw}</b>`)//.openPopup();
+                                marker.bindPopup(`<span class="badge bg-primary">公車</span> ${res[i].StopName.Zh_tw}`)//.openPopup();
 
                                 if (!BusData.includes(res[i].StopName.Zh_tw)) {
                                     $("#station-display-table").append(`
@@ -1096,7 +1096,9 @@
                                 "authorization": "Bearer " + accesstoken.access_token,
                             },
                             success: function (res) {
-
+                                if($("#data-loading").length>0){
+                            $("#station-display-table").html("")
+                            }
                                 BikeStationData.stationData = res
                                 bikeStstus[0] = true
                                 $("#bike-result").text(res.length + "站")
@@ -1152,6 +1154,9 @@
                                 "authorization": "Bearer " + accesstoken.access_token,
                             },
                             success: function (res) {
+                                if($("#data-loading").length>0){
+                            $("#station-display-table").html("")
+                            }
                                 //TrainStationData = res;
                                 // console.log(res);
                                 BikeStationData.bikeData = res
@@ -1472,7 +1477,7 @@
                                     let center = [res[i].StopPosition.PositionLat, res[i].StopPosition.PositionLon]
                                     var marker = L.marker(center);
                                     marker.addTo(map);
-                                    marker.bindPopup(`<b><span class="badge bg-primary">公車</span> ${res[i].StopName.Zh_tw}</b>`)//.openPopup();
+                                    marker.bindPopup(`<span class="badge bg-primary">公車</span> ${res[i].StopName.Zh_tw}`)//.openPopup();
 
                                     if (!BusData.includes(res[i].StopName.Zh_tw)) {
                                         $("#station-display-table").append(`
@@ -1507,7 +1512,9 @@
                                 "authorization": "Bearer " + accesstoken.access_token,
                             },
                             success: function (res) {
-
+                                if($("#data-loading").length>0){
+                            $("#station-display-table").html("")
+                            }
                                 BikeStationData.stationData = res
                                 bikeStstus[0] = true
                                 $("#bike-result").text(res.length + "站")
@@ -1529,7 +1536,12 @@
                                         if (BikeStationData.stationData[i].StationName.Zh_tw.split("_")[0].includes("2.0")) {
                                             badgeClass = "bg-primary"
                                         }
-                                        marker.bindPopup(`<span class="badge ${badgeClass}">${BikeStationData.stationData[i].StationName.Zh_tw.split("_")[0]}</span> ${BikeStationData.stationData[i].StationName.Zh_tw.split("_")[1]}`)
+                                        marker.bindPopup(`
+                                        <span class="badge ${badgeClass}">
+                                            ${BikeStationData.stationData[i].StationName.Zh_tw.split("_")[0]}
+                                        </span> ${BikeStationData.stationData[i].StationName.Zh_tw.split("_")[1]}
+                                        
+                                        <br><br>一般:${BikeStationData.bikeData[i].AvailableRentBikesDetail.GeneralBikes}<br>電輔:${BikeStationData.bikeData[i].AvailableRentBikesDetail.ElectricBikes}<br>空位:${BikeStationData.bikeData[i].AvailableReturnBikes}`)
 
 
 
@@ -1563,6 +1575,9 @@
                                 "authorization": "Bearer " + accesstoken.access_token,
                             },
                             success: function (res) {
+                                if($("#data-loading").length>0){
+                            $("#station-display-table").html("")
+                            }
                                 //TrainStationData = res;
                                 // console.log(res);
                                 BikeStationData.bikeData = res
@@ -1584,7 +1599,12 @@
                                         if (BikeStationData.stationData[i].StationName.Zh_tw.split("_")[0].includes("2.0")) {
                                             badgeClass = "bg-primary"
                                         }
-                                        marker.bindPopup(`<span class="badge ${badgeClass}">${BikeStationData.stationData[i].StationName.Zh_tw.split("_")[0]}</span> ${BikeStationData.stationData[i].StationName.Zh_tw.split("_")[1]}`)
+                                        marker.bindPopup(`
+                                        <span class="badge ${badgeClass}">
+                                            ${BikeStationData.stationData[i].StationName.Zh_tw.split("_")[0]}
+                                        </span> ${BikeStationData.stationData[i].StationName.Zh_tw.split("_")[1]}
+                                        
+                                        <br><br>一般:${BikeStationData.bikeData[i].AvailableRentBikesDetail.GeneralBikes}<br>電輔:${BikeStationData.bikeData[i].AvailableRentBikesDetail.ElectricBikes}<br>空位:${BikeStationData.bikeData[i].AvailableReturnBikes}`)
 
 
 
@@ -1618,8 +1638,13 @@
                             },
                             success: function (res) {
                                 console.log(res)
-                                  
-                                $("#loc-result").text(res[0].Markname + " 附近")
+                                if(res[0].Distance >10){
+                                    $("#loc-result").text(res[0].Markname + " 附近")
+
+                                }else{
+                                    $("#loc-result").text(res[0].Markname )
+
+                                }
                             },
                             error: function (xhr, textStatus, thrownError) {
                                 //  if (MRTStationData === "") { App("loadingFailed", "讀取捷運車站資料"); }
