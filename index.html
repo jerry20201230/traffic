@@ -113,16 +113,16 @@
 
         <nav class="navbar fixed-bottom bg-dark d-flex user-select-none">
             <div class="container-fluid">
-                <a class="navbar-brand text-white" id="Time" ></a>
+                <a class="navbar-brand text-white" id="Time"></a>
                 <div>
-                    <a class="navbar-brand text-white" ><i class="bi bi-geo-alt-fill"></i></a>
-                    <a class="navbar-brand text-white"  id="battery">
+                    <div id="ajax-loading-icon"></div>
+                    <div id="geo-icon"></div>
+                    <a class="navbar-brand text-white" href="#battery" id="battery"
+                    data-bs-trigger="focus"  data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Error.">
 
 
                     </a>
-                    <a class="navbar-brand text-white" ><i class="bi bi-wifi"></i></a>
-                    <a class="navbar-brand text-white" ><i class="bi bi-arrow-bar-down"></i></a>
-
+                    <a class="navbar-brand text-white"><i class="bi bi-wifi"></i></a>
                 </div>
             </div>
         </nav>
@@ -157,7 +157,8 @@
     </div>
     <div id="req_header" hidden></div>
     <!--BS JS-->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
     <!--Jquery-->
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>
     <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"></script>
@@ -186,6 +187,9 @@
 -->
     <!--Main script-->
     <script>
+          const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+  
 
         //L.map
         var map, OSM_mapid = 1
@@ -1457,6 +1461,7 @@
                             fillOpacity: 0.5,
                             radius: 500
                         }).addTo(map);
+                        circle.bindPopup("查詢範圍(500公尺)")
 
                         map.setView(MyLoc, 15)
 
@@ -1471,6 +1476,21 @@
                             popupAnchor: [1, -34],
                             shadowSize: [41, 41]
                         });
+                        var redIcon = new L.Icon({
+                            iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+                            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+                            iconSize: [25, 41],
+                            iconAnchor: [12, 41],
+                            popupAnchor: [1, -34],
+                            shadowSize: [41, 41]
+                        });
+
+                        var currentlocMark = L.marker(MyLoc, {
+                            icon: redIcon
+                        }).addTo(map);
+                        currentlocMark.bindPopup(`你的定位中心點`)//.openPopup();
+
+                       
                         $.ajax({
                             url: `https://tdx.transportdata.tw/api/advanced/v2/Bus/Stop/NearBy?%24spatialFilter=nearby%28${MyLoc[0]}%2C%20${MyLoc[1]}%2C%20500%29&%24format=JSON`,
                             method: "GET",
@@ -2012,22 +2032,26 @@
         // });
 
 
-        var battery =  navigator.getBattery().then(monitorBattery)
+        var battery = navigator.getBattery().then(monitorBattery)
 
         function updateBatteryUI(battery) {
+            const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+  
 
-            if (battery.charging) {
-$("#battery").html(`<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-battery-charging" viewBox="0 0 16 16">
+                    if (battery.charging) {
+                $("#battery").html(`<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-battery-charging" viewBox="0 0 16 16">
   <path d="M9.585 2.568a.5.5 0 0 1 .226.58L8.677 6.832h1.99a.5.5 0 0 1 .364.843l-5.334 5.667a.5.5 0 0 1-.842-.49L5.99 9.167H4a.5.5 0 0 1-.364-.843l5.333-5.667a.5.5 0 0 1 .616-.09z"/>
   <path d="M2 4h4.332l-.94 1H2a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h2.38l-.308 1H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/>
   <path d="M2 6h2.45L2.908 7.639A1.5 1.5 0 0 0 3.313 10H2V6zm8.595-2-.308 1H12a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H9.276l-.942 1H12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-1.405z"/>
   <path d="M12 10h-1.783l1.542-1.639c.097-.103.178-.218.241-.34V10zm0-3.354V6h-.646a1.5 1.5 0 0 1 .646.646zM16 8a1.5 1.5 0 0 1-1.5 1.5v-3A1.5 1.5 0 0 1 16 8z"/>
-</svg>&nbsp;&nbsp;${(battery.level * 100).toFixed(0)}%`)
+</svg>&nbsp;&nbsp;${(battery.level * 100).toFixed(0)}%`).attr("data-bs-content",`目前電量 ${(battery.level * 100).toFixed(0)}% 充電中`)
 
-            }else{
-            $("#battery").html(`<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-battery-half" viewBox="0 0 16 16">
+            } else {
+                $("#battery").html(`<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-battery-half" viewBox="0 0 16 16">
             <path d="M2 6h${battery.level * 10}v4H2V6z"/><path d="M2 4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2H2zm10 1a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h10zm4 3a1.5 1.5 0 0 1-1.5 1.5v-3A1.5 1.5 0 0 1 16 8z"/></svg>&nbsp;&nbsp;${(battery.level * 100).toFixed(0)}%`)
-            }
+            .attr("data-bs-content",`目前電量 ${(battery.level * 100).toFixed(0)}%`)    
+        }
         }
 
         function monitorBattery(battery) {
@@ -2048,9 +2072,9 @@ $("#battery").html(`<svg xmlns="http://www.w3.org/2000/svg" width="25" height="2
         if ('getBattery' in navigator) {
             navigator.getBattery().then(monitorBattery);
         } else {
-            ChromeSamples.setStatus('The Battery Status API is not supported on ' +
-                'this platform.');
+
         }
+
 
     </script>
 </body>
