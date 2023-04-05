@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>大眾運輸查詢系統</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" />
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-locatecontrol/0.79.0/L.Control.Locate.css"
+        integrity="sha512-6+fQwheLeCW6sKV5liSHZ0rxcrN4TRBwWOhsof+3Iahu9J+WRyF4eBLjL5QshWxja6WiKE1WAtrH0hsRJ3nA8A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/2.4.0/Control.FullScreen.min.css"
+        integrity="sha512-Gf0xgqc7R4+2ATKUYRXPpl2xXWAbHIgIIGlqy1ugbTcuSSSKG7Kw/IULAuQWIiRVwQAn0CcLVRtI79C6mGROQQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        .homepage-card {
+
+
+            --bs-border-opacity: .3;
+
+            cursor: pointer;
+
+
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div id="app">
+        <div class="sticky-top">
+            <nav class="navbar navbar-dark bg-dark p-2">
+                <div style="width: 100%;text-align: center;" class="p-2">
+                    <a class="navbar-brand" style="flex:1 0 auto;" id="header">大眾運輸查詢系統</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasDarkNavbar" style="  
+                    position:absolute;
+                    left:0.5rem;
+                    top:0.5rem;
+                    padding:5px;" aria-controls="offcanvasDarkNavbar">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                </div>
+            </nav>
+        </div>
+
+        <div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar"
+            aria-labelledby="offcanvasDarkNavbarLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">功能表 </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
+                    aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <div class="d-flex mb-1 pe-3">
+                    <div class="rounded-1 bg-secondary me-1 flex-grow-1 text-white text-center p-1 pt-2"
+                        style="cursor: pointer; user-select: none;">
+                        <h3 class="bi bi-share m-0 p-0"></h3>
+                        <span>分享</span>
+                    </div>
+                    <div class="rounded-1 bg-secondary me-1 flex-grow-1 text-white text-center p-1 pt-2"
+                        style="cursor: pointer; user-select: none;" onclick="Ui('bookmark.set')">
+                        <h3 id="bookmark-status" class="bi bi-bookmark-plus m-0 p-0"></h3>
+                        <span>書籤</span>
+                    </div>
+                    <div class="rounded-1 bg-secondary  flex-grow-1 text-white text-center p-1 pt-2"
+                        style="cursor: pointer; user-select: none;" onclick="App.goToPage('home')"
+                        data-bs-dismiss="offcanvas">
+                        <h3 class="bi bi-house m-0 p-0"></h3>
+                        <span>首頁</span>
+                    </div>
+                </div>
+                <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+
+
+                    <ul class="list-group mb-1" id="toolbar-1" style="cursor: pointer;">
+                        <li class="list-group-item list-group-item-dark" data-bs-dismiss="offcanvas"
+                            onclick="App.goToPage('TRAsearch')">台鐵</li>
+                        <li class="list-group-item list-group-item-dark" data-bs-dismiss="offcanvas"
+                            onclick="App.goToPage('HSRsearch')">高鐵</li>
+                        <li class="list-group-item list-group-item-dark" data-bs-dismiss="offcanvas"
+                            onclick="App.goToPage('MRTsearch')">捷運</li>
+                        <li class="list-group-item list-group-item-dark" data-bs-dismiss="offcanvas">公路客運</li>
+                        <li class="list-group-item list-group-item-dark" data-bs-dismiss="offcanvas">市區客運</li>
+                        <li class="list-group-item list-group-item-dark" data-bs-dismiss="offcanvas"
+                            onclick="App.goToPage('BIKEsearch')">公共自行車</li>
+                    </ul>
+                    <ul class="list-group mb-1" id="toolbar-2" style="cursor: pointer;">
+                        <li class="list-group-item list-group-item-dark" data-bs-dismiss="offcanvas"
+                            onclick="App.goToPage('bookmark')">書籤</li>
+                        <li class="list-group-item list-group-item-dark" data-bs-dismiss="offcanvas"
+                            onclick="App.goToPage('history')">歷史紀錄</li>
+
+
+                        <li class="list-group-item list-group-item-dark" data-bs-dismiss="offcanvas"
+                            onclick="App.goToPage('setting')">設定</li>
+                    </ul>
+
+                </ul>
+            </div>
+        </div>
+        <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDark"
+            aria-labelledby="offcanvasDarkLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasDarkLabel">系統</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
+                    aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <div class="card text-dark mb-1" id="system-battery-card">
+                    <div class="card-body">
+                      <h5 class="card-title" id="system-battery-title">電池</h5>
+                      <p class="card-text" id="system-battery-string">
+                        
+                      </p>
+                    </div>
+                  </div>
+                <div id="syatem-offcanvas-body"></div>
+            </div>
+        </div>
+    </div>
+
+    <nav class="navbar fixed-bottom bg-dark d-flex user-select-none">
+        <div class="container-fluid">
+            <a class="navbar-brand text-white" id="Time"></a>
+            <div class="d-flex" data-bs-target="#offcanvasDark" style="cursor: pointer;" data-bs-toggle="offcanvas">
+                <a class="navbar-brand text-white" id="ajax-loading-icon"></a>
+                <a class="navbar-brand text-white" id="geo-icon"></a>
+
+                <a class="navbar-brand text-white " id="battery">
+                    <div class="placeholder-glow">
+                        <span class="placeholder col-4"></span>
+                    </div>
+                </a>
+                <a class="navbar-brand text-white" id="wifi-icon"><i class="bi bi-cloud-fill"></i></a>
+            </div>
+        </div>
+    </nav>
+    <div class="alert alert-info" id="loading-info">資料讀取中...</div>
+    <nav aria-label="breadcrumb" class="ps-1 mt-3">
+        <ol class="breadcrumb ps-4 p-0 m-0" id="nav-breadcrumb">
+            <li class="breadcrumb-item"><a href="#">首頁</a></li>
+            <!-- <li class="breadcrumb-item active" aria-current="page">Library</li>-->
+        </ol>
+    </nav>
+    <div id="main-content" class="p-3 mb-5">
+        <div class="card" aria-hidden="true">
+            <div class="card-body">
+                <h5 class="card-title placeholder-glow">
+                    <span class="placeholder col-6"></span>
+                </h5>
+                <p class="card-text placeholder-glow">
+                    <span class="placeholder col-7"></span>
+                    <span class="placeholder col-4"></span>
+                    <span class="placeholder col-4"></span>
+                    <span class="placeholder col-6"></span>
+                    <span class="placeholder col-8"></span>
+                </p>
+                <a href="#" tabindex="-1" class="btn btn-primary disabled placeholder col-6"></a>
+            </div>
+        </div>
+
+
+    </div>
+
+
+    </div>
+    <div id="req_header" hidden></div>
+    <!--BS JS-->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
+        integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
+        crossorigin="anonymous"></script>
+    <!--Jquery-->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>
+    <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-locatecontrol/0.79.0/L.Control.Locate.min.js"
+        integrity="sha512-mq6Ep7oDFiumX+lUJle/srDcLqY512R6Yney/E3u3sZZO7T+UgoizxPmAauxoc5qERfMVMcHVITQYf6eKmtjtw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/2.4.0/Control.FullScreen.js"
+        integrity="sha512-soC5gg5CeLNdNfDfPXZtkyDOQE1izv2ermc/Ub4Yse0WVEUUadAe6hnduFqryCvA1gJi298YKEJVvnxs8STUlQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js'
+        integrity='sha512-Eezs+g9Lq4TCCq0wae01s9PuNWzHYoCMkE97e2qdkYthpI0pzC3UGB03lgEHn2XM85hDOUF6qgqqszs+iXU4UA=='
+        crossorigin='anonymous'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js'
+        integrity='sha512-CeIsOAsgJnmevfCi2C7Zsyy6bQKi43utIjdA87Q0ZY84oDqnI0uwfM9+bKiIkI75lUeI00WG/+uJzOmuHlesMA=='
+        crossorigin='anonymous'></script>
+
+    <script src="traffic-main.js"></script>
+    <!--
+
+    <script src="https://unpkg.com/vconsole@latest/dist/vconsole.min.js"></script>
+    <script>
+        // VConsole will be exported to `window.VConsole` by default.
+        var vConsole = new window.VConsole();
+    </script>
+
+-->
+   
+    </script>
+</body>
+
+</html>
