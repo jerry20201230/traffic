@@ -39,23 +39,23 @@
 <body>
 
     <div id="app">
-        <div class="sticky-top">
-            <nav class="navbar navbar-dark bg-primary p-2 sticky-top">
-                <div style="width: 100%;text-align: center;" class="p-2">
-                    <a class="navbar-brand text-light" style="flex:1 0 auto;" id="header">大眾運輸查詢系統</a>
-                    <button class="navbar-toggler text-light" type="button" data-bs-toggle="offcanvas"
-                        data-bs-target="#offcanvasDarkNavbar" style="  
+
+        <nav class="navbar navbar-dark bg-primary p-2 sticky-top">
+            <div style="width: 100%;text-align: center;" class="p-2">
+                <a class="navbar-brand text-light" style="flex:1 0 auto;" id="header">大眾運輸查詢系統</a>
+                <button class="navbar-toggler text-light" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasDarkNavbar" style="  
                     position:absolute;
                     left:0.5rem;
                     top:0.5rem;
                     padding:5px;" aria-controls="offcanvasDarkNavbar">
-                        <span class="navbar-toggler-icon text-light"></span>
-                    </button>
+                    <span class="navbar-toggler-icon text-light"></span>
+                </button>
 
-                </div>
-            </nav>
-            <div class="alert alert-info" id="loading-info">資料讀取中...</div>
-        </div>
+            </div>
+        </nav>
+        <div class="alert alert-info" id="loading-info">資料讀取中...</div>
+
 
         <div class="offcanvas offcanvas-start text-bg-primary" tabindex="-1" id="offcanvasDarkNavbar"
             aria-labelledby="offcanvasDarkNavbarLabel">
@@ -122,12 +122,12 @@
             <div class="offcanvas-body">
                 <div class="card text-dark mb-1" id="system-battery-card">
                     <div class="card-body">
-                      <h5 class="card-title" id="system-battery-title">電池</h5>
-                      <p class="card-text" id="system-battery-string">
-                        
-                      </p>
+                        <h5 class="card-title" id="system-battery-title">電池</h5>
+                        <p class="card-text" id="system-battery-string">
+
+                        </p>
                     </div>
-                  </div>
+                </div>
                 <div id="syatem-offcanvas-body"></div>
             </div>
         </div>
@@ -149,7 +149,7 @@
             </div>
         </div>
     </nav>
-    
+
     <nav aria-label="breadcrumb" class="ps-1 mt-3">
         <ol class="breadcrumb ps-4 p-0 m-0" id="nav-breadcrumb">
             <li class="breadcrumb-item"><a href="#">首頁</a></li>
@@ -202,7 +202,7 @@
     <script src='https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js'
         integrity='sha512-CeIsOAsgJnmevfCi2C7Zsyy6bQKi43utIjdA87Q0ZY84oDqnI0uwfM9+bKiIkI75lUeI00WG/+uJzOmuHlesMA=='
         crossorigin='anonymous'></script>
-        <script type="text/javascript" src="https://unpkg.com/toastmaker/dist/toastmaker.min.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/toastmaker/dist/toastmaker.min.js"></script>
     <script src="traffic-main.js"></script>
     <!--
 
@@ -213,7 +213,7 @@
     </script>
 
 -->
-   
+
     </script>
 </body>
 
