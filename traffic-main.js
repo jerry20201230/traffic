@@ -172,14 +172,14 @@ var App = {
                         if (this._history[this._history.length - 1].page == page) {
                             console.log(true)
                         } else {
-                            history.pushState({ "page": page, "pars": pars }, "", `?page=${page}&pars=132`);
-                            this._history.push({ "page": page, "pars": pars })
+                            history.pushState({ "page": page, "par1": par1 ,"par2":par2,"par3":par3}, "", `?page=${page}&par1=${par1}&par2=${par2}&par3=${par3}`);
+                            this._history.push({ "page": page, "par1": par1 ,"par2":par2,"par3":par3})
 
                         }
                     } else {
-                        history.pushState({ "page": page, "pars": pars }, "", `?page=${page}`);
+                        history.pushState({ "page": page, "par1": par1 ,"par2":par2,"par3":par3}, "", `?page=${page}&par1=${par1}&par2=${par2}&par3=${par3}`);
 
-                        this._history.push({ "page": page, "pars": pars })
+                        this._history.push({ "page": page, "par1": par1 ,"par2":par2,"par3":par3})
 
                     }
                 }
@@ -503,14 +503,12 @@ var App = {
 
                 }
                 else if (i === 5) {
-                    console.log(pars)
                     if (from == "url") {
-                        pars = Number(pars.stationID)
-                        if (!pars) {
+                        if (!par1) {
                             App.goToPage("home")
                         }
                     }
-                    var TRA_Station_Data = JSON.parse(localStorage.getItem("data")).TRA.data.Stations[pars]
+                    var TRA_Station_Data = JSON.parse(localStorage.getItem("data")).TRA.data.Stations[par1]
                     let stationLvL;
                     $("#header").text("台鐵" + TRA_Station_Data.StationName.Zh_tw + "車站")
                     //['0: 特等', '1: 一等', '2: 二等', '3: 三等', '4: 簡易', '5: 招呼', '6: 號誌', 'A: 貨運', 'B: 基地', 'X: 非車']
