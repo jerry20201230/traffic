@@ -18,7 +18,7 @@ var Toast = {
     
             let div = document.createElement("div");
             div.classList.add("toast-container")
-            div.innerHTML = `<div class="toast-message-container">${icon[iconctrl]}${msg}</div>`
+            div.innerHTML = `<div class="toast-message-container">${msg}</div>`
             div.addEventListener("webkitTransitionEnd", function () {
                 div.classList.contains(active) || div.parentNode.removeChild(div)
             });
