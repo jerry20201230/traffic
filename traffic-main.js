@@ -768,7 +768,7 @@ var system_offcanvas = {
         if ($("#geo-icon").html() !== "") {
             _temp =
                 _temp + `
-            <div class="card bg-primary mb-1" >
+            <div class="card bg-warning text-dark mb-1" >
             <div class="card-body">
               <h5 class="card-title bi bi-geo-alt-fill">&nbsp;定位</h5>
               <p class="card-text">
