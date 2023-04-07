@@ -12,6 +12,9 @@ var Toast = {
 
     toast : function (msg, time) {
 
+        if(!time){
+            time = 2000
+        }
         if (this.isactive) {
             
             let active = "toast-active";
