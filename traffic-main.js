@@ -506,6 +506,7 @@ var App = {
                     if (from == "url") {
                         if (!par1) {
                             App.goToPage("home")
+                            ToastMaker("無法解析網址參數",2000,{classList:["p-1"]})
                         }
                     }
                     var TRA_Station_Data = JSON.parse(localStorage.getItem("data")).TRA.data.Stations[par1]
