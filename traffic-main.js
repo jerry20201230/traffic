@@ -159,14 +159,14 @@ var App = {
             return canvas
         }
     },
-    goToPage: function (page, pars, from) {
+    goToPage: function (page, par1,par2,par3, from) {
         let isAvailablePage = false;
         BottonBarWeight.set("location_mark", false)
         for (i = 0; i < this._availablePage.length; i++) {
             if (this._availablePage[i].name === page) {
                 isAvailablePage = true
                 if (from !== "history") {
-                  
+
                     if (this._history.length > 0) {
 
                         if (this._history[this._history.length - 1].page == page) {
@@ -502,17 +502,17 @@ var App = {
                     })
 
                 }
-                else if(i === 5){
+                else if (i === 5) {
                     console.log(pars)
-                    if(from == "url"){
+                    if (from == "url") {
                         pars = Number(pars.stationID)
-                        if(!pars){
+                        if (!pars) {
                             App.goToPage("home")
                         }
                     }
                     var TRA_Station_Data = JSON.parse(localStorage.getItem("data")).TRA.data.Stations[pars]
                     let stationLvL;
-                    $("#header").text("台鐵" + TRA_Station_Data.StationName.Zh_tw+ "車站")
+                    $("#header").text("台鐵" + TRA_Station_Data.StationName.Zh_tw + "車站")
                     //['0: 特等', '1: 一等', '2: 二等', '3: 三等', '4: 簡易', '5: 招呼', '6: 號誌', 'A: 貨運', 'B: 基地', 'X: 非車']
                     if (TRA_Station_Data.StationClass == 0) {
                         stationLvL = "特等站"
@@ -541,7 +541,7 @@ var App = {
                     else if (TRA_Station_Data.StationClass == "X") {
                         stationLvL = "非車站"
                     }
-                    this.renderhtml("#main-content",`<div class="card mb-1"><div class="card-body"><h5 class="card-title">${ TRA_Station_Data.StationName.Zh_tw}車站</h5><h6 class="card-subtitle mb-2 text-muted">${stationLvL}</h6><p class="card-text">地址 : ${TRA_Station_Data.StationAddress}<br>電話 : ${TRA_Station_Data.StationPhone}<br>
+                    this.renderhtml("#main-content", `<div class="card mb-1"><div class="card-body"><h5 class="card-title">${TRA_Station_Data.StationName.Zh_tw}車站</h5><h6 class="card-subtitle mb-2 text-muted">${stationLvL}</h6><p class="card-text">地址 : ${TRA_Station_Data.StationAddress}<br>電話 : ${TRA_Station_Data.StationPhone}<br>
                     <div id="map-container" class="card"></div>
                             <span class="text-secondary">
                         
@@ -565,23 +565,23 @@ var App = {
                     </div>
                         <div class="progress mt-1"><div id="railway_refresh_prog" class="progress-bar" role="progressbar" aria-label="auto refresh process"style="width: 25%"></div></div><table class="table table-sm" style="text-align:center"><thead><tr><th scope="col">時間</th><th scope="col">車次</th><th scope="col">車種</th><th scope="col">經</th><th scope="col">往</th><th scope="col">備註</th></tr></thead><tbody id="railway-lightbox"><tr id="railway-lightboxloading"><td colspan="6" style="text-align:center">正在取得資料</td></tr></tbody></table></p></div></div>
                     
-                 `,"html")
-                 console.log([TRA_Station_Data.StationPosition.PositionLat,TRA_Station_Data.StationPosition.PositionLon])
-                 var map = this.createElement("#map-container","map",{center:[TRA_Station_Data.StationPosition.PositionLat,TRA_Station_Data.StationPosition.PositionLon],zoom:19})
-                
-                 var redIcon = new L.Icon({
-                    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
-                    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-                    iconSize: [25, 41],
-                    iconAnchor: [12, 41],
-                    popupAnchor: [1, -34],
-                    shadowSize: [41, 41]
-                });
-                
-                var currentlocMark = L.marker([TRA_Station_Data.StationPosition.PositionLat,TRA_Station_Data.StationPosition.PositionLon], {
-                    icon: redIcon
-                }).addTo(map);
-                currentlocMark.bindPopup(`${TRA_Station_Data.StationName.Zh_tw}車站`)
+                 `, "html")
+                    console.log([TRA_Station_Data.StationPosition.PositionLat, TRA_Station_Data.StationPosition.PositionLon])
+                    var map = this.createElement("#map-container", "map", { center: [TRA_Station_Data.StationPosition.PositionLat, TRA_Station_Data.StationPosition.PositionLon], zoom: 19 })
+
+                    var redIcon = new L.Icon({
+                        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+                        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+                        iconSize: [25, 41],
+                        iconAnchor: [12, 41],
+                        popupAnchor: [1, -34],
+                        shadowSize: [41, 41]
+                    });
+
+                    var currentlocMark = L.marker([TRA_Station_Data.StationPosition.PositionLat, TRA_Station_Data.StationPosition.PositionLon], {
+                        icon: redIcon
+                    }).addTo(map);
+                    currentlocMark.bindPopup(`${TRA_Station_Data.StationName.Zh_tw}車站`)
                 }
 
 
@@ -602,7 +602,7 @@ var App = {
             $(containerID).after(htmlStr)
         } else if (renderType === "html") {
             $(containerID).html(htmlStr)
-        }else{
+        } else {
             $(containerID).html(htmlStr)
         }
         return $(containerID)
@@ -726,7 +726,7 @@ var AJAX = {
 var BottonBarWeight = {
     set: function (type, pars) {
         if (type == "disconnected") {
-            App.renderhtml("#wifi-icon", `<i class="bi bi-cloud-slash"></i>`, "html")
+            App.renderhtml("#wifi-icon", `<i class="bi bi-cloud-slash-fill"></i>`, "html")
 
         } else if (type === "spinner") {
             if (pars) {
@@ -792,9 +792,21 @@ var system_offcanvas = {
     </div>
   </div>
   `
-        } else {
-            _temp = _temp +
-                `
+        } else if ($("#wifi-icon").html() !== `<i class="bi bi-cloud-slash-fill"></i>`) {
+            if (App.current_ajax_times < (App.completed_ajax_times + 1)) {
+                _temp = _temp +
+                    `
+    <div class="card text-dark mb-1" >
+    <div class="card-body">
+      <h5 class="card-title bi bi-cloud-arrow-down-fill">&nbsp;資料</h5>
+      <p class="card-text">
+       正在讀取資料
+      </p>
+    </div>
+  </div>`
+            } else {
+                _temp = _temp +
+                    `
     <div class="card text-dark mb-1" >
     <div class="card-body">
       <h5 class="card-title bi bi-cloud-arrow-down-fill">&nbsp;資料</h5>
@@ -803,7 +815,19 @@ var system_offcanvas = {
       </p>
     </div>
   </div>
-  `
+  `}
+        } else {
+            _temp = _temp +
+                `
+<div class="card text-dark mb-1" >
+<div class="card-body">
+  <h5 class="card-title bi bi-cloud-arrow-down-fill">&nbsp;資料</h5>
+  <p class="card-text text-danger">
+   資料讀取失敗
+  </p>
+</div>
+</div>
+`
         }
 
 
@@ -840,7 +864,7 @@ function updateBatteryUI(battery) {
     if (battery.charging) {
         $("#battery").html(`<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-battery-charging" viewBox="0 0 16 16"><path d="M9.585 2.568a.5.5 0 0 1 .226.58L8.677 6.832h1.99a.5.5 0 0 1 .364.843l-5.334 5.667a.5.5 0 0 1-.842-.49L5.99 9.167H4a.5.5 0 0 1-.364-.843l5.333-5.667a.5.5 0 0 1 .616-.09z"/><path d="M2 4h4.332l-.94 1H2a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h2.38l-.308 1H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><path d="M2 6h2.45L2.908 7.639A1.5 1.5 0 0 0 3.313 10H2V6zm8.595-2-.308 1H12a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H9.276l-.942 1H12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-1.405z"/><path d="M12 10h-1.783l1.542-1.639c.097-.103.178-.218.241-.34V10zm0-3.354V6h-.646a1.5 1.5 0 0 1 .646.646zM16 8a1.5 1.5 0 0 1-1.5 1.5v-3A1.5 1.5 0 0 1 16 8z"/></svg>&nbsp;&nbsp;${(battery.level * 100).toFixed(0)}%`)
         $("#system-battery-title").html(`<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-battery-charging" viewBox="0 0 16 16"><path d="M9.585 2.568a.5.5 0 0 1 .226.58L8.677 6.832h1.99a.5.5 0 0 1 .364.843l-5.334 5.667a.5.5 0 0 1-.842-.49L5.99 9.167H4a.5.5 0 0 1-.364-.843l5.333-5.667a.5.5 0 0 1 .616-.09z"/><path d="M2 4h4.332l-.94 1H2a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h2.38l-.308 1H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><path d="M2 6h2.45L2.908 7.639A1.5 1.5 0 0 0 3.313 10H2V6zm8.595-2-.308 1H12a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H9.276l-.942 1H12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-1.405z"/><path d="M12 10h-1.783l1.542-1.639c.097-.103.178-.218.241-.34V10zm0-3.354V6h-.646a1.5 1.5 0 0 1 .646.646zM16 8a1.5 1.5 0 0 1-1.5 1.5v-3A1.5 1.5 0 0 1 16 8z"/></svg>&nbsp;電池`)
-    $("#system-battery-string").text(`${(battery.level * 100).toFixed(0)}% 充電中`)
+        $("#system-battery-string").text(`${(battery.level * 100).toFixed(0)}% 充電中`)
     } else {
         $("#battery").html(`<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-battery-half" viewBox="0 0 16 16"><path d="M2 6h${battery.level * 10}v4H2V6z"/><path d="M2 4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2H2zm10 1a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h10zm4 3a1.5 1.5 0 0 1-1.5 1.5v-3A1.5 1.5 0 0 1 16 8z"/></svg>&nbsp;&nbsp;${(battery.level * 100).toFixed(0)}%`)
         $("#system-battery-title").html(`<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-battery-half" viewBox="0 0 16 16"><path d="M2 6h${battery.level * 10}v4H2V6z"/><path d="M2 4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2H2zm10 1a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h10zm4 3a1.5 1.5 0 0 1-1.5 1.5v-3A1.5 1.5 0 0 1 16 8z"/></svg>&nbsp;電池`)
@@ -848,39 +872,39 @@ function updateBatteryUI(battery) {
     }
     let batteryCardClass = "bg-success text-white"
 
-        if (!battery.charging) {
-            if (battery.level * 100 < 30) {
-                batteryCardClass = "bg-danger text-white"
-            } else if (battery.level * 100 > 70) {
-                batteryCardClass = "bg-success text-white"
-            } else {
-                batteryCardClass = "bg-warning"
-            }
+    if (!battery.charging) {
+        if (battery.level * 100 < 30) {
+            batteryCardClass = "bg-danger text-white"
+        } else if (battery.level * 100 > 70) {
+            batteryCardClass = "bg-success text-white"
+        } else {
+            batteryCardClass = "bg-warning"
         }
-        $("#system-battery-card").attr("class",batteryCardClass+" card text-dark mb-1")
-  }
-  
-  function monitorBattery(battery) {
+    }
+    $("#system-battery-card").attr("class", batteryCardClass + " card text-dark mb-1")
+}
+
+function monitorBattery(battery) {
     // Update the initial UI.
     updateBatteryUI(battery);
-  
+
     // Monitor for futher updates.
     battery.addEventListener('levelchange',
-      updateBatteryUI.bind(null, battery));
+        updateBatteryUI.bind(null, battery));
     battery.addEventListener('chargingchange',
-      updateBatteryUI.bind(null, battery));
+        updateBatteryUI.bind(null, battery));
     battery.addEventListener('dischargingtimechange',
-      updateBatteryUI.bind(null, battery));
+        updateBatteryUI.bind(null, battery));
     battery.addEventListener('chargingtimechange',
-      updateBatteryUI.bind(null, battery));
-  }
-  
-  if ('getBattery' in navigator) {
+        updateBatteryUI.bind(null, battery));
+}
+
+if ('getBattery' in navigator) {
     navigator.getBattery().then(monitorBattery);
-  } else {
-   // ChromeSamples.setStatus('The Battery Status API is not supported on ' +
+} else {
+    // ChromeSamples.setStatus('The Battery Status API is not supported on ' +
     //  'this platform.');
-  }
+}
 
 //---------------------//
 document.body.onload = function (e) {
@@ -932,16 +956,16 @@ document.body.onload = function (e) {
     }
 
 
-    if ($.UrlParam("page") == null|| $.UrlParam("page") == "") {
+    if ($.UrlParam("page") == null || $.UrlParam("page") == "") {
         App.goToPage("home")
     } else {
-        App.goToPage($.UrlParam("ALL_PARS").page, $.UrlParam("ALL_PARS").pars, "url")
+        App.goToPage($.UrlParam("page"), $.UrlParam("par1"),$.UrlParam("par2"),$.UrlParam("par3"), "url")
     }
 }
 
 window.addEventListener("popstate", function (e) {
     if (e.state && App._current_page !== e.state.page) {
         console.log(e.state.page)
-        App.goToPage(e.state.page, e.state.pars, "history")
+        App.goToPage($.UrlParam("page"), $.UrlParam("par1"),$.UrlParam("par2"),$.UrlParam("par3"), "url")
     }
 });
