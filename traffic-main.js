@@ -588,6 +588,8 @@ var App = {
         }
         if (!isAvailablePage && from !== "history") {
             //404
+            App.goToPage("home")
+            Toast.toast("頁面不存在!")
         } else {
             //error
         }
