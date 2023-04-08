@@ -653,7 +653,11 @@ var DATA = {
 
         }
         else if (pars.type === "TRA.Direction") {
+            if(document.getElementById("btnradio1").checked){
+                console.log(par.data)
+            }else if(document.getElementById("btnradio2").ckecked){
 
+            }
         }
     }
 }
@@ -690,11 +694,21 @@ var AJAX = {
             BottonBarWeight.set("disconnected")
         }
     },
+    /*
+    url,
+    success,
+    cond
+    progBar(ele.)
+    */
     refreshApi: async function (pars) {
         while ($(pars.progBar).length !== 0) {
             this.refreshApi({
                 url: pars.url,
-                success: pars.success
+                success:
+                    function (res) {
+                        DATA.query({data:res})
+                        pars.success(res)
+                    }
             })
             for (r = 0; r < pars.delay; r++) {
                 let refresh_sec = pars.delay - r
