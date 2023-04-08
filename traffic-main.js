@@ -509,7 +509,12 @@ var App = {
                             Toast.toast("無法解析網址參數")
                         }
                     }
-                    var TRA_Station_Data = JSON.parse(localStorage.getItem("data")).TRA.data.Stations[par1]
+                    try {
+                        var TRA_Station_Data = JSON.parse(localStorage.getItem("data")).TRA.data.Stations[par1]
+                    }catch(e){
+                        App.goToPage("home")
+                        Toast.toast("無法解析網址參數")
+                    }
                     let stationLvL;
                     $("#header").text("台鐵" + TRA_Station_Data.StationName.Zh_tw + "車站")
                     //['0: 特等', '1: 一等', '2: 二等', '3: 三等', '4: 簡易', '5: 招呼', '6: 號誌', 'A: 貨運', 'B: 基地', 'X: 非車']
@@ -581,6 +586,13 @@ var App = {
                         icon: redIcon
                     }).addTo(map);
                     currentlocMark.bindPopup(`${TRA_Station_Data.StationName.Zh_tw}車站`)
+
+
+
+
+                    AJAX.refreshApi({
+
+                    })
                 }
 
 
@@ -653,9 +665,9 @@ var DATA = {
 
         }
         else if (pars.type === "TRA.Direction") {
-            if(document.getElementById("btnradio1").checked){
+            if (document.getElementById("btnradio1").checked) {
                 console.log(par.data)
-            }else if(document.getElementById("btnradio2").ckecked){
+            } else if (document.getElementById("btnradio2").ckecked) {
 
             }
         }
@@ -706,7 +718,7 @@ var AJAX = {
                 url: pars.url,
                 success:
                     function (res) {
-                        DATA.query({data:res})
+                        DATA.query({ data: res })
                         pars.success(res)
                     }
             })
