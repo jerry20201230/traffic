@@ -159,7 +159,7 @@ var App = {
             return canvas
         }
     },
-    goToPage: function (page, par1,par2,par3, from) {
+    goToPage: function (page, par1, par2, par3, from) {
         let isAvailablePage = false;
         BottonBarWeight.set("location_mark", false)
         for (i = 0; i < this._availablePage.length; i++) {
@@ -172,14 +172,14 @@ var App = {
                         if (this._history[this._history.length - 1].page == page) {
                             console.log(true)
                         } else {
-                            history.pushState({ "page": page, "par1": par1 ,"par2":par2,"par3":par3}, "", `?page=${page}&par1=${par1}&par2=${par2}&par3=${par3}`);
-                            this._history.push({ "page": page, "par1": par1 ,"par2":par2,"par3":par3})
+                            history.pushState({ "page": page, "par1": par1, "par2": par2, "par3": par3 }, "", `?page=${page}&par1=${par1}&par2=${par2}&par3=${par3}`);
+                            this._history.push({ "page": page, "par1": par1, "par2": par2, "par3": par3 })
 
                         }
                     } else {
-                        history.pushState({ "page": page, "par1": par1 ,"par2":par2,"par3":par3}, "", `?page=${page}&par1=${par1}&par2=${par2}&par3=${par3}`);
+                        history.pushState({ "page": page, "par1": par1, "par2": par2, "par3": par3 }, "", `?page=${page}&par1=${par1}&par2=${par2}&par3=${par3}`);
 
-                        this._history.push({ "page": page, "par1": par1 ,"par2":par2,"par3":par3})
+                        this._history.push({ "page": page, "par1": par1, "par2": par2, "par3": par3 })
 
                     }
                 }
@@ -616,7 +616,7 @@ var App = {
 
 var DATA = {
     _storage: [],
-    local: localStorage.getItem("data"),
+    localData: JSON.parse(localStorage.getItem("data")),
     /*
        {
         type:String,
@@ -689,6 +689,23 @@ var AJAX = {
         } else {
             BottonBarWeight.set("disconnected")
         }
+    },
+    refreshApi: async function (pars) {
+        while ($(pars.progBar).length !== 0) {
+            this.refreshApi({
+                url: pars.url,
+                success: pars.success
+            })
+            for (r = 0; r < pars.delay; r++) {
+                let refresh_sec = pars.delay - r
+                $(pars.progBar).css("width", (refresh_sec * (100 / delaySec)) + "%").text(refresh_sec).removeClass("bg-secondary")
+                if ($(pars.progBar).length == 0) {
+                    break;
+                }
+                await delay(1)
+            }
+        }
+        return;
     },
     loginTDX: function (e) {
         BottonBarWeight.set("spinner", true)
@@ -960,13 +977,13 @@ document.body.onload = function (e) {
     if ($.UrlParam("page") == null || $.UrlParam("page") == "") {
         App.goToPage("home")
     } else {
-        App.goToPage($.UrlParam("page"), $.UrlParam("par1"),$.UrlParam("par2"),$.UrlParam("par3"), "url")
+        App.goToPage($.UrlParam("page"), $.UrlParam("par1"), $.UrlParam("par2"), $.UrlParam("par3"), "url")
     }
 }
 
 window.addEventListener("popstate", function (e) {
     if (e.state && App._current_page !== e.state.page) {
         console.log(e.state.page)
-        App.goToPage($.UrlParam("page"), $.UrlParam("par1"),$.UrlParam("par2"),$.UrlParam("par3"), "url")
+        App.goToPage($.UrlParam("page"), $.UrlParam("par1"), $.UrlParam("par2"), $.UrlParam("par3"), "url")
     }
 });
