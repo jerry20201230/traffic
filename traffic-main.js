@@ -351,7 +351,7 @@ var App = {
                     }
                 }
                 this._current_page = this._availablePage[i].name
-                if (i === 0) {//home
+                if (this._availablePage[i].name == "home") {
                     var home_cards = {
                         cardID: [
                             "TRA",
@@ -359,7 +359,7 @@ var App = {
                             "MRT",
                             "BUS",
                             "BIKE",
-                            "SETTING"
+                            "MAP"
                         ],
                         cardName: [
                             "台鐵",
@@ -367,7 +367,7 @@ var App = {
                             "捷運",
                             "公車",
                             "公共自行車",
-                            "設定"
+                            "地圖"
                         ],
                         cardColor: [
                             "#004da7",
@@ -383,7 +383,7 @@ var App = {
                             "App.goToPage('MRTsearch')",
                             "App.goToPage('CityBUSsearch')",
                             "App.goToPage('BIKEsearch')",
-                            "App.goToPage('setting')"
+                            "App.goToPage('Map')"
                         ]
                     }
                     this.renderTitle("大眾運輸查詢")
@@ -500,7 +500,7 @@ var App = {
                         App.renderhtml("#data-loading", `<span class="text-danger">無法取得</span>`, "html")
                     });
                 }
-                else if (i === 1) {
+                else if (this._availablePage[i].name == "TRAsearch") {
                     this.renderTitle("台鐵車站搜尋")
                     this.renderhtml("#main-content", `<div class="d-flex"><input type="text" class="form-control me-1" oninput="DATA.query({type:'TRA.SearchStation',queryStr:$('#trainStationNameInput').val()})" id="trainStationNameInput" placeholder="輸入台鐵車站名稱..."><button class="btn btn-primary bi bi-search" onclick="DATA.query({type:'TRA.SearchStation',queryStr:$('#trainStationNameInput').val()})"></button></div><div class="list-group mt-2 mb-2" id="search-result"></div>
                     <div class="card"><div class="card-body"><h5 class="card-title">即時通阻資料</h5><p class="card-text"><ul class="list-group" id="TRAalert"><li class="list-group-item">資料讀取中</li></ul></p></div></div>`, "html")
@@ -531,7 +531,7 @@ var App = {
                     })
 
                 }
-                else if (i === 4) {
+                else if (this._availablePage[i].name == "BUSsearch") {
                     this.renderTitle("公車 - 選擇縣市")
                     this.renderhtml("#main-content", `<div class="d-flex">
                     
@@ -542,7 +542,7 @@ var App = {
                     <button class="btn btn-primary bi bi-search"></button>
                     </div>`)
                 }
-                else if (i === 5) {
+                else if (this._availablePage[i].name == "TRAstation") {
                     if (from == "url") {
                         if (!par1) {
                             App.goToPage("home")
@@ -638,6 +638,38 @@ var App = {
                         progBar: "#railway_refresh_prog",
                         delay: 60
                     })
+                }
+
+
+                else if (this._availablePage[i].name == "Map") {
+                    this.renderTitle("地圖")
+                    this.renderhtml("#main-content", `
+                
+                      <div class="card" id="map-container"></div>
+               
+                <div class="card p-2">
+                    <span class="text-secondary">
+                    此地點附近:<br>
+                    公車: <span id="bus-result">點擊地圖開始搜尋</span><br>    
+                    公共自行車: <span id="bike-result">點擊地圖開始搜尋</span> 
+                    </span>
+                    
+                    <div id="table-container"></div> 
+                </div>
+                `, "html")
+                    var map = this.createElement("#map-container", "map", {
+                        center: [23.75518176611264, 120.9406086935125],
+                        zoom: 7
+                    })
+
+                    map.on('click', onMapClick);
+                    function onMapClick(e){
+                        var MyLoc = [e.latlng.lat,e.latlng.lng]
+                        var popup = L.popup()
+                        popup.setLatLng(e.latlng).setContent(`<b>此地點</b><br>經度：${lng}<br/>緯度：${lat}`).openOn(map)
+                        getNearBusAndBikes(MyLoc, "#table-container", map, App._current_page)
+
+                    }
                 }
 
 
