@@ -585,7 +585,7 @@ var App = {
                     else if (TRA_Station_Data.StationClass == "X") {
                         stationLvL = "非車站"
                     }
-                    this.renderhtml("#main-content", `<div class="card mb-1"><div class="card-body"><h5 class="card-title">${TRA_Station_Data.StationName.Zh_tw}車站</h5><h6 class="card-subtitle mb-2 text-muted">${stationLvL}</h6><p class="card-text">地址 : ${TRA_Station_Data.StationAddress}<br>電話 : ${TRA_Station_Data.StationPhone}<br>
+                    this.renderhtml("#main-content", `<div class="card mb-1"><div class="card-body"><h5 class="card-title">${TRA_Station_Data.StationName.Zh_tw}車站</h5><h6 class="card-subtitle mb-2 text-muted">${TRA_Station_Data.StationURL}•${stationLvL}</h6><p class="card-text">地址 : ${TRA_Station_Data.StationAddress}<br>電話 : ${TRA_Station_Data.StationPhone}<br>
                     <div id="map-container" class="card"></div>
                             <span class="text-secondary">
                         
@@ -699,8 +699,7 @@ var DATA = {
             for (i = 0; i < TrainStationData.Stations.length; i++) {
 
                 if ((TrainStationData.Stations[i].StationName.Zh_tw.includes(pars.queryStr) || TrainStationData.Stations[i].StationName.Zh_tw.replace("臺", "台").includes(pars.queryStr)) || TrainStationData.Stations[i].StationID.includes(pars.queryStr) && pars.queryStr !== "") {
-                    console.log(TrainStationData.Stations[i])
-                    $("#search-result").append(`<a onclick="App.goToPage('TRAstation',${i})" href="#" class="list-group-item list-group-item-action">${TrainStationData.Stations[i].StationName.Zh_tw}(${TrainStationData.Stations[i].StationID})</a>`)
+                    $("#search-result").append(`<a onclick="App.goToPage('TRAstation',${i})" href="#" class="list-group-item list-group-item-action">${TrainStationData.Stations[i].StationName.Zh_tw} (${TrainStationData.Stations[i].StationID})</a>`)
                 }
             }
             if ($("#search-result").html() == "") {
