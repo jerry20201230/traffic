@@ -829,6 +829,7 @@ var AJAX = {
     */
     refreshApi: async function (pars) {
         while ($(pars.progBar).length !== 0) {
+            App.current_ajax_times=1,App.completed_ajax_times=0,App.ajax_package_name=["即時到離站資料"]
             this.getBasicApi({
                 url: pars.url,
                 success:
