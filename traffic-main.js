@@ -301,7 +301,13 @@ var App = {
         {
             name: "TRAstation",
             path: ["home", "TRAsearch", "TRAstation"]
-        }
+        },
+
+        {
+            name: "Map",
+            path: ["home","Map"]
+        },
+
     ],
     completed_ajax_times: 0,
     current_ajax_times: 0,
