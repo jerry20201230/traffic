@@ -502,6 +502,17 @@ var App = {
                     })
 
                 }
+                else if(i === 4){
+                    this.renderTitle("公車 - 選擇縣市")
+                    this.renderhtml("#main-content",`<div class="d-flex">
+                    
+                    <select class="form-select me-1">
+                    <option value="undefined">請選擇縣市</option>
+                    </select>
+                    
+                    <button class="btn btn-primary bi bi-search"></button>
+                    </div>`)
+                }
                 else if (i === 5) {
                     if (from == "url") {
                         if (!par1) {
@@ -761,7 +772,7 @@ var AJAX = {
             })
             for (r = 0; r < pars.delay; r++) {
                 let refresh_sec = pars.delay - r
-                $(pars.progBar).css("width", (refresh_sec * (100 / delaySec)) + "%").text(refresh_sec).removeClass("bg-secondary")
+                $(pars.progBar).css("width", (refresh_sec * (100 / pars.delay)) + "%").text(refresh_sec).removeClass("bg-secondary")
                 if ($(pars.progBar).length == 0) {
                     break;
                 }
