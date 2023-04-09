@@ -653,7 +653,7 @@ var DATA = {
             TrainStationData = JSON.parse(localStorage.getItem("data")).TRA.data;
             for (i = 0; i < TrainStationData.Stations.length; i++) {
 
-                if ((TrainStationData.Stations[i].StationName.Zh_tw.includes(pars.queryStr) || TrainStationData.Stations[i].StationName.Zh_tw.replace("臺", "台").includes(pars.queryStr)) && pars.queryStr !== "") {
+                if ((TrainStationData.Stations[i].StationName.Zh_tw.includes(pars.queryStr) || TrainStationData.Stations[i].StationName.Zh_tw.replace("臺", "台").includes(pars.queryStr))  ||TrainStationData.Stations[i].StationID.includes(pars.queryStr) && pars.queryStr !== "") {
                     console.log(TrainStationData.Stations[i])
                     $("#search-result").append(`<a onclick="App.goToPage('TRAstation',${i})" href="#" class="list-group-item list-group-item-action">${TrainStationData.Stations[i].StationName.Zh_tw}(${TrainStationData.Stations[i].StationID})</a>`)
                 }
