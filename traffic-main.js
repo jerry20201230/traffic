@@ -591,7 +591,11 @@ var App = {
 
 
                     AJAX.refreshApi({
-
+                        url:`https://tdx.transportdata.tw/api/basic/v2/Rail/TRA/LiveBoard/Station/${TRA_Station_Data.StationID}?%24format=JSON`,
+                        success:function(res){console.log(res)},
+                        queryType:"TRA.Direction",
+                        progBar:"#railway_refresh_prog",
+                        delay:60
                     })
                 }
 
@@ -665,10 +669,42 @@ var DATA = {
 
         }
         else if (pars.type === "TRA.Direction") {
+            let _sw,res = pars.data
             if (document.getElementById("btnradio1").checked) {
-                console.log(par.data)
+                _sw = 0
             } else if (document.getElementById("btnradio2").ckecked) {
+                _sw = 1
+            }
 
+            for (i = 0; i < res.length; i++) {
+
+                if (_sw == res[i].Direction) {
+                    let line, time, badge = ""
+                    if (res[i].TripLine == 0) {
+                        line = "-"
+                    } else if (res[i].TripLine == 1) {
+                        line = "山線"
+                    }
+                    else if (res[i].TripLine == 2) {
+                        line = "海線"
+                    }
+                    else if (res[i].TripLine == 3) {
+                        line = "成追"
+                    }
+
+                    if (res[i].DelayTime == 0) {
+                        time = `<span class="text-success">準點</span>`
+                    } else {
+                        if (res[i].DelayTime >= 10) {
+                            time = `<span class="rounded text-bg-danger p-1">晚${res[i].DelayTime}分</span>`
+                        } else {
+                            time = `<span class="text-danger">晚${res[i].DelayTime}分</span>`
+                        }
+
+
+                    }
+                    $("#railway-lightbox").append(`<tr><td>${res[i].ScheduledDepartureTime.split(":")[0]}:${res[i].ScheduledDepartureTime.split(":")[1]}${badge}</td><td>${res[i].TrainNo}</td><td>${res[i].TrainTypeName.Zh_tw.split("(")[0]}</td><td>${line}</td><td>${res[i].EndingStationName.Zh_tw}</td><td>${time}</td></tr>`)
+                }
             }
         }
     }
@@ -709,8 +745,9 @@ var AJAX = {
     /*
     url,
     success,
-    cond
+    queryType
     progBar(ele.)
+    delay
     */
     refreshApi: async function (pars) {
         while ($(pars.progBar).length !== 0) {
@@ -718,7 +755,7 @@ var AJAX = {
                 url: pars.url,
                 success:
                     function (res) {
-                        DATA.query({ data: res })
+                        DATA.query({ data: res,type:pars.queryType })
                         pars.success(res)
                     }
             })
