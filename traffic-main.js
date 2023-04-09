@@ -762,7 +762,7 @@ var AJAX = {
     */
     refreshApi: async function (pars) {
         while ($(pars.progBar).length !== 0) {
-            this.refreshApi({
+            this.getBasicApi({
                 url: pars.url,
                 success:
                     function (res) {
