@@ -459,7 +459,7 @@ var App = {
                         circle.bindPopup("查詢範圍(500公尺)")
 
                         map.setView(MyLoc, 15)
-                        getNearBusAndBikes(MyLoc, "#table-container", map, this._current_page)
+                        getNearBusAndBikes(MyLoc, "#table-container", map, App._current_page)
 
                         // let accesstoken = JSON.parse($("#req_header").text());
 
@@ -629,7 +629,7 @@ var App = {
 
 
 
-                    getNearBusAndBikes([TRA_Station_Data.StationPosition.PositionLat, TRA_Station_Data.StationPosition.PositionLon], "#table-container", map, this._current_page)
+                    getNearBusAndBikes([TRA_Station_Data.StationPosition.PositionLat, TRA_Station_Data.StationPosition.PositionLon], "#table-container", map, App._current_page)
 
                     AJAX.refreshApi({
                         url: `https://tdx.transportdata.tw/api/basic/v2/Rail/TRA/LiveBoard/Station/${TRA_Station_Data.StationID}?%24format=JSON`,
