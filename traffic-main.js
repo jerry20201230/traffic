@@ -101,9 +101,9 @@ async function timeDisplay(Displaysec) {
 
 }
 
-function getNearBusAndBikes(loc,container,mapObject){
+function getNearBusAndBikes(loc, container, mapObject, page) {
     var MyLoc = loc
-    App.renderhtml(container,`<table class="table table-sm"><thead><tr><td>站點名稱</td><td>備註</td></tr></thead><tbody id="station-display-table"><tr><td colspan="2" style="text-align:center" id="data-loading">資料準備中...</td></tr></tbody></table>`)
+    App.renderhtml(container, `<table class="table table-sm"><thead><tr><td>站點名稱</td><td>備註</td></tr></thead><tbody id="station-display-table"><tr><td colspan="2" style="text-align:center" id="data-loading">資料準備中...</td></tr></tbody></table>`)
     var map = mapObject;
 
     let bikeStstus = [false, false]
@@ -121,30 +121,32 @@ function getNearBusAndBikes(loc,container,mapObject){
     AJAX.getBasicApi({
         url: `https://tdx.transportdata.tw/api/advanced/v2/Bus/Stop/NearBy?%24spatialFilter=nearby%28${MyLoc[0]}%2C%20${MyLoc[1]}%2C%20500%29&%24format=JSON`,
         success: function (res) {
-            console.log(res)
-            var BusData = []
-            if ($("#data-loading").length > 0) {
-                $("#station-display-table").html("")
-            }
+            if (App._current_page === page) {
+                console.log(res)
+                var BusData = []
+                if ($("#data-loading").length > 0) {
+                    $("#station-display-table").html("")
+                }
 
 
-            for (i = 0; i < res.length; i++) {
-                let center = [res[i].StopPosition.PositionLat, res[i].StopPosition.PositionLon]
-                var marker = L.marker(center);
-                marker.addTo(map);
-                marker.bindPopup(`<span class="badge bg-primary">公車</span> ${res[i].StopName.Zh_tw}`)//.openPopup();
+                for (i = 0; i < res.length; i++) {
+                    let center = [res[i].StopPosition.PositionLat, res[i].StopPosition.PositionLon]
+                    var marker = L.marker(center);
+                    marker.addTo(map);
+                    marker.bindPopup(`<span class="badge bg-primary">公車</span> ${res[i].StopName.Zh_tw}`)//.openPopup();
 
-                if (!BusData.includes(res[i].StopName.Zh_tw)) {
-                    $("#station-display-table").append(`
+                    if (!BusData.includes(res[i].StopName.Zh_tw)) {
+                        $("#station-display-table").append(`
               <tr>
               <td><span class="badge bg-primary">公車</span> ${res[i].StopName.Zh_tw}</td>   
               <td></td> 
               </tr>
               `)
-                    BusData.push(res[i].StopName.Zh_tw)
+                        BusData.push(res[i].StopName.Zh_tw)
+                    }
                 }
+                $("#bus-result").text(BusData.length + "站")
             }
-            $("#bus-result").text(BusData.length + "站")
         }
     })
 
@@ -152,36 +154,38 @@ function getNearBusAndBikes(loc,container,mapObject){
     AJAX.getBasicApi({
         url: `https://tdx.transportdata.tw/api/advanced/v2/Bike/Availability/NearBy?%24spatialFilter=nearby%28${MyLoc[0]}%2C%20${MyLoc[1]}%2C%20${500}%29&%24format=JSON`,
         success: function (res) {
-            if ($("#data-loading").length > 0) {
-                $("#station-display-table").html("")
-            }
-            //TrainStationData = res;
-            // console.log(res);
-            BikeStationData.bikeData = res
-            console.log(BikeStationData.stationData)
-            bikeStstus[1] = true
-            if (bikeStstus[1] == bikeStstus[0] == true) {
-                for (i = 0; i < BikeStationData.stationData.length; i++) {
-                    console.log(i)
-                    let center = [BikeStationData.stationData[i].StationPosition.PositionLat, BikeStationData.stationData[i].StationPosition.PositionLon]
 
-                    console.log(center)
+            if (App._current_page === page) {
+                if ($("#data-loading").length > 0) {
+                    $("#station-display-table").html("")
+                }
+                //TrainStationData = res;
+                // console.log(res);
+                BikeStationData.bikeData = res
+                console.log(BikeStationData.stationData)
+                bikeStstus[1] = true
+                if (bikeStstus[1] == bikeStstus[0] == true) {
+                    for (i = 0; i < BikeStationData.stationData.length; i++) {
+                        console.log(i)
+                        let center = [BikeStationData.stationData[i].StationPosition.PositionLat, BikeStationData.stationData[i].StationPosition.PositionLon]
 
-                    var marker = L.marker(center, {
-                        icon: greenIcon
-                    }).addTo(map);
+                        console.log(center)
 
-                    marker.addTo(map);
-                    var badgeClass = "bg-secondary",descText = ``
-                    if (BikeStationData.stationData[i].StationName.Zh_tw.split("_")[0].includes("2.0")) {
-                        badgeClass = "bg-primary"
-                    }
+                        var marker = L.marker(center, {
+                            icon: greenIcon
+                        }).addTo(map);
 
-                    if(BikeStationData.bikeData[i].AvailableRentBikes == 0){
+                        marker.addTo(map);
+                        var badgeClass = "bg-secondary", descText = ``
+                        if (BikeStationData.stationData[i].StationName.Zh_tw.split("_")[0].includes("2.0")) {
+                            badgeClass = "bg-primary"
+                        }
 
-                    }
+                        if (BikeStationData.bikeData[i].AvailableRentBikes == 0) {
 
-                    marker.bindPopup(`
+                        }
+
+                        marker.bindPopup(`
             <span class="badge ${badgeClass}">
                 ${BikeStationData.stationData[i].StationName.Zh_tw.split("_")[0]}
             </span> ${BikeStationData.stationData[i].StationName.Zh_tw.split("_")[1]}
@@ -190,8 +194,8 @@ function getNearBusAndBikes(loc,container,mapObject){
 
 
 
-                    console.log(BikeStationData.bikeData[i].AvailableRentBikesDetail)
-                    $("#station-display-table").append(`
+                        console.log(BikeStationData.bikeData[i].AvailableRentBikesDetail)
+                        $("#station-display-table").append(`
     
     <tr>
     <td><span class="badge ${badgeClass}">${BikeStationData.stationData[i].StationName.Zh_tw.split("_")[0]}</span><br>${BikeStationData.stationData[i].StationName.Zh_tw.split("_")[1]}</td>
@@ -201,6 +205,7 @@ function getNearBusAndBikes(loc,container,mapObject){
         `)
 
 
+                    }
                 }
             }
         }
@@ -208,6 +213,7 @@ function getNearBusAndBikes(loc,container,mapObject){
     AJAX.getBasicApi({
         url: `https://tdx.transportdata.tw/api/advanced/v2/Bike/Station/NearBy?%24spatialFilter=nearby%28${MyLoc[0]}%2C%20${MyLoc[1]}%2C%20${500}%29&%24format=JSON`,
         success: function (res) {
+            if (App._current_page === page) { }
             if ($("#data-loading").length > 0) {
                 $("#station-display-table").html("")
             }
@@ -253,11 +259,12 @@ function getNearBusAndBikes(loc,container,mapObject){
 
 
                 }
+
             }
         },
     })
 
-    
+
 
 }
 //---------------------//
@@ -452,7 +459,7 @@ var App = {
                         circle.bindPopup("查詢範圍(500公尺)")
 
                         map.setView(MyLoc, 15)
-                        getNearBusAndBikes(MyLoc,"#table-container",map)
+                        getNearBusAndBikes(MyLoc, "#table-container", map, this._current_page)
 
                         // let accesstoken = JSON.parse($("#req_header").text());
 
@@ -471,7 +478,7 @@ var App = {
                         currentlocMark.bindPopup(`你的定位中心點`)//.openPopup();
 
 
-                        
+
                         AJAX.getBasicApi({
                             url: `https://tdx.transportdata.tw/api/advanced/V3/Map/GeoLocating/Markname/LocationX/${MyLoc[1]}/LocationY/${MyLoc[0]}?%24format=JSON`,
                             success: function (res) {
@@ -484,7 +491,7 @@ var App = {
                                 }
                             },
                         })
-                        
+
                     })
                     map.on('locationerror', function () {
                         App.renderhtml("#loc-result", `<span class="text-danger">無法取得</span>`, "html")
@@ -524,9 +531,9 @@ var App = {
                     })
 
                 }
-                else if(i === 4){
+                else if (i === 4) {
                     this.renderTitle("公車 - 選擇縣市")
-                    this.renderhtml("#main-content",`<div class="d-flex">
+                    this.renderhtml("#main-content", `<div class="d-flex">
                     
                     <select class="form-select me-1">
                     <option value="undefined">請選擇縣市</option>
@@ -544,7 +551,7 @@ var App = {
                     }
                     try {
                         var TRA_Station_Data = JSON.parse(localStorage.getItem("data")).TRA.data.Stations[par1]
-                    }catch(e){
+                    } catch (e) {
                         App.goToPage("home")
                         Toast.toast("無法解析網址參數")
                     }
@@ -585,7 +592,7 @@ var App = {
                         公車: <span id="bus-result">資料準備中...</span><br>    
                         公共自行車: <span id="bike-result">資料準備中...</span> 
                         </span>
-                            <table class="table table-sm"><thead><tr><td>附近站點</td><td>備註</td></tr></thead><tbody id="station-display-table"><tr id="data-loading"><td colspan="2" style="text-align:center">資料準備中...</td></tr></tbody></table>
+                           <div id="table-container"></div>
                             
                             </p>
                     
@@ -622,13 +629,14 @@ var App = {
 
 
 
+                    getNearBusAndBikes([TRA_Station_Data.StationPosition.PositionLat, TRA_Station_Data.StationPosition.PositionLon], "#table-container", map, this._current_page)
 
                     AJAX.refreshApi({
-                        url:`https://tdx.transportdata.tw/api/basic/v2/Rail/TRA/LiveBoard/Station/${TRA_Station_Data.StationID}?%24format=JSON`,
-                        success:function(res){console.log(res)},
-                        queryType:"TRA.Direction",
-                        progBar:"#railway_refresh_prog",
-                        delay:60
+                        url: `https://tdx.transportdata.tw/api/basic/v2/Rail/TRA/LiveBoard/Station/${TRA_Station_Data.StationID}?%24format=JSON`,
+                        success: function (res) { console.log(res) },
+                        queryType: "TRA.Direction",
+                        progBar: "#railway_refresh_prog",
+                        delay: 60
                     })
                 }
 
@@ -690,7 +698,7 @@ var DATA = {
             TrainStationData = JSON.parse(localStorage.getItem("data")).TRA.data;
             for (i = 0; i < TrainStationData.Stations.length; i++) {
 
-                if ((TrainStationData.Stations[i].StationName.Zh_tw.includes(pars.queryStr) || TrainStationData.Stations[i].StationName.Zh_tw.replace("臺", "台").includes(pars.queryStr))  ||TrainStationData.Stations[i].StationID.includes(pars.queryStr) && pars.queryStr !== "") {
+                if ((TrainStationData.Stations[i].StationName.Zh_tw.includes(pars.queryStr) || TrainStationData.Stations[i].StationName.Zh_tw.replace("臺", "台").includes(pars.queryStr)) || TrainStationData.Stations[i].StationID.includes(pars.queryStr) && pars.queryStr !== "") {
                     console.log(TrainStationData.Stations[i])
                     $("#search-result").append(`<a onclick="App.goToPage('TRAstation',${i})" href="#" class="list-group-item list-group-item-action">${TrainStationData.Stations[i].StationName.Zh_tw}(${TrainStationData.Stations[i].StationID})</a>`)
                 }
@@ -702,7 +710,7 @@ var DATA = {
 
         }
         else if (pars.type === "TRA.Direction") {
-            let _sw,res = pars.data
+            let _sw, res = pars.data
             if (document.getElementById("btnradio1").checked) {
                 _sw = 0
             } else if (document.getElementById("btnradio2").ckecked) {
@@ -788,7 +796,7 @@ var AJAX = {
                 url: pars.url,
                 success:
                     function (res) {
-                        DATA.query({ data: res,type:pars.queryType })
+                        DATA.query({ data: res, type: pars.queryType })
                         pars.success(res)
                     }
             })
