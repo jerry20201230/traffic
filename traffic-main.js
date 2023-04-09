@@ -100,6 +100,166 @@ async function timeDisplay(Displaysec) {
     }
 
 }
+
+function getNearBusAndBikes(loc,container,mapObject){
+    var MyLoc = loc
+    App.renderhtml(container,`<table class="table table-sm"><thead><tr><td>站點名稱</td><td>備註</td></tr></thead><tbody id="station-display-table"><tr><td colspan="2" style="text-align:center" id="data-loading">資料準備中...</td></tr></tbody></table>`)
+    var map = mapObject;
+
+    let bikeStstus = [false, false]
+    var BikeStationData = []
+    var greenIcon = new L.Icon({
+        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+    });
+
+
+    AJAX.getBasicApi({
+        url: `https://tdx.transportdata.tw/api/advanced/v2/Bus/Stop/NearBy?%24spatialFilter=nearby%28${MyLoc[0]}%2C%20${MyLoc[1]}%2C%20500%29&%24format=JSON`,
+        success: function (res) {
+            console.log(res)
+            var BusData = []
+            if ($("#data-loading").length > 0) {
+                $("#station-display-table").html("")
+            }
+
+
+            for (i = 0; i < res.length; i++) {
+                let center = [res[i].StopPosition.PositionLat, res[i].StopPosition.PositionLon]
+                var marker = L.marker(center);
+                marker.addTo(map);
+                marker.bindPopup(`<span class="badge bg-primary">公車</span> ${res[i].StopName.Zh_tw}`)//.openPopup();
+
+                if (!BusData.includes(res[i].StopName.Zh_tw)) {
+                    $("#station-display-table").append(`
+              <tr>
+              <td><span class="badge bg-primary">公車</span> ${res[i].StopName.Zh_tw}</td>   
+              <td></td> 
+              </tr>
+              `)
+                    BusData.push(res[i].StopName.Zh_tw)
+                }
+            }
+            $("#bus-result").text(BusData.length + "站")
+        }
+    })
+
+
+    AJAX.getBasicApi({
+        url: `https://tdx.transportdata.tw/api/advanced/v2/Bike/Availability/NearBy?%24spatialFilter=nearby%28${MyLoc[0]}%2C%20${MyLoc[1]}%2C%20${500}%29&%24format=JSON`,
+        success: function (res) {
+            if ($("#data-loading").length > 0) {
+                $("#station-display-table").html("")
+            }
+            //TrainStationData = res;
+            // console.log(res);
+            BikeStationData.bikeData = res
+            console.log(BikeStationData.stationData)
+            bikeStstus[1] = true
+            if (bikeStstus[1] == bikeStstus[0] == true) {
+                for (i = 0; i < BikeStationData.stationData.length; i++) {
+                    console.log(i)
+                    let center = [BikeStationData.stationData[i].StationPosition.PositionLat, BikeStationData.stationData[i].StationPosition.PositionLon]
+
+                    console.log(center)
+
+                    var marker = L.marker(center, {
+                        icon: greenIcon
+                    }).addTo(map);
+
+                    marker.addTo(map);
+                    var badgeClass = "bg-secondary",descText = ``
+                    if (BikeStationData.stationData[i].StationName.Zh_tw.split("_")[0].includes("2.0")) {
+                        badgeClass = "bg-primary"
+                    }
+
+                    if(BikeStationData.bikeData[i].AvailableRentBikes == 0){
+
+                    }
+
+                    marker.bindPopup(`
+            <span class="badge ${badgeClass}">
+                ${BikeStationData.stationData[i].StationName.Zh_tw.split("_")[0]}
+            </span> ${BikeStationData.stationData[i].StationName.Zh_tw.split("_")[1]}
+            
+            <br><br>一般:${BikeStationData.bikeData[i].AvailableRentBikesDetail.GeneralBikes}<br>電輔:${BikeStationData.bikeData[i].AvailableRentBikesDetail.ElectricBikes}<br>空位:${BikeStationData.bikeData[i].AvailableReturnBikes}`)
+
+
+
+                    console.log(BikeStationData.bikeData[i].AvailableRentBikesDetail)
+                    $("#station-display-table").append(`
+    
+    <tr>
+    <td><span class="badge ${badgeClass}">${BikeStationData.stationData[i].StationName.Zh_tw.split("_")[0]}</span><br>${BikeStationData.stationData[i].StationName.Zh_tw.split("_")[1]}</td>
+    <td>一般:${BikeStationData.bikeData[i].AvailableRentBikesDetail.GeneralBikes}<br>電輔:${BikeStationData.bikeData[i].AvailableRentBikesDetail.ElectricBikes}<br>空位:${BikeStationData.bikeData[i].AvailableReturnBikes}</td>
+
+    </tr>
+        `)
+
+
+                }
+            }
+        }
+    })
+    AJAX.getBasicApi({
+        url: `https://tdx.transportdata.tw/api/advanced/v2/Bike/Station/NearBy?%24spatialFilter=nearby%28${MyLoc[0]}%2C%20${MyLoc[1]}%2C%20${500}%29&%24format=JSON`,
+        success: function (res) {
+            if ($("#data-loading").length > 0) {
+                $("#station-display-table").html("")
+            }
+            BikeStationData.stationData = res
+            bikeStstus[0] = true
+            $("#bike-result").text(res.length + "站")
+
+            if (bikeStstus[1] == bikeStstus[0] == true) {
+                for (i = 0; i < BikeStationData.stationData.length; i++) {
+                    console.log(i)
+                    let center = [BikeStationData.stationData[i].StationPosition.PositionLat, BikeStationData.stationData[i].StationPosition.PositionLon]
+
+                    console.log(center)
+
+                    var marker = L.marker(center, {
+                        icon: greenIcon
+                    }).addTo(map);
+
+                    marker.addTo(map);
+
+                    var badgeClass = "bg-secondary"
+                    if (BikeStationData.stationData[i].StationName.Zh_tw.split("_")[0].includes("2.0")) {
+                        badgeClass = "bg-primary"
+                    }
+                    marker.bindPopup(`
+            <span class="badge ${badgeClass}">
+                ${BikeStationData.stationData[i].StationName.Zh_tw.split("_")[0]}
+            </span> ${BikeStationData.stationData[i].StationName.Zh_tw.split("_")[1]}
+            
+            <br><br>一般:${BikeStationData.bikeData[i].AvailableRentBikesDetail.GeneralBikes}<br>電輔:${BikeStationData.bikeData[i].AvailableRentBikesDetail.ElectricBikes}<br>空位:${BikeStationData.bikeData[i].AvailableReturnBikes}`)
+
+
+
+                    console.log(BikeStationData.bikeData[i].AvailableRentBikesDetail)
+                    $("#station-display-table").append(`
+    
+    <tr>
+    <td><span class="badge ${badgeClass}">${BikeStationData.stationData[i].StationName.Zh_tw.split("_")[0]}</span><br>${BikeStationData.stationData[i].StationName.Zh_tw.split("_")[1]}</td>
+    <td>一般:${BikeStationData.bikeData[i].AvailableRentBikesDetail.GeneralBikes}<br>電輔:${BikeStationData.bikeData[i].AvailableRentBikesDetail.ElectricBikes}<br>空位:${BikeStationData.bikeData[i].AvailableReturnBikes}</td>
+
+    </tr>
+        `)
+
+
+                }
+            }
+        },
+    })
+
+    
+
+}
 //---------------------//
 //MAIN FUNCTION
 
@@ -236,8 +396,8 @@ var App = {
                     公共自行車: <span id="bike-result">資料準備中...</span> 
                     </span>
                     <div class="card" id="map-container"></div>
-                                      
-                    <table class="table table-sm"><thead><tr><td>站點名稱</td><td>備註</td></tr></thead><tbody id="station-display-table"><tr><td colspan="2" style="text-align:center" id="data-loading">資料準備中...</td></tr></tbody></table>
+                    <div id="table-container"></div> 
+                    
                    
                     </div>
                 `, "html")
@@ -292,19 +452,10 @@ var App = {
                         circle.bindPopup("查詢範圍(500公尺)")
 
                         map.setView(MyLoc, 15)
-
+                        getNearBusAndBikes(MyLoc,"#table-container",map)
 
                         // let accesstoken = JSON.parse($("#req_header").text());
-                        let bikeStstus = [false, false]
-                        var BikeStationData = []
-                        var greenIcon = new L.Icon({
-                            iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
-                            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-                            iconSize: [25, 41],
-                            iconAnchor: [12, 41],
-                            popupAnchor: [1, -34],
-                            shadowSize: [41, 41]
-                        });
+
                         var redIcon = new L.Icon({
                             iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
                             shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
@@ -320,35 +471,7 @@ var App = {
                         currentlocMark.bindPopup(`你的定位中心點`)//.openPopup();
 
 
-                        AJAX.getBasicApi({
-                            url: `https://tdx.transportdata.tw/api/advanced/v2/Bus/Stop/NearBy?%24spatialFilter=nearby%28${MyLoc[0]}%2C%20${MyLoc[1]}%2C%20500%29&%24format=JSON`,
-                            success: function (res) {
-                                console.log(res)
-                                var BusData = []
-                                if ($("#data-loading").length > 0) {
-                                    $("#station-display-table").html("")
-                                }
-
-
-                                for (i = 0; i < res.length; i++) {
-                                    let center = [res[i].StopPosition.PositionLat, res[i].StopPosition.PositionLon]
-                                    var marker = L.marker(center);
-                                    marker.addTo(map);
-                                    marker.bindPopup(`<span class="badge bg-primary">公車</span> ${res[i].StopName.Zh_tw}`)//.openPopup();
-
-                                    if (!BusData.includes(res[i].StopName.Zh_tw)) {
-                                        $("#station-display-table").append(`
-                                  <tr>
-                                  <td><span class="badge bg-primary">公車</span> ${res[i].StopName.Zh_tw}</td>   
-                                  <td></td> 
-                                  </tr>
-                                  `)
-                                        BusData.push(res[i].StopName.Zh_tw)
-                                    }
-                                }
-                                $("#bus-result").text(BusData.length + "站")
-                            }
-                        })
+                        
                         AJAX.getBasicApi({
                             url: `https://tdx.transportdata.tw/api/advanced/V3/Map/GeoLocating/Markname/LocationX/${MyLoc[1]}/LocationY/${MyLoc[0]}?%24format=JSON`,
                             success: function (res) {
@@ -361,108 +484,7 @@ var App = {
                                 }
                             },
                         })
-                        AJAX.getBasicApi({
-                            url: `https://tdx.transportdata.tw/api/advanced/v2/Bike/Availability/NearBy?%24spatialFilter=nearby%28${MyLoc[0]}%2C%20${MyLoc[1]}%2C%20${500}%29&%24format=JSON`,
-                            success: function (res) {
-                                if ($("#data-loading").length > 0) {
-                                    $("#station-display-table").html("")
-                                }
-                                //TrainStationData = res;
-                                // console.log(res);
-                                BikeStationData.bikeData = res
-                                console.log(BikeStationData.stationData)
-                                bikeStstus[1] = true
-                                if (bikeStstus[1] == bikeStstus[0] == true) {
-                                    for (i = 0; i < BikeStationData.stationData.length; i++) {
-                                        console.log(i)
-                                        let center = [BikeStationData.stationData[i].StationPosition.PositionLat, BikeStationData.stationData[i].StationPosition.PositionLon]
-
-                                        console.log(center)
-
-                                        var marker = L.marker(center, {
-                                            icon: greenIcon
-                                        }).addTo(map);
-
-                                        marker.addTo(map);
-                                        var badgeClass = "bg-secondary"
-                                        if (BikeStationData.stationData[i].StationName.Zh_tw.split("_")[0].includes("2.0")) {
-                                            badgeClass = "bg-primary"
-                                        }
-                                        marker.bindPopup(`
-                                <span class="badge ${badgeClass}">
-                                    ${BikeStationData.stationData[i].StationName.Zh_tw.split("_")[0]}
-                                </span> ${BikeStationData.stationData[i].StationName.Zh_tw.split("_")[1]}
-                                
-                                <br><br>一般:${BikeStationData.bikeData[i].AvailableRentBikesDetail.GeneralBikes}<br>電輔:${BikeStationData.bikeData[i].AvailableRentBikesDetail.ElectricBikes}<br>空位:${BikeStationData.bikeData[i].AvailableReturnBikes}`)
-
-
-
-                                        console.log(BikeStationData.bikeData[i].AvailableRentBikesDetail)
-                                        $("#station-display-table").append(`
                         
-                        <tr>
-                        <td><span class="badge ${badgeClass}">${BikeStationData.stationData[i].StationName.Zh_tw.split("_")[0]}</span><br>${BikeStationData.stationData[i].StationName.Zh_tw.split("_")[1]}</td>
-                        <td>一般:${BikeStationData.bikeData[i].AvailableRentBikesDetail.GeneralBikes}<br>電輔:${BikeStationData.bikeData[i].AvailableRentBikesDetail.ElectricBikes}<br>空位:${BikeStationData.bikeData[i].AvailableReturnBikes}</td>
-         
-                        </tr>
-                            `)
-
-
-                                    }
-                                }
-                            }
-                        })
-                        AJAX.getBasicApi({
-                            url: `https://tdx.transportdata.tw/api/advanced/v2/Bike/Station/NearBy?%24spatialFilter=nearby%28${MyLoc[0]}%2C%20${MyLoc[1]}%2C%20${500}%29&%24format=JSON`,
-                            success: function (res) {
-                                if ($("#data-loading").length > 0) {
-                                    $("#station-display-table").html("")
-                                }
-                                BikeStationData.stationData = res
-                                bikeStstus[0] = true
-                                $("#bike-result").text(res.length + "站")
-
-                                if (bikeStstus[1] == bikeStstus[0] == true) {
-                                    for (i = 0; i < BikeStationData.stationData.length; i++) {
-                                        console.log(i)
-                                        let center = [BikeStationData.stationData[i].StationPosition.PositionLat, BikeStationData.stationData[i].StationPosition.PositionLon]
-
-                                        console.log(center)
-
-                                        var marker = L.marker(center, {
-                                            icon: greenIcon
-                                        }).addTo(map);
-
-                                        marker.addTo(map);
-
-                                        var badgeClass = "bg-secondary"
-                                        if (BikeStationData.stationData[i].StationName.Zh_tw.split("_")[0].includes("2.0")) {
-                                            badgeClass = "bg-primary"
-                                        }
-                                        marker.bindPopup(`
-                                <span class="badge ${badgeClass}">
-                                    ${BikeStationData.stationData[i].StationName.Zh_tw.split("_")[0]}
-                                </span> ${BikeStationData.stationData[i].StationName.Zh_tw.split("_")[1]}
-                                
-                                <br><br>一般:${BikeStationData.bikeData[i].AvailableRentBikesDetail.GeneralBikes}<br>電輔:${BikeStationData.bikeData[i].AvailableRentBikesDetail.ElectricBikes}<br>空位:${BikeStationData.bikeData[i].AvailableReturnBikes}`)
-
-
-
-                                        console.log(BikeStationData.bikeData[i].AvailableRentBikesDetail)
-                                        $("#station-display-table").append(`
-                        
-                        <tr>
-                        <td><span class="badge ${badgeClass}">${BikeStationData.stationData[i].StationName.Zh_tw.split("_")[0]}</span><br>${BikeStationData.stationData[i].StationName.Zh_tw.split("_")[1]}</td>
-                        <td>一般:${BikeStationData.bikeData[i].AvailableRentBikesDetail.GeneralBikes}<br>電輔:${BikeStationData.bikeData[i].AvailableRentBikesDetail.ElectricBikes}<br>空位:${BikeStationData.bikeData[i].AvailableReturnBikes}</td>
-
-                        </tr>
-                            `)
-
-
-                                    }
-                                }
-                            },
-                        })
                     })
                     map.on('locationerror', function () {
                         App.renderhtml("#loc-result", `<span class="text-danger">無法取得</span>`, "html")
