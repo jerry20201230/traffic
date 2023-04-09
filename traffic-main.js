@@ -585,7 +585,7 @@ var App = {
                     else if (TRA_Station_Data.StationClass == "X") {
                         stationLvL = "非車站"
                     }
-                    this.renderhtml("#main-content", `<div class="card mb-1"><div class="card-body"><h5 class="card-title">${TRA_Station_Data.StationName.Zh_tw}車站</h5><h6 class="card-subtitle mb-2 text-muted">${TRA_Station_Data.StationURL}•${stationLvL}</h6><p class="card-text">地址 : ${TRA_Station_Data.StationAddress}<br>電話 : ${TRA_Station_Data.StationPhone}<br>
+                    this.renderhtml("#main-content", `<div class="card mb-1"><div class="card-body"><h5 class="card-title">${TRA_Station_Data.StationName.Zh_tw}車站</h5><h6 class="card-subtitle mb-2 text-muted">${TRA_Station_Data.StationID}•${stationLvL}</h6><p class="card-text">地址 : ${TRA_Station_Data.StationAddress}<br>電話 : ${TRA_Station_Data.StationPhone}<br>
                     <div id="map-container" class="card"></div>
                             <span class="text-secondary">
                         
