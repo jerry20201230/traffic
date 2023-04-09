@@ -672,7 +672,7 @@ var App = {
                     function onMapClick(e){
                         var MyLoc = [e.latlng.lat,e.latlng.lng]
                         var popup = L.popup()
-                        popup.setLatLng(e.latlng).setContent(`<b>此地點</b><br>經度：${lng}<br/>緯度：${lat}`).openOn(map)
+                        popup.setLatLng(e.latlng).setContent(`<b>此地點</b><br>經度：${e.latlng.lng}<br/>緯度：${e.latlng.lat}`).openOn(map)
                         getNearBusAndBikes(MyLoc, "#table-container", map, App._current_page)
 
                     }
