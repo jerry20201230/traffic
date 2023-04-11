@@ -683,9 +683,9 @@ var App = {
                     if (ifStation) {
                         AJAX.refreshApi({
                             url: [`https://tdx.transportdata.tw/api/advanced/v2/Bike/Availability/NearBy?%24spatialFilter=nearby%28${MyLoc[0]}%2C%20${MyLoc[1]}%2C%20${500}%29&%24format=JSON`],
-                            
-                            queryType:"ubikeStation",
-                            progBar:"#ubike_refresh_prog",
+
+                            queryType: "ubikeStation",
+                            progBar: "#ubike_refresh_prog",
                             delay: 60
                         })
                     }
@@ -781,8 +781,13 @@ var DATA = {
             TrainStationData = JSON.parse(localStorage.getItem("data")).TRA.data;
             for (i = 0; i < TrainStationData.Stations.length; i++) {
 
-                if ((TrainStationData.Stations[i].StationName.Zh_tw.includes(pars.queryStr) || TrainStationData.Stations[i].StationName.Zh_tw.replace("臺", "台").includes(pars.queryStr)) || TrainStationData.Stations[i].StationID.includes(pars.queryStr) && pars.queryStr !== "") {
+                if (pars.queryStr == "*") {
                     $("#search-result").append(`<a onclick="App.goToPage('TRAstation',${i})" href="#" class="list-group-item list-group-item-action">${TrainStationData.Stations[i].StationName.Zh_tw} (${TrainStationData.Stations[i].StationID})</a>`)
+
+                } else {
+                    if ((TrainStationData.Stations[i].StationName.Zh_tw.includes(pars.queryStr) || TrainStationData.Stations[i].StationName.Zh_tw.replace("臺", "台").includes(pars.queryStr)) || TrainStationData.Stations[i].StationID.includes(pars.queryStr) && pars.queryStr !== "") {
+                        $("#search-result").append(`<a onclick="App.goToPage('TRAstation',${i})" href="#" class="list-group-item list-group-item-action">${TrainStationData.Stations[i].StationName.Zh_tw} (${TrainStationData.Stations[i].StationID})</a>`)
+                    }
                 }
             }
             if ($("#search-result").html() == "") {
@@ -829,9 +834,9 @@ var DATA = {
                     $("#railway-lightbox").append(`<tr><td>${res[i].ScheduledDepartureTime.split(":")[0]}:${res[i].ScheduledDepartureTime.split(":")[1]}${badge}</td><td>${res[i].TrainNo}</td><td>${res[i].TrainTypeName.Zh_tw.split("(")[0]}</td><td>${line}</td><td>${res[i].EndingStationName.Zh_tw}</td><td>${time}</td></tr>`)
                 }
             }
-        }else if (pars.type === "ubikeStation") {
+        } else if (pars.type === "ubikeStation") {
             $("#stationAvaliableBike").html(`一般:${pars.data[0].AvailableRentBikesDetail.GeneralBikes}<br>電輔:${pars.data[0].AvailableRentBikesDetail.ElectricBikes}<br>空位:${pars.data[0].AvailableReturnBikes}`)
-             
+
         }
     }
 }
