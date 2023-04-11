@@ -302,10 +302,14 @@ var App = {
             name: "TRAstation",
             path: ["home", "TRAsearch", "TRAstation"]
         },
+        {
+            name: "UBIKEstation",
+            path: ["home", "UBIKEstation"]
+        },
 
         {
             name: "Map",
-            path: ["home","Map"]
+            path: ["home", "Map"]
         },
 
     ],
@@ -638,12 +642,53 @@ var App = {
                     getNearBusAndBikes([TRA_Station_Data.StationPosition.PositionLat, TRA_Station_Data.StationPosition.PositionLon], "#table-container", map, App._current_page)
 
                     AJAX.refreshApi({
-                        url: `https://tdx.transportdata.tw/api/basic/v2/Rail/TRA/LiveBoard/Station/${TRA_Station_Data.StationID}?%24format=JSON`,
+                        url: [`https://tdx.transportdata.tw/api/basic/v2/Rail/TRA/LiveBoard/Station/${TRA_Station_Data.StationID}?%24format=JSON`],
                         success: function (res) { console.log(res) },
                         queryType: "TRA.Direction",
                         progBar: "#railway_refresh_prog",
                         delay: 60
                     })
+                }
+                else if (this._availablePage[i].name == "UBIKEstation") {
+                    if (from == "url") {
+                        if (!par1 || !par2) {
+                            App.goToPage("home")
+                            Toast.toast("無法解析網址參數")
+                        }
+                    }
+                    var loc = [par1, par2]
+                    this.renderTitle("公共自行車 - 站點資訊")
+                    this.renderhtml("#main-content", `
+                    <div id="stationName"></div>
+                    <div id="stationAvaliableBike"></div>
+
+                    <div class="progress mt-1">
+                    <div id="ubike_refresh_prog" class="progress-bar" role="progressbar" aria-label="auto refresh process"style="width: 25%"></div>
+                    </div>
+
+                    `)
+                    var ifStation;
+                    AJAX.getBasicApi({
+                        url: `https://tdx.transportdata.tw/api/advanced/v2/Bike/Station/NearBy?%24spatialFilter=nearby%28${MyLoc[0]}%2C%20${MyLoc[1]}%2C%20${500}%29&%24format=JSON`,
+                        success: function (res) {
+                            if (res.length == 0) {
+                                ifStation = false
+                                App.renderhtml("#stationName", "無資料!!")
+                            } else {
+                                ifStation = true
+                                App.renderhtml("#stationName", res[0].StationName.Zh_tw.split("_")[0])
+                            }
+                        }
+                    })
+                    if (ifStation) {
+                        AJAX.refreshApi({
+                            url: [`https://tdx.transportdata.tw/api/advanced/v2/Bike/Availability/NearBy?%24spatialFilter=nearby%28${MyLoc[0]}%2C%20${MyLoc[1]}%2C%20${500}%29&%24format=JSON`],
+                            
+                            queryType:"ubikeStation",
+                            progBar:"#ubike_refresh_prog",
+                            delay: 60
+                        })
+                    }
                 }
 
 
@@ -669,8 +714,8 @@ var App = {
                     })
 
                     map.on('click', onMapClick);
-                    function onMapClick(e){
-                        var MyLoc = [e.latlng.lat,e.latlng.lng]
+                    function onMapClick(e) {
+                        var MyLoc = [e.latlng.lat, e.latlng.lng]
                         var popup = L.popup()
                         popup.setLatLng(e.latlng).setContent(`<b>此地點</b><br>經度：${e.latlng.lng}<br/>緯度：${e.latlng.lat}`).openOn(map)
                         getNearBusAndBikes(MyLoc, "#table-container", map, App._current_page)
@@ -784,6 +829,9 @@ var DATA = {
                     $("#railway-lightbox").append(`<tr><td>${res[i].ScheduledDepartureTime.split(":")[0]}:${res[i].ScheduledDepartureTime.split(":")[1]}${badge}</td><td>${res[i].TrainNo}</td><td>${res[i].TrainTypeName.Zh_tw.split("(")[0]}</td><td>${line}</td><td>${res[i].EndingStationName.Zh_tw}</td><td>${time}</td></tr>`)
                 }
             }
+        }else if (pars.type === "ubikeStation") {
+            $("#stationAvaliableBike").html(`一般:${pars.data[0].AvailableRentBikesDetail.GeneralBikes}<br>電輔:${pars.data[0].AvailableRentBikesDetail.ElectricBikes}<br>空位:${pars.data[0].AvailableReturnBikes}`)
+             
         }
     }
 }
@@ -829,15 +877,18 @@ var AJAX = {
     */
     refreshApi: async function (pars) {
         while ($(pars.progBar).length !== 0) {
-            App.current_ajax_times=1,App.completed_ajax_times=0,App.ajax_package_name=["即時到離站資料"]
-            this.getBasicApi({
-                url: pars.url,
-                success:
-                    function (res) {
-                        DATA.query({ data: res, type: pars.queryType })
-                        pars.success(res)
-                    }
-            })
+            App.current_ajax_times = pars.src.latlng
+            for (i = 0; i < pars.url.length; i++) {
+                App.completed_ajax_times = 0, App.ajax_package_name = ["資料"]
+                this.getBasicApi({
+                    url: pars.url[i],
+                    success:
+                        function (res) {
+                            DATA.query({ data: res, type: pars.queryType })
+                            pars.success(res)
+                        }
+                })
+            }
             for (r = 0; r < pars.delay; r++) {
                 let refresh_sec = pars.delay - r
                 $(pars.progBar).css("width", (refresh_sec * (100 / pars.delay)) + "%").text(refresh_sec).removeClass("bg-secondary")
