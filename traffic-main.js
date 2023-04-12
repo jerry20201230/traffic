@@ -676,7 +676,7 @@ var App = {
                                 App.renderhtml("#stationName", "無資料!!")
                             } else {
                                 ifStation = true
-                                App.renderhtml("#stationName", res[0].StationName.Zh_tw.split("_")[0])
+                                App.renderhtml("#stationName", `${res[0].StationName.Zh_tw.split("_")[0]} ${res[0].StationName.Zh_tw.split("_")[1]}`)
                             }
                         }
                     })
