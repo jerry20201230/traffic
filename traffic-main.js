@@ -197,7 +197,7 @@ function getNearBusAndBikes(loc, container, mapObject, page) {
                         console.log(BikeStationData.bikeData[i].AvailableRentBikesDetail)
                         $("#station-display-table").append(`
     
-    <tr>
+    <tr onclick="App.goToPage('UBIKEstation',${BikeStationData.stationData[i].StationPosition.PositionLat},${BikeStationData.stationData[i].StationPosition.PositionLon})">
     <td><span class="badge ${badgeClass}">${BikeStationData.stationData[i].StationName.Zh_tw.split("_")[0]}</span><br>${BikeStationData.stationData[i].StationName.Zh_tw.split("_")[1]}</td>
     <td>一般:${BikeStationData.bikeData[i].AvailableRentBikesDetail.GeneralBikes}<br>電輔:${BikeStationData.bikeData[i].AvailableRentBikesDetail.ElectricBikes}<br>空位:${BikeStationData.bikeData[i].AvailableReturnBikes}</td>
 
@@ -250,7 +250,7 @@ function getNearBusAndBikes(loc, container, mapObject, page) {
                     console.log(BikeStationData.bikeData[i].AvailableRentBikesDetail)
                     $("#station-display-table").append(`
     
-    <tr>
+    <tr onclick="App.goToPage('UBIKEstation',${BikeStationData.stationData[i].StationPosition.PositionLat},${BikeStationData.stationData[i].StationPosition.PositionLon})">
     <td><span class="badge ${badgeClass}">${BikeStationData.stationData[i].StationName.Zh_tw.split("_")[0]}</span><br>${BikeStationData.stationData[i].StationName.Zh_tw.split("_")[1]}</td>
     <td>一般:${BikeStationData.bikeData[i].AvailableRentBikesDetail.GeneralBikes}<br>電輔:${BikeStationData.bikeData[i].AvailableRentBikesDetail.ElectricBikes}<br>空位:${BikeStationData.bikeData[i].AvailableReturnBikes}</td>
 
