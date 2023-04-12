@@ -656,7 +656,7 @@ var App = {
                             Toast.toast("無法解析網址參數")
                         }
                     }
-                    var loc = [par1, par2]
+                    var MyLoc = [par1, par2]
                     this.renderTitle("公共自行車 - 站點資訊")
                     this.renderhtml("#main-content", `
                     <div id="stationName"></div>
