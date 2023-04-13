@@ -659,6 +659,7 @@ var App = {
                     var MyLoc = [par1, par2]
                     this.renderTitle("公共自行車 - 站點資訊")
                     this.renderhtml("#main-content", `
+                    <div id="system-data-alert"></div>
                     <div id="stationName"></div>
                     <div id="stationAvaliableBike"></div>
 
@@ -667,6 +668,15 @@ var App = {
                     </div>
 
                     `)
+                    if (!localStorage.getItem("setting.alert02.show")) {
+                        $("#system-data-alert").html(`
+                    <div class="alert alert-danger fade show">
+                <button onclick='if(document.getElementById("flexCheck").checked){localStorage.setItem("setting.alert02.show",false)}' type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"  style="float:right;"></button>
+                <h4>請注意</h4>
+                此處資料請以<b>來源端更新時間</b><br>
+                資料與實際車輛數可能存在極大落差!  
+                <div class="form-check"><input class="form-check-input" type="checkbox" value="" id="flexCheck" ><label class="form-check-label" for="flexCheck">不再顯示</label></div></div>`)
+                    }
                     var ifStation;
                     AJAX.getBasicApi({
                         url: `https://tdx.transportdata.tw/api/advanced/v2/Bike/Station/NearBy?%24spatialFilter=nearby%28${MyLoc[0]}%2C%20${MyLoc[1]}%2C%20${0}%29&%24format=JSON`,
