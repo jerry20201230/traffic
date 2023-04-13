@@ -669,7 +669,7 @@ var App = {
                     `)
                     var ifStation;
                     AJAX.getBasicApi({
-                        url: `https://tdx.transportdata.tw/api/advanced/v2/Bike/Station/NearBy?%24spatialFilter=nearby%28${MyLoc[0]}%2C%20${MyLoc[1]}%2C%20${500}%29&%24format=JSON`,
+                        url: `https://tdx.transportdata.tw/api/advanced/v2/Bike/Station/NearBy?%24spatialFilter=nearby%28${MyLoc[0]}%2C%20${MyLoc[1]}%2C%20${0}%29&%24format=JSON`,
                         success: function (res) {
                             console.log(res)
                             if (res.length == 0) {
