@@ -777,6 +777,7 @@ var DATA = {
     }
     */
     query: function (pars) {
+        console.log(pars)
         if (pars.type === "TRA.SearchStation") {
             $("#search-result").html("")
             TrainStationData = JSON.parse(localStorage.getItem("data")).TRA.data;
@@ -1043,7 +1044,7 @@ var system_offcanvas = {
    資料讀取失敗
   </p>
 </div>
-</div>
+</div> 
 `
         }
 
