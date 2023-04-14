@@ -960,7 +960,7 @@ var BottonBarWeight = {
         if (type == "disconnected") {
             App.renderhtml("#wifi-icon", `<i class="bi bi-cloud-slash-fill"></i>`, "html")
 
-        } else if (type === "spinner") {
+        } else if (type === "spinner" && App.current_ajax_times>=App.completed_ajax_times) {
             if (pars) {
                 App.renderhtml("#ajax-loading-icon", `<div class="spinner-border spinner-border-sm text-light" role="status">
                 <span class="visually-hidden">Loading...</span>
