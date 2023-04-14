@@ -896,6 +896,8 @@ var AJAX = {
     */
     refreshApi: async function (pars) {
         while ($(pars.progBar).length !== 0) {
+            console.log(pars)
+            console.log("REF")
             App.current_ajax_times = pars.src.latlng
             for (i = 0; i < pars.url.length; i++) {
                 App.completed_ajax_times = 0, App.ajax_package_name = ["資料"]
