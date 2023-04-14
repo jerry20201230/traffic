@@ -787,7 +787,9 @@ var DATA = {
     }
     */
     query: function (pars) {
+        console.log("QUERY")
         console.log(pars)
+        
         if (pars.type === "TRA.SearchStation") {
             $("#search-result").html("")
             TrainStationData = JSON.parse(localStorage.getItem("data")).TRA.data;
