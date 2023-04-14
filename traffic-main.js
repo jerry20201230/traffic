@@ -805,7 +805,7 @@ var DATA = {
                 }
             }
             if ($("#search-result").html() == "") {
-                $("#search-result").append(`<a href="#" class="list-group-item list-group-item-action">無資料</a>`)
+                $("#search-result").append(`<a href="#" onclick="Toast.toast('無資料')" class="list-group-item list-group-item-action">無資料</a>`)
 
             }
 
@@ -898,7 +898,7 @@ var AJAX = {
         while ($(pars.progBar).length !== 0) {
             console.log(pars)
             console.log("REF")
-            App.current_ajax_times = pars.src.length
+            App.current_ajax_times = pars.url.length
             for (i = 0; i < pars.url.length; i++) {
                 App.completed_ajax_times = 0, App.ajax_package_name = ["資料"]
                 this.getBasicApi({
