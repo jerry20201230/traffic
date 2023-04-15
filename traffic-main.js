@@ -906,7 +906,7 @@ var AJAX = {
                     success:
                         function (res) {
                             DATA.query({ data: res, type: pars.queryType })
-                            pars.success(res)
+                            //pars.success(res)
                         }
                 })
             }
