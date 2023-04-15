@@ -910,14 +910,15 @@ var AJAX = {
                         }
                 })
             }
-            for (r = 0; r < pars.delay; r++) {
-                let refresh_sec = pars.delay - r
-                $(pars.progBar).css("width", (refresh_sec * (100 / pars.delay)) + "%").text(refresh_sec).removeClass("bg-secondary")
-                if ($(pars.progBar).length == 0) {
-                    break;
-                }
-                await delay(1)
-            }
+            await delay(pars.delay)
+           // for (r = 0; r < pars.delay; r++) {
+             //   let refresh_sec = pars.delay - r
+               // $(pars.progBar).css("width", (refresh_sec * (100 / pars.delay)) + "%").text(refresh_sec).removeClass("bg-secondary")
+          //      if ($(pars.progBar).length == 0) {
+            //        break;
+              //  }
+                //await delay(1)
+          //  }
         }
         return;
     },
