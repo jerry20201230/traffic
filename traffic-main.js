@@ -899,6 +899,8 @@ var AJAX = {
         while ($(pars.progBar).length !== 0) {
             console.log(pars)
             console.log("REF")
+            $(process).css("width", (1 * (100 /pars.delay)) + "%").text(120).removeClass("bg-secondary")
+
             App.current_ajax_times = pars.url.length
             for (i = 0; i < pars.url.length; i++) {
                 App.completed_ajax_times = 0, App.ajax_package_name = ["資料"]
@@ -911,15 +913,15 @@ var AJAX = {
                         }
                 })
             }
-            await delay(pars.delay)
-           // for (r = 0; r < pars.delay; r++) {
-             //   let refresh_sec = pars.delay - r
-               // $(pars.progBar).css("width", (refresh_sec * (100 / pars.delay)) + "%").text(refresh_sec).removeClass("bg-secondary")
-          //      if ($(pars.progBar).length == 0) {
-            //        break;
-              //  }
-                //await delay(1)
-          //  }
+           // await delay(pars.delay)
+            for (r = 0; r < pars.delay; r++) {
+                let refresh_sec = pars.delay - r
+                $(pars.progBar).css("width", (refresh_sec * (100 / pars.delay)) + "%").text(refresh_sec).removeClass("bg-secondary")
+                if ($(pars.progBar).length == 0) {
+                    break;
+                }
+                await delay(1)
+            }
         }
         return;
     },
