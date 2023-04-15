@@ -102,6 +102,7 @@ async function timeDisplay(Displaysec) {
 }
 
 function getNearBusAndBikes(loc, container, mapObject, page) {
+    console.log("getNearBusAndBikes")
     var MyLoc = loc
     App.renderhtml(container, `<table class="table table-sm"><thead><tr><td>站點名稱</td><td>備註</td></tr></thead><tbody id="station-display-table"><tr><td colspan="2" style="text-align:center" id="data-loading">資料準備中...</td></tr></tbody></table>`)
     var map = mapObject;
@@ -121,7 +122,7 @@ function getNearBusAndBikes(loc, container, mapObject, page) {
     AJAX.getBasicApi({
         url: `https://tdx.transportdata.tw/api/advanced/v2/Bus/Stop/NearBy?%24spatialFilter=nearby%28${MyLoc[0]}%2C%20${MyLoc[1]}%2C%20500%29&%24format=JSON`,
         success: function (res) {
-            if (App._current_page === page) {
+            if (App._current_page === page) {   
                 console.log(res)
                 var BusData = []
                 if ($("#data-loading").length > 0) {
@@ -641,13 +642,13 @@ var App = {
 
                     getNearBusAndBikes([TRA_Station_Data.StationPosition.PositionLat, TRA_Station_Data.StationPosition.PositionLon], "#table-container", map, App._current_page)
 
-                    AJAX.refreshApi({
+                   /* AJAX.refreshApi({
                         url: [`https://tdx.transportdata.tw/api/basic/v2/Rail/TRA/LiveBoard/Station/${TRA_Station_Data.StationID}?%24format=JSON`],
                         success: function (res) { console.log(res) },
                         queryType: "TRA.Direction",
                         progBar: "#railway_refresh_prog",
                         delay: 60
-                    })
+                    })*/
                 }
                 else if (this._availablePage[i].name == "UBIKEstation") {
                     if (from == "url") {
