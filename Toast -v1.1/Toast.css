@@ -1,7 +1,7 @@
 .toast-container {
     position: fixed;
-    z-index: 9999;
-    bottom: 50px;
+    z-index: 99999;
+    bottom: 58.3px;
     width: 100%;
     -webkit-transition: opacity .8s;
     -moz-transition: opacity .8s;
@@ -16,13 +16,16 @@
   
   .toast-message-container {
     font-size: 14px;
-   width: 250px;
-    margin: 5px auto;
-    padding: 5px;
-    text-align: center;
-    color: rgb(255, 255, 255);
     border-radius: 5px;
     background-color: #222222;
-    font-size: 1.1em;
+  
+    padding: 5px;
+    width: fit-content;
+    margin: 5px auto;
+    padding-right: 25px;
+    padding-left: 25px;
+    text-align: center;
+    color: rgb(255, 255, 255);
+    border-radius: 5em;
     
   }
