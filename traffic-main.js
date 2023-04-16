@@ -335,6 +335,31 @@ var App = {
             var canvas = new fabric.Canvas(pars.id)
 
             return canvas
+        }else if(type == "citySelect"){
+            //select ele : containerID
+            $(containerID).append(`<option value="Taipei">臺北市</option>`)
+            $(containerID).append(`<option value="Taichung">臺中市</option>`)
+            $(containerID).append(`<option value="Keelung">基隆市</option>`)
+            $(containerID).append(`<option value="Tainan">臺南市</option>`)
+            $(containerID).append(`<option value="Kaohsiung">高雄市</option>`)
+            $(containerID).append(`<option value="NewTaipei">新北市</option>`)
+            $(containerID).append(`<option value="YilanCounty">宜蘭縣</option>`)
+            $(containerID).append(`<option value="Taoyuan">桃園市</option>`)
+            $(containerID).append(`<option value="Chiayi">嘉義市</option>`)
+            $(containerID).append(`<option value="HsinchuCounty">新竹縣</option>`)
+            $(containerID).append(`<option value="MiaoliCounty">苗栗縣</option>`)
+            $(containerID).append(`<option value="NantouCounty">南投縣</option>`)
+            $(containerID).append(`<option value="ChanghuaCounty">彰化縣</option>`)
+            $(containerID).append(`<option value="Hsinchu">新竹市</option>`)
+            $(containerID).append(`<option value="YunlinCounty">雲林縣</option>`)
+            $(containerID).append(`<option value="ChiayiCounty">嘉義縣</option>`)
+            $(containerID).append(`<option value="PingtungCounty">屏東縣</option>`)
+            $(containerID).append(`<option value="HualienCounty">花蓮縣</option>`)
+            $(containerID).append(`<option value="TaitungCounty">臺東縣</option>`)
+            $(containerID).append(`<option value="KinmenCounty">金門縣</option>`)
+            $(containerID).append(`<option value="PenghuCounty">澎湖縣</option>`)
+            $(containerID).append(`<option value="LienchiangCounty">連江縣</option>`)
+
         }
     },
     goToPage: function (page, par1, par2, par3, from) {
@@ -546,12 +571,14 @@ var App = {
                     this.renderTitle("公車 - 選擇縣市")
                     this.renderhtml("#main-content", `<div class="d-flex">
                     
-                    <select class="form-select me-1">
-                    <option value="undefined">請選擇縣市</option>
+                    <select class="form-select me-1" id="CitySelsct">
+                    
                     </select>
                     
                     <button class="btn btn-primary bi bi-search"></button>
                     </div>`)
+
+                    this.createElement("#CitySelsct","citySelect")
                 }
                 else if (this._availablePage[i].name == "TRAstation") {
                     if (from == "url") {
