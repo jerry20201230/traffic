@@ -691,7 +691,7 @@ var App = {
                                 App.renderhtml("#stationName", `${res[0].StationName.Zh_tw.split("_")[0]} ${res[0].StationName.Zh_tw.split("_")[1]}`)
                             } if (ifStation) {
                                 AJAX.refreshApi({
-                                    url: [`https://tdx.transportdata.tw/api/advanced/v2/Bike/Availability/NearBy?%24spatialFilter=nearby%28${MyLoc[0]}%2C%20${MyLoc[1]}%2C%20${500}%29&%24format=JSON`],
+                                    url: [`https://tdx.transportdata.tw/api/advanced/v2/Bike/Availability/NearBy?%24spatialFilter=nearby%28${MyLoc[0]}%2C%20${MyLoc[1]}%2C%20${0}%29&%24format=JSON`],
 
                                     queryType: "ubikeStation",
                                     progBar: "#ubike_refresh_prog",
