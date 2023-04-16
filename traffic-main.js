@@ -122,7 +122,7 @@ function getNearBusAndBikes(loc, container, mapObject, page) {
     AJAX.getBasicApi({
         url: `https://tdx.transportdata.tw/api/advanced/v2/Bus/Stop/NearBy?%24spatialFilter=nearby%28${MyLoc[0]}%2C%20${MyLoc[1]}%2C%20500%29&%24format=JSON`,
         success: function (res) {
-            if (App._current_page === page) {   
+            if (App._current_page === page) {
                 console.log(res)
                 var BusData = []
                 if ($("#data-loading").length > 0) {
@@ -642,7 +642,7 @@ var App = {
 
                     getNearBusAndBikes([TRA_Station_Data.StationPosition.PositionLat, TRA_Station_Data.StationPosition.PositionLon], "#table-container", map, App._current_page)
 
-                   AJAX.refreshApi({
+                    AJAX.refreshApi({
                         url: [`https://tdx.transportdata.tw/api/basic/v2/Rail/TRA/LiveBoard/Station/${TRA_Station_Data.StationID}?%24format=JSON`],
                         //success: function (res) { console.log(res) },
                         queryType: "TRA.Direction",
@@ -689,18 +689,18 @@ var App = {
                             } else {
                                 ifStation = true
                                 App.renderhtml("#stationName", `${res[0].StationName.Zh_tw.split("_")[0]} ${res[0].StationName.Zh_tw.split("_")[1]}`)
+                            } if (ifStation) {
+                                AJAX.refreshApi({
+                                    url: [`https://tdx.transportdata.tw/api/advanced/v2/Bike/Availability/NearBy?%24spatialFilter=nearby%28${MyLoc[0]}%2C%20${MyLoc[1]}%2C%20${500}%29&%24format=JSON`],
+
+                                    queryType: "ubikeStation",
+                                    progBar: "#ubike_refresh_prog",
+                                    delay: 60
+                                })
                             }
                         }
                     })
-                    if (ifStation) {
-                        AJAX.refreshApi({
-                            url: [`https://tdx.transportdata.tw/api/advanced/v2/Bike/Availability/NearBy?%24spatialFilter=nearby%28${MyLoc[0]}%2C%20${MyLoc[1]}%2C%20${500}%29&%24format=JSON`],
 
-                            queryType: "ubikeStation",
-                            progBar: "#ubike_refresh_prog",
-                            delay: 60
-                        })
-                    }
                 }
 
 
@@ -790,7 +790,7 @@ var DATA = {
     query: function (pars) {
         console.log("QUERY")
         console.log(pars)
-        
+
         if (pars.type === "TRA.SearchStation") {
             $("#search-result").html("")
             TrainStationData = JSON.parse(localStorage.getItem("data")).TRA.data;
@@ -900,7 +900,7 @@ var AJAX = {
         while ($(pars.progBar).length !== 0) {
             console.log(pars)
             console.log("REF")
-            $(pars.progBar).css("width", (1 * (100 /pars.delay)) + "%").text(120).removeClass("bg-secondary")
+            $(pars.progBar).css("width", (1 * (100 / pars.delay)) + "%").text(120).removeClass("bg-secondary")
 
             App.current_ajax_times = pars.url.length
             for (i = 0; i < pars.url.length; i++) {
@@ -914,7 +914,7 @@ var AJAX = {
                         }
                 })
             }
-           // await delay(pars.delay)
+            // await delay(pars.delay)
             for (r = 0; r < pars.delay; r++) {
                 let refresh_sec = pars.delay - r
                 $(pars.progBar).css("width", (refresh_sec * (100 / pars.delay)) + "%").text(refresh_sec).removeClass("bg-secondary")
@@ -966,7 +966,7 @@ var BottonBarWeight = {
         if (type == "disconnected") {
             App.renderhtml("#wifi-icon", `<i class="bi bi-cloud-slash-fill"></i>`, "html")
 
-        } else if (type === "spinner" && App.current_ajax_times>=App.completed_ajax_times) {
+        } else if (type === "spinner" && App.current_ajax_times >= App.completed_ajax_times) {
             if (pars) {
                 App.renderhtml("#ajax-loading-icon", `<div class="spinner-border spinner-border-sm text-light" role="status">
                 <span class="visually-hidden">Loading...</span>
