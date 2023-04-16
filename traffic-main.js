@@ -661,6 +661,7 @@ var App = {
                     this.renderTitle("公共自行車 - 站點資訊")
                     this.renderhtml("#main-content", `
                     <div id="system-data-alert"></div>
+                    <div id="map-container" class="card"></div>
                     <div id="stationName"></div>
                     <div id="stationAvaliableBike"></div>
 
@@ -678,6 +679,27 @@ var App = {
                 資料與實際車輛數可能存在極大落差!  
                 <div class="form-check"><input class="form-check-input" type="checkbox" value="" id="flexCheck" ><label class="form-check-label" for="flexCheck">不再顯示</label></div></div>`)
                     }
+
+
+
+                    var map = this.createElement("#map-container", "map", { center: [TRA_Station_Data.StationPosition.PositionLat, TRA_Station_Data.StationPosition.PositionLon], zoom: 19 })
+
+                    var redIcon = new L.Icon({
+                        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+                        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+                        iconSize: [25, 41],
+                        iconAnchor: [12, 41],
+                        popupAnchor: [1, -34],
+                        shadowSize: [41, 41]
+                    });
+
+                    var currentlocMark = L.marker([TRA_Station_Data.StationPosition.PositionLat, TRA_Station_Data.StationPosition.PositionLon], {
+                        icon: redIcon
+                    }).addTo(map);
+                    currentlocMark.bindPopup(``)
+
+
+
                     var ifStation;
                     AJAX.getBasicApi({
                         url: `https://tdx.transportdata.tw/api/advanced/v2/Bike/Station/NearBy?%24spatialFilter=nearby%28${MyLoc[0]}%2C%20${MyLoc[1]}%2C%20${0}%29&%24format=JSON`,
@@ -689,6 +711,7 @@ var App = {
                             } else {
                                 ifStation = true
                                 App.renderhtml("#stationName", `${res[0].StationName.Zh_tw.split("_")[0]} ${res[0].StationName.Zh_tw.split("_")[1]}`)
+                                currentlocMark.bindPopup(`${res[0].StationName.Zh_tw.split("_")[0]} ${res[0].StationName.Zh_tw.split("_")[1]}`)
                             } if (ifStation) {
                                 AJAX.refreshApi({
                                     url: [`https://tdx.transportdata.tw/api/advanced/v2/Bike/Availability/NearBy?%24spatialFilter=nearby%28${MyLoc[0]}%2C%20${MyLoc[1]}%2C%20${0}%29&%24format=JSON`],
