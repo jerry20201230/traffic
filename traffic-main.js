@@ -572,9 +572,9 @@ var App = {
                     this.renderTitle("公車 - 選擇縣市")
                     this.renderhtml("#main-content", `
                     <div id="step1" class="d-flex"><select class="form-select me-1" id="CitySelsct"></select></div>
-                    <div id="step2"><div class="form-check form-check-inline">
+                    <div id="step2" class="mt-1"><div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-                    <label class="form-check-label" for="inlineRadio1">依據路線</label>
+                    <label class="form-check-label" for="inlineRadio1" checked>依據路線</label>
                   </div>
                   <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
@@ -582,7 +582,7 @@ var App = {
                   </div></div>
                     `)
 
-                    $("#step2").hide()
+                    
                     this.createElement("#CitySelsct","citySelect")
                 }
                 else if (this._availablePage[i].name == "TRAstation") {
