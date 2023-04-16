@@ -642,13 +642,13 @@ var App = {
 
                     getNearBusAndBikes([TRA_Station_Data.StationPosition.PositionLat, TRA_Station_Data.StationPosition.PositionLon], "#table-container", map, App._current_page)
 
-                   /* AJAX.refreshApi({
+                   AJAX.refreshApi({
                         url: [`https://tdx.transportdata.tw/api/basic/v2/Rail/TRA/LiveBoard/Station/${TRA_Station_Data.StationID}?%24format=JSON`],
-                        success: function (res) { console.log(res) },
+                        //success: function (res) { console.log(res) },
                         queryType: "TRA.Direction",
                         progBar: "#railway_refresh_prog",
                         delay: 60
-                    })*/
+                    })
                 }
                 else if (this._availablePage[i].name == "UBIKEstation") {
                     if (from == "url") {
