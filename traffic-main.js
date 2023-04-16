@@ -663,7 +663,19 @@ var App = {
                     <div id="system-data-alert"></div>
                     
                     <div id="stationName" class="h5 pb-2 mb-4 ps-3 text-primary border-bottom border-primary">站點名稱</div>
+
                     <div id="map-container" class="card"></div>
+                    <span class="text-secondary">
+                        
+                    公車: <span id="bus-result">資料準備中...</span><br>    
+                    公共自行車: <span id="bike-result">資料準備中...</span> 
+                    </span>
+                       <div id="table-container"></div>
+                        
+                        </p>
+
+
+
                     <div id="stationAvaliableBike"></div>
 
                     <div class="progress mt-1">
@@ -682,6 +694,7 @@ var App = {
                     }
 
 
+                    getNearBusAndBikes([TRA_Station_Data.StationPosition.PositionLat, TRA_Station_Data.StationPosition.PositionLon], "#table-container", map, App._current_page)
 
                     var map = this.createElement("#map-container", "map", { center:  MyLoc, zoom: 19 })
 
