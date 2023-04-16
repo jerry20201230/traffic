@@ -900,7 +900,7 @@ var AJAX = {
         while ($(pars.progBar).length !== 0) {
             console.log(pars)
             console.log("REF")
-            $(process).css("width", (1 * (100 /pars.delay)) + "%").text(120).removeClass("bg-secondary")
+            $(pars.progBar).css("width", (1 * (100 /pars.delay)) + "%").text(120).removeClass("bg-secondary")
 
             App.current_ajax_times = pars.url.length
             for (i = 0; i < pars.url.length; i++) {
