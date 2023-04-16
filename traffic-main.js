@@ -682,7 +682,7 @@ var App = {
 
 
 
-                    var map = this.createElement("#map-container", "map", { center: [TRA_Station_Data.StationPosition.PositionLat, TRA_Station_Data.StationPosition.PositionLon], zoom: 19 })
+                    var map = this.createElement("#map-container", "map", { center:  MyLoc, zoom: 19 })
 
                     var redIcon = new L.Icon({
                         iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
@@ -693,7 +693,7 @@ var App = {
                         shadowSize: [41, 41]
                     });
 
-                    var currentlocMark = L.marker([TRA_Station_Data.StationPosition.PositionLat, TRA_Station_Data.StationPosition.PositionLon], {
+                    var currentlocMark = L.marker(MyLoc, {
                         icon: redIcon
                     }).addTo(map);
                     currentlocMark.bindPopup(``)
