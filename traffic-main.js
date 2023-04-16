@@ -417,7 +417,7 @@ var App = {
                             "App.goToPage('TRAsearch')",
                             "App.goToPage('HSRsearch')",
                             "App.goToPage('MRTsearch')",
-                            "App.goToPage('CityBUSsearch')",
+                            "App.goToPage('BUSsearch')",
                             "App.goToPage('BIKEsearch')",
                             "App.goToPage('Map')"
                         ]
