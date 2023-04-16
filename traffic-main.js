@@ -893,6 +893,8 @@ var DATA = {
             電輔:${pars.data[0].AvailableRentBikesDetail.ElectricBikes}<br>
             空位:${pars.data[0].AvailableReturnBikes}<br>
             <i class="bi bi-clock"></i>${pars.data[0].UpdateTime.split("T")[1].split("+")[0]}`)
+        }else{
+            alert("ERROR")
         }
     }
 }
