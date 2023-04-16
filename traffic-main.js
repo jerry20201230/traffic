@@ -661,8 +661,9 @@ var App = {
                     this.renderTitle("公共自行車 - 站點資訊")
                     this.renderhtml("#main-content", `
                     <div id="system-data-alert"></div>
+                    
+                    <div id="stationName" class="h5 pb-2 mb-4 ps-3 text-primary border-bottom border-primary">站點名稱</div>
                     <div id="map-container" class="card"></div>
-                    <div id="stationName"></div>
                     <div id="stationAvaliableBike"></div>
 
                     <div class="progress mt-1">
@@ -874,8 +875,11 @@ var DATA = {
                 }
             }*/
         } else if (pars.type === "ubikeStation") {
-            $("#stationAvaliableBike").html(`一般:${pars.data[0].AvailableRentBikesDetail.GeneralBikes}<br>電輔:${pars.data[0].AvailableRentBikesDetail.ElectricBikes}<br>空位:${pars.data[0].AvailableReturnBikes}`)
-
+            $("#stationAvaliableBike").html(`
+            一般:${pars.data[0].AvailableRentBikesDetail.GeneralBikes}<br>
+            電輔:${pars.data[0].AvailableRentBikesDetail.ElectricBikes}<br>
+            空位:${pars.data[0].AvailableReturnBikes}<br>
+            <i class="bi bi-clock"></i>${pars.data[0].UpdateTime.split("T")[1].split("+")[0]}`)
         }
     }
 }
