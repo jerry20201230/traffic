@@ -674,7 +674,7 @@ var App = {
                     <div class="alert alert-danger fade show">
                 <button onclick='if(document.getElementById("flexCheck").checked){localStorage.setItem("setting.alert02.show",false)}' type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"  style="float:right;"></button>
                 <h4>請注意</h4>
-                此處資料請以<b>來源端更新時間</b><br>
+                此處資料請以<b>來源端更新時間</b>為準<br>
                 資料與實際車輛數可能存在極大落差!  
                 <div class="form-check"><input class="form-check-input" type="checkbox" value="" id="flexCheck" ><label class="form-check-label" for="flexCheck">不再顯示</label></div></div>`)
                     }
@@ -923,6 +923,7 @@ var AJAX = {
                 await delay(1)
             }
         }
+        console.log("REF-break")
         return;
     },
     loginTDX: function (e) {
