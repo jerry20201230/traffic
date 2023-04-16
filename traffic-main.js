@@ -896,6 +896,7 @@ var AJAX = {
     delay
     */
     refreshApi: async function (pars) {
+        console.log($(pars.progBar).length)
         while ($(pars.progBar).length !== 0) {
             console.log(pars)
             console.log("REF")
