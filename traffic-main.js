@@ -337,6 +337,7 @@ var App = {
             return canvas
         }else if(type == "citySelect"){
             //select ele : containerID
+            $(containerID).append(`<option value="false">請選擇縣市</option>`)
             $(containerID).append(`<option value="Taipei">臺北市</option>`)
             $(containerID).append(`<option value="Taichung">臺中市</option>`)
             $(containerID).append(`<option value="Keelung">基隆市</option>`)
@@ -569,15 +570,19 @@ var App = {
                 }
                 else if (this._availablePage[i].name == "BUSsearch") {
                     this.renderTitle("公車 - 選擇縣市")
-                    this.renderhtml("#main-content", `<div class="d-flex">
-                    
-                    <select class="form-select me-1" id="CitySelsct">
-                    
-                    </select>
-                    
-                    <button class="btn btn-primary bi bi-search"></button>
-                    </div>`)
+                    this.renderhtml("#main-content", `
+                    <div id="step1" class="d-flex"><select class="form-select me-1" id="CitySelsct"></select></div>
+                    <div id="step2"><div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+                    <label class="form-check-label" for="inlineRadio1">依據路線</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+                    <label class="form-check-label" for="inlineRadio2">依據車站</label>
+                  </div></div>
+                    `)
 
+                    $("#step2").hide()
                     this.createElement("#CitySelsct","citySelect")
                 }
                 else if (this._availablePage[i].name == "TRAstation") {
