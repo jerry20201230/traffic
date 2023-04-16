@@ -694,9 +694,9 @@ var App = {
                     }
 
 
-                    getNearBusAndBikes([TRA_Station_Data.StationPosition.PositionLat, TRA_Station_Data.StationPosition.PositionLon], "#table-container", map, App._current_page)
 
                     var map = this.createElement("#map-container", "map", { center:  MyLoc, zoom: 19 })
+                    getNearBusAndBikes(MyLoc, "#table-container", map, App._current_page)
 
                     var redIcon = new L.Icon({
                         iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
