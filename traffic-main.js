@@ -812,7 +812,8 @@ var DATA = {
 
         }
         else if (pars.type === "TRA.Direction") {
-            let _sw, res = pars.data
+            alert("123")
+        /*    let _sw, res = pars.data
             if (document.getElementById("btnradio1").checked) {
                 _sw = 0
             } else if (document.getElementById("btnradio2").ckecked) {
@@ -848,7 +849,7 @@ var DATA = {
                     }
                     $("#railway-lightbox").append(`<tr><td>${res[i].ScheduledDepartureTime.split(":")[0]}:${res[i].ScheduledDepartureTime.split(":")[1]}${badge}</td><td>${res[i].TrainNo}</td><td>${res[i].TrainTypeName.Zh_tw.split("(")[0]}</td><td>${line}</td><td>${res[i].EndingStationName.Zh_tw}</td><td>${time}</td></tr>`)
                 }
-            }
+            }*/
         } else if (pars.type === "ubikeStation") {
             $("#stationAvaliableBike").html(`一般:${pars.data[0].AvailableRentBikesDetail.GeneralBikes}<br>電輔:${pars.data[0].AvailableRentBikesDetail.ElectricBikes}<br>空位:${pars.data[0].AvailableReturnBikes}`)
 
