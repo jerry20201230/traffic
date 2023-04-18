@@ -693,10 +693,19 @@ var App = {
                     this.renderTitle("公共自行車 - 站點資訊")
                     this.renderhtml("#main-content", `
                     <div id="system-data-alert"></div>
+                
+                    <div class="card">
+                    <div class="card-body">
+                    <h5 class="card-title" id="stationName">名稱</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="card-link">Card link</a>
+                    <a href="#" class="card-link">Another link</a>
                     
-                    <div id="stationName" class="h5 pb-2 mb-4 ps-3 text-primary border-bottom border-primary">站點名稱</div>
-
-
+                    </div>
+                
+                    
+                    
                     <div id="stationAvaliableBike"></div>
 
                     <div class="progress mt-1">
@@ -711,7 +720,7 @@ var App = {
                     </span>
                        <div id="table-container"></div>
                         
-
+.
                     `)
                     if (!localStorage.getItem("setting.alert02.show")) {
                         $("#system-data-alert").html(`
