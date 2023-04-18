@@ -698,15 +698,13 @@ var App = {
                     <div class="card-body">
                     <h5 class="card-title" id="stationName">名稱</h5>
                     <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" class="card-link">Card link</a>
-                    <a href="#" class="card-link">Another link</a>
+                    <p class="card-text"><div id="stationAvaliableBike"></div></p>
                     
                     </div>
                 
                     
                     
-                    <div id="stationAvaliableBike"></div>
+                    
 
                     <div class="progress mt-1">
                     <div id="ubike_refresh_prog" class="progress-bar" role="progressbar" aria-label="auto refresh process"style="width: 25%"></div>
