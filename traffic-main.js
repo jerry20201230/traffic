@@ -696,6 +696,13 @@ var App = {
                     
                     <div id="stationName" class="h5 pb-2 mb-4 ps-3 text-primary border-bottom border-primary">站點名稱</div>
 
+
+                    <div id="stationAvaliableBike"></div>
+
+                    <div class="progress mt-1">
+                    <div id="ubike_refresh_prog" class="progress-bar" role="progressbar" aria-label="auto refresh process"style="width: 25%"></div>
+                    </div>
+
                     <div id="map-container" class="card"></div>
                     <span class="text-secondary">
                         
@@ -704,15 +711,6 @@ var App = {
                     </span>
                        <div id="table-container"></div>
                         
-                        </p>
-
-
-
-                    <div id="stationAvaliableBike"></div>
-
-                    <div class="progress mt-1">
-                    <div id="ubike_refresh_prog" class="progress-bar" role="progressbar" aria-label="auto refresh process"style="width: 25%"></div>
-                    </div>
 
                     `)
                     if (!localStorage.getItem("setting.alert02.show")) {
