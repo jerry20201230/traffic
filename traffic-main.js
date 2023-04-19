@@ -697,11 +697,11 @@ var App = {
                     <div class="card">
                     <div class="card-body">
                     <h5 class="card-title" id="stationName">名稱</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                    <h6 class="card-subtitle mb-2 text-muted" id="stationStatus">狀態</h6>
                     <p class="card-text"><div id="stationAvaliableBike"></div></p>
                     
                     </div>
-                
+                </div>
                     
                     
                     
