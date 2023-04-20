@@ -710,7 +710,7 @@ var App = {
                     <div id="ubike_refresh_prog" class="progress-bar" role="progressbar" aria-label="auto refresh process"style="width: 25%"></div>
                     </div>
 
-                    <div id="map-container" class="card"></div>
+                    <div id="map-container" class="card mt-1"></div>
                     <span class="text-secondary">
                         
                     公車: <span id="bus-result">資料準備中...</span><br>    
@@ -763,7 +763,9 @@ var App = {
                                 ifStation = true
                                 App.renderhtml("#stationName", `${res[0].StationName.Zh_tw.split("_")[0]} ${res[0].StationName.Zh_tw.split("_")[1]}`)
                                 currentlocMark.bindPopup(`${res[0].StationName.Zh_tw.split("_")[0]} ${res[0].StationName.Zh_tw.split("_")[1]}`)
-                            } if (ifStation) {
+                            } 
+                            
+                            if (ifStation) {
                                 AJAX.refreshApi({
                                     url: [`https://tdx.transportdata.tw/api/advanced/v2/Bike/Availability/NearBy?%24spatialFilter=nearby%28${MyLoc[0]}%2C%20${MyLoc[1]}%2C%20${0}%29&%24format=JSON`],
 
@@ -925,6 +927,23 @@ var DATA = {
                 }
             }*/
         } else if (pars.type === "ubikeStation") {
+
+            var statusText = ""
+            if(pars.data[0].ServiceStatus == 0 || pars.data[0].ServiceStatus == 2){
+                statusText = `<span class="badge bg-danger text-white">暫停營運</span>`
+            }
+            else if(pars.data[0].AvailableReturnBikes == 0){
+                statusText = `<span class="badge bg-warning">車位滿載</span>`
+            }
+            else if(pars.data[0].AvailableRentBikes == 0){
+                statusText = `<span class="badge bg-warning">無車可借</span>`
+            }
+            else{
+                statusText = `<span class="badge bg-success text-white">正常借還</span>`
+            }
+            $("#stationStatus").html(statusText)
+
+
             $("#stationAvaliableBike").html(`
             一般:${pars.data[0].AvailableRentBikesDetail.GeneralBikes}<br>
             電輔:${pars.data[0].AvailableRentBikesDetail.ElectricBikes}<br>
@@ -975,7 +994,7 @@ var AJAX = {
     progBar(ele.)
     delay
     */
-    refreshApi: async function (pars) {
+      refreshApi: async function (pars) {
         console.log($(pars.progBar).length)
         while ($(pars.progBar).length !== 0) {
             console.log(pars)
