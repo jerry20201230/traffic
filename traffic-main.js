@@ -933,10 +933,10 @@ var DATA = {
                 statusText = `<span class="badge bg-danger text-white">暫停營運</span>`
             }
             else if(pars.data[0].AvailableReturnBikes == 0){
-                statusText = `<span class="badge bg-warning">車位滿載</span>`
+                statusText = `<span class="badge bg-warning text-dark">車位滿載</span>`
             }
             else if(pars.data[0].AvailableRentBikes == 0){
-                statusText = `<span class="badge bg-warning">無車可借</span>`
+                statusText = `<span class="badge bg-warning text-dark">無車可借</span>`
             }
             else{
                 statusText = `<span class="badge bg-success text-white">正常借還</span>`
