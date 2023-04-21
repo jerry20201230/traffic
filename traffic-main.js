@@ -572,14 +572,24 @@ var App = {
                     this.renderTitle("公車 - 選擇縣市")
                     this.renderhtml("#main-content", `
                     <div id="step1" class="d-flex"><select class="form-select me-1" id="CitySelsct"></select></div>
-                    <div id="step2" class="mt-1"><div class="form-check form-check-inline">
+                    <div id="step2" class="mt-1">
+                    
+                    <div class="form-check form-check-inline">
                     <input class="form-check-input" checked type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
                     <label class="form-check-label" for="inlineRadio1" >依據路線</label>
                   </div>
+
                   <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
                     <label class="form-check-label" for="inlineRadio2">依據車站</label>
-                  </div></div>
+                  </div>
+                  
+                  </div>
+
+                  <button class="btn btn-primary">繼續</button>
+
+                  <span id="bus-data-loading"></span>
+                  
                     `)
 
                     
