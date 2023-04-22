@@ -1360,7 +1360,3 @@ window.addEventListener("popstate", function (e) {
         App.goToPage($.UrlParam("page"), $.UrlParam("par1"), $.UrlParam("par2"), $.UrlParam("par3"), "url")
     }
 });
-
-
-
-window.onerror = Toast.toast("程式異常")
