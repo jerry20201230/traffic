@@ -337,29 +337,32 @@ var App = {
             return canvas
         }else if(type == "citySelect"){
             //select ele : containerID
-            $(containerID).append(`<option value="false">請選擇縣市</option>`)
-            $(containerID).append(`<option value="Taipei">臺北市</option>`)
-            $(containerID).append(`<option value="Taichung">臺中市</option>`)
-            $(containerID).append(`<option value="Keelung">基隆市</option>`)
-            $(containerID).append(`<option value="Tainan">臺南市</option>`)
-            $(containerID).append(`<option value="Kaohsiung">高雄市</option>`)
-            $(containerID).append(`<option value="NewTaipei">新北市</option>`)
-            $(containerID).append(`<option value="YilanCounty">宜蘭縣</option>`)
-            $(containerID).append(`<option value="Taoyuan">桃園市</option>`)
-            $(containerID).append(`<option value="Chiayi">嘉義市</option>`)
-            $(containerID).append(`<option value="HsinchuCounty">新竹縣</option>`)
-            $(containerID).append(`<option value="MiaoliCounty">苗栗縣</option>`)
-            $(containerID).append(`<option value="NantouCounty">南投縣</option>`)
-            $(containerID).append(`<option value="ChanghuaCounty">彰化縣</option>`)
-            $(containerID).append(`<option value="Hsinchu">新竹市</option>`)
-            $(containerID).append(`<option value="YunlinCounty">雲林縣</option>`)
-            $(containerID).append(`<option value="ChiayiCounty">嘉義縣</option>`)
-            $(containerID).append(`<option value="PingtungCounty">屏東縣</option>`)
-            $(containerID).append(`<option value="HualienCounty">花蓮縣</option>`)
-            $(containerID).append(`<option value="TaitungCounty">臺東縣</option>`)
-            $(containerID).append(`<option value="KinmenCounty">金門縣</option>`)
-            $(containerID).append(`<option value="PenghuCounty">澎湖縣</option>`)
-            $(containerID).append(`<option value="LienchiangCounty">連江縣</option>`)
+            end = pars.end
+            if(!end){
+                end = ""
+            }
+            $(containerID).append(`<option value="Taipei">臺北市${end}</option>`)
+            $(containerID).append(`<option value="Taichung">臺中市${end}</option>`)
+            $(containerID).append(`<option value="Keelung">基隆市${end}</option>`)
+            $(containerID).append(`<option value="Tainan">臺南市${end}</option>`)
+            $(containerID).append(`<option value="Kaohsiung">高雄市${end}</option>`)
+            $(containerID).append(`<option value="NewTaipei">新北市${end}</option>`)
+            $(containerID).append(`<option value="YilanCounty">宜蘭縣${end}</option>`)
+            $(containerID).append(`<option value="Taoyuan">桃園市${end}</option>`)
+            $(containerID).append(`<option value="Chiayi">嘉義市${end}</option>`)
+            $(containerID).append(`<option value="HsinchuCounty">新竹縣${end}</option>`)
+            $(containerID).append(`<option value="MiaoliCounty">苗栗縣${end}</option>`)
+            $(containerID).append(`<option value="NantouCounty">南投縣${end}</option>`)
+            $(containerID).append(`<option value="ChanghuaCounty">彰化縣${end}</option>`)
+            $(containerID).append(`<option value="Hsinchu">新竹市${end}</option>`)
+            $(containerID).append(`<option value="YunlinCounty">雲林縣${end}</option>`)
+            $(containerID).append(`<option value="ChiayiCounty">嘉義縣${end}</option>`)
+            $(containerID).append(`<option value="PingtungCounty">屏東縣${end}</option>`)
+            $(containerID).append(`<option value="HualienCounty">花蓮縣${end}</option>`)
+            $(containerID).append(`<option value="TaitungCounty">臺東縣${end}</option>`)
+            $(containerID).append(`<option value="KinmenCounty">金門縣${end}</option>`)
+            $(containerID).append(`<option value="PenghuCounty">澎湖縣${end}</option>`)
+            $(containerID).append(`<option value="LienchiangCounty">連江縣${end}</option>`)
 
         }
     },
@@ -571,12 +574,13 @@ var App = {
                 else if (this._availablePage[i].name == "BUSsearch") {
                     this.renderTitle("公車 - 選擇縣市")
                     this.renderhtml("#main-content", `
+                    <span>選擇市區公車所在縣市，或公路客運</span>
                     <div id="step1" class="d-flex"><select class="form-select me-1" id="CitySelsct"></select></div>
                     <div id="step2" class="mt-1">
                     
                     <div class="form-check form-check-inline">
                     <input class="form-check-input" checked type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-                    <label class="form-check-label" for="inlineRadio1" >依據路線</label>
+                    <label class="form-check-label" for="inlineRadio1">依據路線</label>
                   </div>
 
                   <div class="form-check form-check-inline">
@@ -586,14 +590,23 @@ var App = {
                   
                   </div>
 
-                  <button class="btn btn-primary">繼續</button>
+                  <button class="btn btn-primary" onclick="
+                  var by;
+                  if(document.getElementById('inlineRadio1').checked){
+                    by == "route"
+                  }else{
+                    by == "stop"
+                  }
+                  DATA.query({'type':'BUS.getData','by':by,'city':$('#CitySelsct').val()})
+                  ">繼續</button>
 
                   <span id="bus-data-loading"></span>
-                  
+
                     `)
 
                     
-                    this.createElement("#CitySelsct","citySelect")
+                    this.createElement("#CitySelsct","citySelect",{end:"公車"})
+                    $("#CitySelsct").append(`<option value="InterBus">公路客運</option>`)
                 }
                 else if (this._availablePage[i].name == "TRAstation") {
                     if (from == "url") {
@@ -959,7 +972,32 @@ var DATA = {
             電輔:${pars.data[0].AvailableRentBikesDetail.ElectricBikes}<br>
             空位:${pars.data[0].AvailableReturnBikes}<br>
             <i class="bi bi-clock"></i>${pars.data[0].UpdateTime.split("T")[1].split("+")[0]}`)
-        }else{
+        }
+        else if(pars.type === "BUS.getData"){
+            console.log(pars.by)
+            console.log(pars.city)
+
+            if(!this.localData.BUS_arr){
+                this.localData.BUS_arr = []
+                this.localData.BUS_Data = []
+                localStorage.setItem("data",this.localData)
+            }
+
+            var isData = false;
+            for(i=0;i<this.localData.BUS_arr.length;i++){
+                if(this.localData.BUS_arr[i] == `${pars.city}&${pars.by}`){
+                    isData = true
+                    $("#bus-data-loading").text("")
+                    break;
+                }
+            }
+            if(!isData){
+
+            }
+        }
+        
+        
+        else{
             alert("ERROR")
         }
     }
