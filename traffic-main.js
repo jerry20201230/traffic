@@ -593,9 +593,9 @@ var App = {
                   <button class="btn btn-primary" onclick="
                   var by;
                   if(document.getElementById('inlineRadio1').checked){
-                    by == 'route'
+                    by = 'route'
                   }else{
-                    by == 'stop'
+                    by = 'stop'
                   }
                   DATA.query({'type':'BUS.getData','by':by,'city':$('#CitySelsct').val()})
                   ">繼續</button>
