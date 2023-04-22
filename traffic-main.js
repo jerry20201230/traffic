@@ -335,10 +335,10 @@ var App = {
             var canvas = new fabric.Canvas(pars.id)
 
             return canvas
-        }else if(type == "citySelect"){
+        } else if (type == "citySelect") {
             //select ele : containerID
             end = pars.end
-            if(!end){
+            if (!end) {
                 end = ""
             }
             $(containerID).append(`<option value="Taipei">臺北市${end}</option>`)
@@ -593,9 +593,9 @@ var App = {
                   <button class="btn btn-primary" onclick="
                   var by;
                   if(document.getElementById('inlineRadio1').checked){
-                    by = 'route'
+                    by = 'Route'
                   }else{
-                    by = 'stop'
+                    by = 'Stop'
                   }
                   DATA.query({'type':'BUS.getData','by':by,'city':$('#CitySelsct').val()})
                   ">繼續</button>
@@ -604,8 +604,8 @@ var App = {
 
                     `)
 
-                    
-                    this.createElement("#CitySelsct","citySelect",{end:"公車"})
+
+                    this.createElement("#CitySelsct", "citySelect", { end: "公車" })
                     $("#CitySelsct").append(`<option value="InterBus">公路客運</option>`)
                 }
                 else if (this._availablePage[i].name == "TRAstation") {
@@ -755,7 +755,7 @@ var App = {
 
 
 
-                    var map = this.createElement("#map-container", "map", { center:  MyLoc, zoom: 19 })
+                    var map = this.createElement("#map-container", "map", { center: MyLoc, zoom: 19 })
                     getNearBusAndBikes(MyLoc, "#table-container", map, App._current_page)
 
                     var redIcon = new L.Icon({
@@ -786,8 +786,8 @@ var App = {
                                 ifStation = true
                                 App.renderhtml("#stationName", `${res[0].StationName.Zh_tw.split("_")[0]} ${res[0].StationName.Zh_tw.split("_")[1]}`)
                                 currentlocMark.bindPopup(`${res[0].StationName.Zh_tw.split("_")[0]} ${res[0].StationName.Zh_tw.split("_")[1]}`)
-                            } 
-                            
+                            }
+
                             if (ifStation) {
                                 AJAX.refreshApi({
                                     url: [`https://tdx.transportdata.tw/api/advanced/v2/Bike/Availability/NearBy?%24spatialFilter=nearby%28${MyLoc[0]}%2C%20${MyLoc[1]}%2C%20${0}%29&%24format=JSON`],
@@ -912,56 +912,56 @@ var DATA = {
         }
         else if (pars.type === "TRA.Direction") {
             alert("123")
-        /*    let _sw, res = pars.data
-            if (document.getElementById("btnradio1").checked) {
-                _sw = 0
-            } else if (document.getElementById("btnradio2").ckecked) {
-                _sw = 1
-            }
-
-            for (i = 0; i < res.length; i++) {
-
-                if (_sw == res[i].Direction) {
-                    let line, time, badge = ""
-                    if (res[i].TripLine == 0) {
-                        line = "-"
-                    } else if (res[i].TripLine == 1) {
-                        line = "山線"
-                    }
-                    else if (res[i].TripLine == 2) {
-                        line = "海線"
-                    }
-                    else if (res[i].TripLine == 3) {
-                        line = "成追"
-                    }
-
-                    if (res[i].DelayTime == 0) {
-                        time = `<span class="text-success">準點</span>`
-                    } else {
-                        if (res[i].DelayTime >= 10) {
-                            time = `<span class="rounded text-bg-danger p-1">晚${res[i].DelayTime}分</span>`
-                        } else {
-                            time = `<span class="text-danger">晚${res[i].DelayTime}分</span>`
-                        }
-
-
-                    }
-                    $("#railway-lightbox").append(`<tr><td>${res[i].ScheduledDepartureTime.split(":")[0]}:${res[i].ScheduledDepartureTime.split(":")[1]}${badge}</td><td>${res[i].TrainNo}</td><td>${res[i].TrainTypeName.Zh_tw.split("(")[0]}</td><td>${line}</td><td>${res[i].EndingStationName.Zh_tw}</td><td>${time}</td></tr>`)
+            /*    let _sw, res = pars.data
+                if (document.getElementById("btnradio1").checked) {
+                    _sw = 0
+                } else if (document.getElementById("btnradio2").ckecked) {
+                    _sw = 1
                 }
-            }*/
+    
+                for (i = 0; i < res.length; i++) {
+    
+                    if (_sw == res[i].Direction) {
+                        let line, time, badge = ""
+                        if (res[i].TripLine == 0) {
+                            line = "-"
+                        } else if (res[i].TripLine == 1) {
+                            line = "山線"
+                        }
+                        else if (res[i].TripLine == 2) {
+                            line = "海線"
+                        }
+                        else if (res[i].TripLine == 3) {
+                            line = "成追"
+                        }
+    
+                        if (res[i].DelayTime == 0) {
+                            time = `<span class="text-success">準點</span>`
+                        } else {
+                            if (res[i].DelayTime >= 10) {
+                                time = `<span class="rounded text-bg-danger p-1">晚${res[i].DelayTime}分</span>`
+                            } else {
+                                time = `<span class="text-danger">晚${res[i].DelayTime}分</span>`
+                            }
+    
+    
+                        }
+                        $("#railway-lightbox").append(`<tr><td>${res[i].ScheduledDepartureTime.split(":")[0]}:${res[i].ScheduledDepartureTime.split(":")[1]}${badge}</td><td>${res[i].TrainNo}</td><td>${res[i].TrainTypeName.Zh_tw.split("(")[0]}</td><td>${line}</td><td>${res[i].EndingStationName.Zh_tw}</td><td>${time}</td></tr>`)
+                    }
+                }*/
         } else if (pars.type === "ubikeStation") {
 
             var statusText = ""
-            if(pars.data[0].ServiceStatus == 0 || pars.data[0].ServiceStatus == 2){
+            if (pars.data[0].ServiceStatus == 0 || pars.data[0].ServiceStatus == 2) {
                 statusText = `<span class="badge bg-danger text-white">暫停營運</span>`
             }
-            else if(pars.data[0].AvailableReturnBikes == 0){
+            else if (pars.data[0].AvailableReturnBikes == 0) {
                 statusText = `<span class="badge bg-warning text-dark">車位滿載</span>`
             }
-            else if(pars.data[0].AvailableRentBikes == 0){
+            else if (pars.data[0].AvailableRentBikes == 0) {
                 statusText = `<span class="badge bg-warning text-dark">無車可借</span>`
             }
-            else{
+            else {
                 statusText = `<span class="badge bg-success text-white">正常借還</span>`
             }
             $("#stationStatus").html(statusText)
@@ -973,31 +973,37 @@ var DATA = {
             空位:${pars.data[0].AvailableReturnBikes}<br>
             <i class="bi bi-clock"></i>${pars.data[0].UpdateTime.split("T")[1].split("+")[0]}`)
         }
-        else if(pars.type === "BUS.getData"){
+        else if (pars.type === "BUS.getData") {
             console.log(pars.by)
             console.log(pars.city)
 
-            if(!this.localData.BUS_arr){
+            if (!this.localData.BUS_arr) {
                 this.localData.BUS_arr = []
                 this.localData.BUS_Data = []
-                localStorage.setItem("data",this.localData)
+                localStorage.setItem("data", this.localData)
             }
 
             var isData = false;
-            for(i=0;i<this.localData.BUS_arr.length;i++){
-                if(this.localData.BUS_arr[i] == `${pars.city}&${pars.by}`){
+            for (i = 0; i < this.localData.BUS_arr.length; i++) {
+                if (this.localData.BUS_arr[i] == `${pars.city}&${pars.by}`) {
                     isData = true
                     $("#bus-data-loading").text("找到快取資料")
                     break;
                 }
             }
-            if(!isData){
+            if (!isData) {
                 $("#bus-data-loading").text("正在讀取資料")
+                AJAX.getBasicApi({
+                    url: `https://tdx.transportdata.tw/api/basic/v2/Bus/${pars.by}/City/${pars.city}?%24format=JSON`,
+                    success: function (res) {
+
+                    }
+                })
             }
         }
-        
-        
-        else{
+
+
+        else {
             alert("ERROR")
         }
     }
@@ -1042,7 +1048,7 @@ var AJAX = {
     progBar(ele.)
     delay
     */
-      refreshApi: async function (pars) {
+    refreshApi: async function (pars) {
         console.log($(pars.progBar).length)
         while ($(pars.progBar).length !== 0) {
             console.log(pars)
@@ -1112,7 +1118,7 @@ var BottonBarWeight = {
     set: function (type, pars) {
         if (type == "disconnected") {
             App.renderhtml("#wifi-icon", `<i class="bi bi-cloud-slash-fill"></i>`, "html")
-
+            Toast.toast("無法讀取部分資料")
         } else if (type === "spinner" && App.current_ajax_times >= App.completed_ajax_times) {
             if (pars) {
                 App.renderhtml("#ajax-loading-icon", `<div class="spinner-border spinner-border-sm text-light" role="status">
@@ -1354,3 +1360,7 @@ window.addEventListener("popstate", function (e) {
         App.goToPage($.UrlParam("page"), $.UrlParam("par1"), $.UrlParam("par2"), $.UrlParam("par3"), "url")
     }
 });
+
+
+
+window.onerror = Toast.toast("程式異常")
