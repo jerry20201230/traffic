@@ -574,7 +574,7 @@ var App = {
                 else if (this._availablePage[i].name == "BUSsearch") {
                     this.renderTitle("公車 - 選擇縣市")
                     this.renderhtml("#main-content", `
-                    <span>選擇市區公車所在縣市，或公路客運</span>
+                    <span class="text-secondary">選擇市區公車所在縣市，或公路客運</span>
                     <div id="step1" class="d-flex"><select class="form-select me-1" id="CitySelsct"></select></div>
                     <div id="step2" class="mt-1">
                     
@@ -987,12 +987,12 @@ var DATA = {
             for(i=0;i<this.localData.BUS_arr.length;i++){
                 if(this.localData.BUS_arr[i] == `${pars.city}&${pars.by}`){
                     isData = true
-                    $("#bus-data-loading").text("")
+                    $("#bus-data-loading").text("找到快取資料")
                     break;
                 }
             }
             if(!isData){
-
+                $("#bus-data-loading").text("正在讀取資料")
             }
         }
         
