@@ -980,7 +980,7 @@ var DATA = {
             if (!this.localData.BUS_arr) {
                 this.localData.BUS_arr = []
                 this.localData.BUS_Data = []
-                localStorage.setItem("data", this.localData)
+                localStorage.setItem("data",JSON.stringify(this.localData))
             }
 
             var isData = false;
