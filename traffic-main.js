@@ -105,7 +105,10 @@ function getNearBusAndBikes(loc, container, mapObject, page) {
     console.log("getNearBusAndBikes")
 
     App.current_ajax_times += 3;
-    App.ajax_package_name=["附近公車站資料","附近公共自行車站資料","公共自行車剩餘位置"]
+    App.ajax_package_name.push("附近公車站資料")
+    App.ajax_package_name.push("附近公共自行車站資料")
+    App.ajax_package_name.push("公共自行車剩餘位置")
+
 
 
     var MyLoc = loc
