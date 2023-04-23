@@ -991,8 +991,7 @@ var DATA = {
             console.log(pars.by)
             console.log(pars.city)
 
-            if (!this.localData.BUS_arr) {
-                this.localData.BUS_arr = []
+            if (!this.localData.BUS_Data) {
                 this.localData.BUS_Data = []
                 console.log(this.localData)
                 localStorage.setItem("data", JSON.stringify(this.localData))
@@ -1000,7 +999,7 @@ var DATA = {
 
             var isData = false;
             for (i = 0; i < this.localData.BUS_arr.length; i++) {
-                if (this.localData.BUS_arr[i] == `${pars.city}&${pars.by}`) {
+                if (this.localData.BUS_Data[i].city == pars.city && this.localData.BUS_Data[i].by == pars.by) {
                     isData = true
                     $("#bus-data-loading").text("找到快取資料")
                     break;
@@ -1013,6 +1012,12 @@ var DATA = {
                     url: `https://tdx.transportdata.tw/api/basic/v2/Bus/${pars.by}/City/${pars.city}?%24format=JSON`,
                     success: function (res) {
                         console.log(res)
+                        DATA.localData.BUS_Data.push({
+                            "by":pars.by,
+                            "city":pars.city,
+                            "data":res,
+                            "update":getTime("date")
+                        })
                     }
                 })
             }
