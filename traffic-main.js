@@ -1046,6 +1046,10 @@ var AJAX = {
                     pars.success(res)
                 },
                 error: function (xhr, textStatus, thrownError) {
+                    App.completed_ajax_times++
+                    if (App.completed_ajax_times === App.current_ajax_times) {
+                        BottonBarWeight.set("spinner", false)
+                    }
                     BottonBarWeight.set("disconnected")
                 }
             })
