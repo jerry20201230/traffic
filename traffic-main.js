@@ -369,65 +369,66 @@ var App = {
     goToPage: function (page, par1, par2, par3, from) {
         let isAvailablePage = false;
         BottonBarWeight.set("location_mark", false)
-        for (i = 0; i < this._availablePage.length; i++) {
-            if (this._availablePage[i].name === page) {
-                isAvailablePage = true
-                if (from !== "history") {
+        if (this.current_ajax_times == this.completed_ajax_times) {
+            for (i = 0; i < this._availablePage.length; i++) {
+                if (this._availablePage[i].name === page) {
+                    isAvailablePage = true
+                    if (from !== "history") {
 
-                    if (this._history.length > 0) {
+                        if (this._history.length > 0) {
 
-                        if (this._history[this._history.length - 1].page == page) {
-                            console.log(true)
+                            if (this._history[this._history.length - 1].page == page) {
+                                console.log(true)
+                            } else {
+                                history.pushState({ "page": page, "par1": par1, "par2": par2, "par3": par3 }, "", `?page=${page}&par1=${par1}&par2=${par2}&par3=${par3}`);
+                                this._history.push({ "page": page, "par1": par1, "par2": par2, "par3": par3 })
+
+                            }
                         } else {
                             history.pushState({ "page": page, "par1": par1, "par2": par2, "par3": par3 }, "", `?page=${page}&par1=${par1}&par2=${par2}&par3=${par3}`);
+
                             this._history.push({ "page": page, "par1": par1, "par2": par2, "par3": par3 })
 
                         }
-                    } else {
-                        history.pushState({ "page": page, "par1": par1, "par2": par2, "par3": par3 }, "", `?page=${page}&par1=${par1}&par2=${par2}&par3=${par3}`);
-
-                        this._history.push({ "page": page, "par1": par1, "par2": par2, "par3": par3 })
-
                     }
-                }
-                this._current_page = this._availablePage[i].name
-                if (this._availablePage[i].name == "home") {
-                    var home_cards = {
-                        cardID: [
-                            "TRA",
-                            "HSR",
-                            "MRT",
-                            "BUS",
-                            "BIKE",
-                            "MAP"
-                        ],
-                        cardName: [
-                            "台鐵",
-                            "高鐵",
-                            "捷運",
-                            "公車",
-                            "公共自行車",
-                            "地圖"
-                        ],
-                        cardColor: [
-                            "#004da7",
-                            "#e9602a",
-                            "#0a59ae",
-                            "#000000",
-                            "#fcdd00",
-                            "green"
-                        ],
-                        cardFunc: [
-                            "App.goToPage('TRAsearch')",
-                            "App.goToPage('HSRsearch')",
-                            "App.goToPage('MRTsearch')",
-                            "App.goToPage('BUSsearch')",
-                            "App.goToPage('BIKEsearch')",
-                            "App.goToPage('Map')"
-                        ]
-                    }
-                    this.renderTitle("大眾運輸查詢")
-                    this.renderhtml("#main-content", `
+                    this._current_page = this._availablePage[i].name
+                    if (this._availablePage[i].name == "home") {
+                        var home_cards = {
+                            cardID: [
+                                "TRA",
+                                "HSR",
+                                "MRT",
+                                "BUS",
+                                "BIKE",
+                                "MAP"
+                            ],
+                            cardName: [
+                                "台鐵",
+                                "高鐵",
+                                "捷運",
+                                "公車",
+                                "公共自行車",
+                                "地圖"
+                            ],
+                            cardColor: [
+                                "#004da7",
+                                "#e9602a",
+                                "#0a59ae",
+                                "#000000",
+                                "#fcdd00",
+                                "green"
+                            ],
+                            cardFunc: [
+                                "App.goToPage('TRAsearch')",
+                                "App.goToPage('HSRsearch')",
+                                "App.goToPage('MRTsearch')",
+                                "App.goToPage('BUSsearch')",
+                                "App.goToPage('BIKEsearch')",
+                                "App.goToPage('Map')"
+                            ]
+                        }
+                        this.renderTitle("大眾運輸查詢")
+                        this.renderhtml("#main-content", `
                     <div id="system-data-alert"></div>
       
                 <div class="h5 pb-2 mb-4 ps-3 text-primary border-bottom border-primary">常用</div>
@@ -450,114 +451,114 @@ var App = {
                 `, "html")
 
 
-                    if (!localStorage.getItem("setting.alert01.show")) {
-                        $("#system-data-alert").html(`
+                        if (!localStorage.getItem("setting.alert01.show")) {
+                            $("#system-data-alert").html(`
                     <div class="alert alert-danger fade show">
                 <button onclick='if(document.getElementById("flexCheck").checked){localStorage.setItem("setting.alert01.show",false)}' type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"  style="float:right;"></button>
                 <h4>請注意</h4>
                 本系統所有資料<b>僅供參考</b><br>
                 如果你在車站內，請以站內顯示的資料為主   
                 <div class="form-check"><input class="form-check-input" type="checkbox" value="" id="flexCheck" ><label class="form-check-label" for="flexCheck">不再顯示</label></div></div>`)
-                    }
+                        }
 
 
-                    var indexRow = 0
-                    for (i = 0; i < home_cards.cardID.length; i++) {
+                        var indexRow = 0
+                        for (i = 0; i < home_cards.cardID.length; i++) {
 
-                        $("#App-row-" + indexRow).append(
-                            `<div class="col-5 col-sm-4 h-100 mb-3 me-3 homepage-card  rounded shadow-sm p-2 bordered border-secondary " style="background: linear-gradient(315deg,${home_cards.cardColor[i]} 30px,transparent 0); ">
+                            $("#App-row-" + indexRow).append(
+                                `<div class="col-5 col-sm-4 h-100 mb-3 me-3 homepage-card  rounded shadow-sm p-2 bordered border-secondary " style="background: linear-gradient(315deg,${home_cards.cardColor[i]} 30px,transparent 0); ">
                                 <div onclick="${home_cards.cardFunc[i]}" class=" p-2 rounded">
                                     <span class="h5 text-nowrap" id="${home_cards.cardID[i]}">
                                         ${home_cards.cardName[i]}</span></div></div>`
-                        )
-                        if (isElementOverflowing(document.getElementById(home_cards.cardID[i]), 100)) {
-                            wrapContentsInMarquee(document.getElementById(home_cards.cardID[i]));
+                            )
+                            if (isElementOverflowing(document.getElementById(home_cards.cardID[i]), 100)) {
+                                wrapContentsInMarquee(document.getElementById(home_cards.cardID[i]));
+                            }
                         }
-                    }
-                    var map = this.createElement("#map-container", "map", {
-                        center: [23.75518176611264, 120.9406086935125],
-                        zoom: 7
-                    })
-                    map.locate()
-                    map.on('locationfound', function (e) {
-                        BottonBarWeight.set("location_mark", true)
-
-                        App.current_ajax_times = 4
-                        App.completed_ajax_times = 0,
-                            App.ajax_package_name = ["附近公車站資料", "公共自行車-鄰近站點", "公共自行車-剩餘位置", "你的位置描述"]
-
-                        var MyLoc = [];
-                        MyLoc[0] = e.latlng.lat
-                        MyLoc[1] = e.latlng.lng
-                        console.log(MyLoc)
-                        var circle = L.circle([MyLoc[0], MyLoc[1]], {
-                            color: 'blue',
-                            fillColor: '#0d6efd',
-                            fillOpacity: 0.5,
-                            radius: 500
-                        }).addTo(map);
-                        circle.bindPopup("查詢範圍(500公尺)")
-
-                        map.setView(MyLoc, 15)
-                        getNearBusAndBikes(MyLoc, "#table-container", map, App._current_page)
-
-                        // let accesstoken = JSON.parse($("#req_header").text());
-
-                        var redIcon = new L.Icon({
-                            iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
-                            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-                            iconSize: [25, 41],
-                            iconAnchor: [12, 41],
-                            popupAnchor: [1, -34],
-                            shadowSize: [41, 41]
-                        });
-
-                        var currentlocMark = L.marker(MyLoc, {
-                            icon: redIcon
-                        }).addTo(map);
-                        currentlocMark.bindPopup(`你的定位中心點`)//.openPopup();
-
-
-
-                        AJAX.getBasicApi({
-                            url: `https://tdx.transportdata.tw/api/advanced/V3/Map/GeoLocating/Markname/LocationX/${MyLoc[1]}/LocationY/${MyLoc[0]}?%24format=JSON`,
-                            success: function (res) {
-                                console.log(res)
-                                if (res[0].Distance > 10) {
-                                    $("#loc-result").text(res[0].Markname + " 附近")
-
-                                } else {
-                                    $("#loc-result").text(res[0].Markname)
-                                }
-                            },
+                        var map = this.createElement("#map-container", "map", {
+                            center: [23.75518176611264, 120.9406086935125],
+                            zoom: 7
                         })
+                        map.locate()
+                        map.on('locationfound', function (e) {
+                            BottonBarWeight.set("location_mark", true)
 
-                    })
-                    map.on('locationerror', function () {
-                        App.renderhtml("#loc-result", `<span class="text-danger">無法取得</span>`, "html")
-                        App.renderhtml("#bus-result", `<span class="text-danger">無法取得</span>`, "html")
-                        App.renderhtml("#bike-result", `<span class="text-danger">無法取得</span>`, "html")
-                        App.renderhtml("#data-loading", `<span class="text-danger">無法取得</span>`, "html")
-                    });
-                }
-                else if (this._availablePage[i].name == "TRAsearch") {
-                    this.renderTitle("台鐵車站搜尋")
-                    this.renderhtml("#main-content", `<div class="d-flex"><input type="text" class="form-control me-1" oninput="DATA.query({type:'TRA.SearchStation',queryStr:$('#trainStationNameInput').val()})" id="trainStationNameInput" placeholder="輸入台鐵車站名稱..."><button class="btn btn-primary bi bi-search" onclick="DATA.query({type:'TRA.SearchStation',queryStr:$('#trainStationNameInput').val()})"></button></div><div class="list-group mt-2 mb-2" id="search-result"></div>
+                            App.current_ajax_times = 4
+                            App.completed_ajax_times = 0,
+                                App.ajax_package_name = ["附近公車站資料", "公共自行車-鄰近站點", "公共自行車-剩餘位置", "你的位置描述"]
+
+                            var MyLoc = [];
+                            MyLoc[0] = e.latlng.lat
+                            MyLoc[1] = e.latlng.lng
+                            console.log(MyLoc)
+                            var circle = L.circle([MyLoc[0], MyLoc[1]], {
+                                color: 'blue',
+                                fillColor: '#0d6efd',
+                                fillOpacity: 0.5,
+                                radius: 500
+                            }).addTo(map);
+                            circle.bindPopup("查詢範圍(500公尺)")
+
+                            map.setView(MyLoc, 15)
+                            getNearBusAndBikes(MyLoc, "#table-container", map, App._current_page)
+
+                            // let accesstoken = JSON.parse($("#req_header").text());
+
+                            var redIcon = new L.Icon({
+                                iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+                                shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+                                iconSize: [25, 41],
+                                iconAnchor: [12, 41],
+                                popupAnchor: [1, -34],
+                                shadowSize: [41, 41]
+                            });
+
+                            var currentlocMark = L.marker(MyLoc, {
+                                icon: redIcon
+                            }).addTo(map);
+                            currentlocMark.bindPopup(`你的定位中心點`)//.openPopup();
+
+
+
+                            AJAX.getBasicApi({
+                                url: `https://tdx.transportdata.tw/api/advanced/V3/Map/GeoLocating/Markname/LocationX/${MyLoc[1]}/LocationY/${MyLoc[0]}?%24format=JSON`,
+                                success: function (res) {
+                                    console.log(res)
+                                    if (res[0].Distance > 10) {
+                                        $("#loc-result").text(res[0].Markname + " 附近")
+
+                                    } else {
+                                        $("#loc-result").text(res[0].Markname)
+                                    }
+                                },
+                            })
+
+                        })
+                        map.on('locationerror', function () {
+                            App.renderhtml("#loc-result", `<span class="text-danger">無法取得</span>`, "html")
+                            App.renderhtml("#bus-result", `<span class="text-danger">無法取得</span>`, "html")
+                            App.renderhtml("#bike-result", `<span class="text-danger">無法取得</span>`, "html")
+                            App.renderhtml("#data-loading", `<span class="text-danger">無法取得</span>`, "html")
+                        });
+                    }
+                    else if (this._availablePage[i].name == "TRAsearch") {
+                        this.renderTitle("台鐵車站搜尋")
+                        this.renderhtml("#main-content", `<div class="d-flex"><input type="text" class="form-control me-1" oninput="DATA.query({type:'TRA.SearchStation',queryStr:$('#trainStationNameInput').val()})" id="trainStationNameInput" placeholder="輸入台鐵車站名稱..."><button class="btn btn-primary bi bi-search" onclick="DATA.query({type:'TRA.SearchStation',queryStr:$('#trainStationNameInput').val()})"></button></div><div class="list-group mt-2 mb-2" id="search-result"></div>
                     <div class="card"><div class="card-body"><h5 class="card-title">即時通阻資料</h5><p class="card-text"><ul class="list-group" id="TRAalert"><li class="list-group-item">資料讀取中</li></ul></p></div></div>`, "html")
 
-                    this.current_ajax_times = 1
-                    this.completed_ajax_times = 0
-                    App.ajax_package_name = ["台鐵-營運通阻資料"]
+                        this.current_ajax_times = 1
+                        this.completed_ajax_times = 0
+                        App.ajax_package_name = ["台鐵-營運通阻資料"]
 
-                    AJAX.getBasicApi({
-                        url: `https://tdx.transportdata.tw/api/basic/v3/Rail/TRA/Alert?%24format=JSON`,
-                        success: function (res) {
-                            $("#TRAalert").html('')
-                            if (res.Count == 0) {
-                                $("#TRAalert").html(`<li class="list-group-item">無資料</li>`)
-                            } else {
-                                for (i = 0; i < res.Alerts.length; i++) {
-                                    $("#TRAalert").append(`
+                        AJAX.getBasicApi({
+                            url: `https://tdx.transportdata.tw/api/basic/v3/Rail/TRA/Alert?%24format=JSON`,
+                            success: function (res) {
+                                $("#TRAalert").html('')
+                                if (res.Count == 0) {
+                                    $("#TRAalert").html(`<li class="list-group-item">無資料</li>`)
+                                } else {
+                                    for (i = 0; i < res.Alerts.length; i++) {
+                                        $("#TRAalert").append(`
                         <li class="list-group-item">
                         <h5>${res.Alerts[i].Title}</h5>
                         <span>${res.Alerts[i].Description}</span> <br>   
@@ -565,15 +566,15 @@ var App = {
       
                         </li>
                         `)
+                                    }
                                 }
-                            }
-                        },
-                    })
+                            },
+                        })
 
-                }
-                else if (this._availablePage[i].name == "BUSsearch") {
-                    this.renderTitle("公車 - 選擇縣市")
-                    this.renderhtml("#main-content", `
+                    }
+                    else if (this._availablePage[i].name == "BUSsearch") {
+                        this.renderTitle("公車 - 選擇縣市")
+                        this.renderhtml("#main-content", `
                     <span class="text-secondarys">選擇市區公車所在縣市，或公路客運</span>
                     <div id="step1" class="d-flex"><select class="form-select me-1" id="CitySelsct"></select></div>
                     <div id="step2" class="mt-1">
@@ -605,53 +606,53 @@ var App = {
                     `)
 
 
-                    this.createElement("#CitySelsct", "citySelect", { end: "公車" })
-                    $("#CitySelsct").append(`<option value="InterBus">公路客運</option>`)
-                }
-                else if (this._availablePage[i].name == "TRAstation") {
-                    if (from == "url") {
-                        if (!par1) {
+                        this.createElement("#CitySelsct", "citySelect", { end: "公車" })
+                        $("#CitySelsct").append(`<option value="InterBus">公路客運</option>`)
+                    }
+                    else if (this._availablePage[i].name == "TRAstation") {
+                        if (from == "url") {
+                            if (!par1) {
+                                App.goToPage("home")
+                                Toast.toast("無法解析網址參數")
+                            }
+                        }
+                        try {
+                            var TRA_Station_Data = JSON.parse(localStorage.getItem("data")).TRA.data.Stations[par1]
+                        } catch (e) {
                             App.goToPage("home")
                             Toast.toast("無法解析網址參數")
                         }
-                    }
-                    try {
-                        var TRA_Station_Data = JSON.parse(localStorage.getItem("data")).TRA.data.Stations[par1]
-                    } catch (e) {
-                        App.goToPage("home")
-                        Toast.toast("無法解析網址參數")
-                    }
-                    let stationLvL;
-                    $("#header").text("台鐵" + TRA_Station_Data.StationName.Zh_tw + "車站")
-                    //['0: 特等', '1: 一等', '2: 二等', '3: 三等', '4: 簡易', '5: 招呼', '6: 號誌', 'A: 貨運', 'B: 基地', 'X: 非車']
-                    if (TRA_Station_Data.StationClass == 0) {
-                        stationLvL = "特等站"
-                    } else if (TRA_Station_Data.StationClass == 1) {
-                        stationLvL = "一等站"
-                    } else if (TRA_Station_Data.StationClass == 2) {
-                        stationLvL = "二等站"
-                    } else if (TRA_Station_Data.StationClass == 3) {
-                        stationLvL = "三等站"
-                    }
-                    else if (TRA_Station_Data.StationClass == 4) {
-                        stationLvL = "簡易站"
-                    }
-                    else if (TRA_Station_Data.StationClass == 5) {
-                        stationLvL = "招呼站"
-                    }
-                    else if (TRA_Station_Data.StationClass == 6) {
-                        stationLvL = "號誌站"
-                    }
-                    else if (TRA_Station_Data.StationClass == "A") {
-                        stationLvL = "貨運站"
-                    }
-                    else if (TRA_Station_Data.StationClass == "B") {
-                        stationLvL = "基地"
-                    }
-                    else if (TRA_Station_Data.StationClass == "X") {
-                        stationLvL = "非車站"
-                    }
-                    this.renderhtml("#main-content", `<div class="card mb-1"><div class="card-body"><h5 class="card-title">${TRA_Station_Data.StationName.Zh_tw}車站</h5><h6 class="card-subtitle mb-2 text-muted">${TRA_Station_Data.StationID}•${stationLvL}</h6><p class="card-text">地址 : ${TRA_Station_Data.StationAddress}<br>電話 : ${TRA_Station_Data.StationPhone}<br>
+                        let stationLvL;
+                        $("#header").text("台鐵" + TRA_Station_Data.StationName.Zh_tw + "車站")
+                        //['0: 特等', '1: 一等', '2: 二等', '3: 三等', '4: 簡易', '5: 招呼', '6: 號誌', 'A: 貨運', 'B: 基地', 'X: 非車']
+                        if (TRA_Station_Data.StationClass == 0) {
+                            stationLvL = "特等站"
+                        } else if (TRA_Station_Data.StationClass == 1) {
+                            stationLvL = "一等站"
+                        } else if (TRA_Station_Data.StationClass == 2) {
+                            stationLvL = "二等站"
+                        } else if (TRA_Station_Data.StationClass == 3) {
+                            stationLvL = "三等站"
+                        }
+                        else if (TRA_Station_Data.StationClass == 4) {
+                            stationLvL = "簡易站"
+                        }
+                        else if (TRA_Station_Data.StationClass == 5) {
+                            stationLvL = "招呼站"
+                        }
+                        else if (TRA_Station_Data.StationClass == 6) {
+                            stationLvL = "號誌站"
+                        }
+                        else if (TRA_Station_Data.StationClass == "A") {
+                            stationLvL = "貨運站"
+                        }
+                        else if (TRA_Station_Data.StationClass == "B") {
+                            stationLvL = "基地"
+                        }
+                        else if (TRA_Station_Data.StationClass == "X") {
+                            stationLvL = "非車站"
+                        }
+                        this.renderhtml("#main-content", `<div class="card mb-1"><div class="card-body"><h5 class="card-title">${TRA_Station_Data.StationName.Zh_tw}車站</h5><h6 class="card-subtitle mb-2 text-muted">${TRA_Station_Data.StationID}•${stationLvL}</h6><p class="card-text">地址 : ${TRA_Station_Data.StationAddress}<br>電話 : ${TRA_Station_Data.StationPhone}<br>
                     <div id="map-container" class="card"></div>
                             <span class="text-secondary">
                         
@@ -676,45 +677,45 @@ var App = {
                         <div class="progress mt-1"><div id="railway_refresh_prog" class="progress-bar" role="progressbar" aria-label="auto refresh process"style="width: 25%"></div></div><table class="table table-sm" style="text-align:center"><thead><tr><th scope="col">時間</th><th scope="col">車次</th><th scope="col">車種</th><th scope="col">經</th><th scope="col">往</th><th scope="col">備註</th></tr></thead><tbody id="railway-lightbox"><tr id="railway-lightboxloading"><td colspan="6" style="text-align:center">正在取得資料</td></tr></tbody></table></p></div></div>
                     
                  `, "html")
-                    console.log([TRA_Station_Data.StationPosition.PositionLat, TRA_Station_Data.StationPosition.PositionLon])
-                    var map = this.createElement("#map-container", "map", { center: [TRA_Station_Data.StationPosition.PositionLat, TRA_Station_Data.StationPosition.PositionLon], zoom: 19 })
+                        console.log([TRA_Station_Data.StationPosition.PositionLat, TRA_Station_Data.StationPosition.PositionLon])
+                        var map = this.createElement("#map-container", "map", { center: [TRA_Station_Data.StationPosition.PositionLat, TRA_Station_Data.StationPosition.PositionLon], zoom: 19 })
 
-                    var redIcon = new L.Icon({
-                        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
-                        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-                        iconSize: [25, 41],
-                        iconAnchor: [12, 41],
-                        popupAnchor: [1, -34],
-                        shadowSize: [41, 41]
-                    });
+                        var redIcon = new L.Icon({
+                            iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+                            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+                            iconSize: [25, 41],
+                            iconAnchor: [12, 41],
+                            popupAnchor: [1, -34],
+                            shadowSize: [41, 41]
+                        });
 
-                    var currentlocMark = L.marker([TRA_Station_Data.StationPosition.PositionLat, TRA_Station_Data.StationPosition.PositionLon], {
-                        icon: redIcon
-                    }).addTo(map);
-                    currentlocMark.bindPopup(`${TRA_Station_Data.StationName.Zh_tw}車站`)
+                        var currentlocMark = L.marker([TRA_Station_Data.StationPosition.PositionLat, TRA_Station_Data.StationPosition.PositionLon], {
+                            icon: redIcon
+                        }).addTo(map);
+                        currentlocMark.bindPopup(`${TRA_Station_Data.StationName.Zh_tw}車站`)
 
 
 
-                    getNearBusAndBikes([TRA_Station_Data.StationPosition.PositionLat, TRA_Station_Data.StationPosition.PositionLon], "#table-container", map, App._current_page)
+                        getNearBusAndBikes([TRA_Station_Data.StationPosition.PositionLat, TRA_Station_Data.StationPosition.PositionLon], "#table-container", map, App._current_page)
 
-                    AJAX.refreshApi({
-                        url: [`https://tdx.transportdata.tw/api/basic/v2/Rail/TRA/LiveBoard/Station/${TRA_Station_Data.StationID}?%24format=JSON`],
-                        //success: function (res) { console.log(res) },
-                        queryType: "TRA.Direction",
-                        progBar: "#railway_refresh_prog",
-                        delay: 60
-                    })
-                }
-                else if (this._availablePage[i].name == "UBIKEstation") {
-                    if (from == "url") {
-                        if (!par1 || !par2) {
-                            App.goToPage("home")
-                            Toast.toast("無法解析網址參數")
-                        }
+                        AJAX.refreshApi({
+                            url: [`https://tdx.transportdata.tw/api/basic/v2/Rail/TRA/LiveBoard/Station/${TRA_Station_Data.StationID}?%24format=JSON`],
+                            //success: function (res) { console.log(res) },
+                            queryType: "TRA.Direction",
+                            progBar: "#railway_refresh_prog",
+                            delay: 60
+                        })
                     }
-                    var MyLoc = [par1, par2]
-                    this.renderTitle("公共自行車 - 站點資訊")
-                    this.renderhtml("#main-content", `
+                    else if (this._availablePage[i].name == "UBIKEstation") {
+                        if (from == "url") {
+                            if (!par1 || !par2) {
+                                App.goToPage("home")
+                                Toast.toast("無法解析網址參數")
+                            }
+                        }
+                        var MyLoc = [par1, par2]
+                        this.renderTitle("公共自行車 - 站點資訊")
+                        this.renderhtml("#main-content", `
                     <div id="system-data-alert"></div>
                 
                     <div class="card">
@@ -743,69 +744,69 @@ var App = {
                         
 .
                     `)
-                    if (!localStorage.getItem("setting.alert02.show")) {
-                        $("#system-data-alert").html(`
+                        if (!localStorage.getItem("setting.alert02.show")) {
+                            $("#system-data-alert").html(`
                     <div class="alert alert-danger fade show">
                 <button onclick='if(document.getElementById("flexCheck").checked){localStorage.setItem("setting.alert02.show",false)}' type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"  style="float:right;"></button>
                 <h4>請注意</h4>
                 此處資料請以<b>來源端更新時間</b>為準<br>
                 資料與實際車輛數可能存在極大落差!  
                 <div class="form-check"><input class="form-check-input" type="checkbox" value="" id="flexCheck" ><label class="form-check-label" for="flexCheck">不再顯示</label></div></div>`)
+                        }
+
+
+
+                        var map = this.createElement("#map-container", "map", { center: MyLoc, zoom: 19 })
+                        getNearBusAndBikes(MyLoc, "#table-container", map, App._current_page)
+
+                        var redIcon = new L.Icon({
+                            iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+                            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+                            iconSize: [25, 41],
+                            iconAnchor: [12, 41],
+                            popupAnchor: [1, -34],
+                            shadowSize: [41, 41]
+                        });
+
+                        var currentlocMark = L.marker(MyLoc, {
+                            icon: redIcon
+                        }).addTo(map);
+                        currentlocMark.bindPopup(``)
+
+
+
+                        var ifStation;
+                        AJAX.getBasicApi({
+                            url: `https://tdx.transportdata.tw/api/advanced/v2/Bike/Station/NearBy?%24spatialFilter=nearby%28${MyLoc[0]}%2C%20${MyLoc[1]}%2C%20${0}%29&%24format=JSON`,
+                            success: function (res) {
+                                console.log(res)
+                                if (res.length == 0) {
+                                    ifStation = false
+                                    App.renderhtml("#stationName", "無資料!!")
+                                } else {
+                                    ifStation = true
+                                    App.renderhtml("#stationName", `${res[0].StationName.Zh_tw.split("_")[0]} ${res[0].StationName.Zh_tw.split("_")[1]}`)
+                                    currentlocMark.bindPopup(`${res[0].StationName.Zh_tw.split("_")[0]} ${res[0].StationName.Zh_tw.split("_")[1]}`)
+                                }
+
+                                if (ifStation) {
+                                    AJAX.refreshApi({
+                                        url: [`https://tdx.transportdata.tw/api/advanced/v2/Bike/Availability/NearBy?%24spatialFilter=nearby%28${MyLoc[0]}%2C%20${MyLoc[1]}%2C%20${0}%29&%24format=JSON`],
+
+                                        queryType: "ubikeStation",
+                                        progBar: "#ubike_refresh_prog",
+                                        delay: 60
+                                    })
+                                }
+                            }
+                        })
+
                     }
 
 
-
-                    var map = this.createElement("#map-container", "map", { center: MyLoc, zoom: 19 })
-                    getNearBusAndBikes(MyLoc, "#table-container", map, App._current_page)
-
-                    var redIcon = new L.Icon({
-                        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
-                        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-                        iconSize: [25, 41],
-                        iconAnchor: [12, 41],
-                        popupAnchor: [1, -34],
-                        shadowSize: [41, 41]
-                    });
-
-                    var currentlocMark = L.marker(MyLoc, {
-                        icon: redIcon
-                    }).addTo(map);
-                    currentlocMark.bindPopup(``)
-
-
-
-                    var ifStation;
-                    AJAX.getBasicApi({
-                        url: `https://tdx.transportdata.tw/api/advanced/v2/Bike/Station/NearBy?%24spatialFilter=nearby%28${MyLoc[0]}%2C%20${MyLoc[1]}%2C%20${0}%29&%24format=JSON`,
-                        success: function (res) {
-                            console.log(res)
-                            if (res.length == 0) {
-                                ifStation = false
-                                App.renderhtml("#stationName", "無資料!!")
-                            } else {
-                                ifStation = true
-                                App.renderhtml("#stationName", `${res[0].StationName.Zh_tw.split("_")[0]} ${res[0].StationName.Zh_tw.split("_")[1]}`)
-                                currentlocMark.bindPopup(`${res[0].StationName.Zh_tw.split("_")[0]} ${res[0].StationName.Zh_tw.split("_")[1]}`)
-                            }
-
-                            if (ifStation) {
-                                AJAX.refreshApi({
-                                    url: [`https://tdx.transportdata.tw/api/advanced/v2/Bike/Availability/NearBy?%24spatialFilter=nearby%28${MyLoc[0]}%2C%20${MyLoc[1]}%2C%20${0}%29&%24format=JSON`],
-
-                                    queryType: "ubikeStation",
-                                    progBar: "#ubike_refresh_prog",
-                                    delay: 60
-                                })
-                            }
-                        }
-                    })
-
-                }
-
-
-                else if (this._availablePage[i].name == "Map") {
-                    this.renderTitle("地圖")
-                    this.renderhtml("#main-content", `
+                    else if (this._availablePage[i].name == "Map") {
+                        this.renderTitle("地圖")
+                        this.renderhtml("#main-content", `
                 
                       <div class="card" id="map-container"></div>
                
@@ -819,30 +820,34 @@ var App = {
                     <div id="table-container"></div> 
                 </div>
                 `, "html")
-                    var map = this.createElement("#map-container", "map", {
-                        center: [23.75518176611264, 120.9406086935125],
-                        zoom: 7
-                    })
+                        var map = this.createElement("#map-container", "map", {
+                            center: [23.75518176611264, 120.9406086935125],
+                            zoom: 7
+                        })
 
-                    map.on('click', onMapClick);
-                    function onMapClick(e) {
-                        var MyLoc = [e.latlng.lat, e.latlng.lng]
-                        var popup = L.popup()
-                        popup.setLatLng(e.latlng).setContent(`<b>此地點</b><br>經度：${e.latlng.lng}<br/>緯度：${e.latlng.lat}`).openOn(map)
-                        getNearBusAndBikes(MyLoc, "#table-container", map, App._current_page)
+                        map.on('click', onMapClick);
+                        function onMapClick(e) {
+                            var MyLoc = [e.latlng.lat, e.latlng.lng]
+                            var popup = L.popup()
+                            popup.setLatLng(e.latlng).setContent(`<b>此地點</b><br>經度：${e.latlng.lng}<br/>緯度：${e.latlng.lat}`).openOn(map)
+                            getNearBusAndBikes(MyLoc, "#table-container", map, App._current_page)
 
+                        }
                     }
+
+
                 }
-
-
             }
-        }
-        if (!isAvailablePage && from !== "history") {
-            //404
-            App.goToPage("home")
-            Toast.toast("頁面不存在!")
-        } else {
-            //error
+
+            if (!isAvailablePage && from !== "history") {
+                //404
+                App.goToPage("home")
+                Toast.toast("頁面不存在!")
+            } else {
+                //error
+            }
+        }else{
+            Toast.toast("請等待目前頁面載入完成")
         }
     },
     renderhtml: function (containerID, htmlStr, renderType) {
@@ -980,7 +985,8 @@ var DATA = {
             if (!this.localData.BUS_arr) {
                 this.localData.BUS_arr = []
                 this.localData.BUS_Data = []
-                localStorage.setItem("data",JSON.stringify(this.localData))
+                console.log(this.localData)
+                localStorage.setItem("data", JSON.stringify(this.localData))
             }
 
             var isData = false;
@@ -993,10 +999,11 @@ var DATA = {
             }
             if (!isData) {
                 $("#bus-data-loading").text("正在讀取資料")
+                App.completed_ajax_times=0;App.current_ajax_times=1;App.ajax_package_name=["公車基本資料"]
                 AJAX.getBasicApi({
                     url: `https://tdx.transportdata.tw/api/basic/v2/Bus/${pars.by}/City/${pars.city}?%24format=JSON`,
                     success: function (res) {
-
+                        console.log(res)
                     }
                 })
             }
@@ -1212,7 +1219,7 @@ var system_offcanvas = {
                 `
 <div class="card text-dark mb-1" >
 <div class="card-body">
-  <h5 class="card-title bi bi-cloud-arrow-down-fill">&nbsp;資料</h5>
+  <h5 class="card-title bi bi-cloud-slash-fill">&nbsp;資料</h5>
   <p class="card-text text-danger">
    資料讀取失敗
   </p>
@@ -1359,4 +1366,4 @@ window.addEventListener("popstate", function (e) {
         console.log(e.state.page)
         App.goToPage($.UrlParam("page"), $.UrlParam("par1"), $.UrlParam("par2"), $.UrlParam("par3"), "url")
     }
-});
+})
