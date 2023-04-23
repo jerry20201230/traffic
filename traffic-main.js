@@ -103,6 +103,11 @@ async function timeDisplay(Displaysec) {
 
 function getNearBusAndBikes(loc, container, mapObject, page) {
     console.log("getNearBusAndBikes")
+
+    App.completed_ajax_times += 3;
+    App.ajax_package_name=["附近公車站資料","附近公共自行車站資料","公共自行車剩餘位置"]
+
+
     var MyLoc = loc
     App.renderhtml(container, `<table class="table table-sm"><thead><tr><td>站點名稱</td><td>備註</td></tr></thead><tbody id="station-display-table"><tr><td colspan="2" style="text-align:center" id="data-loading">資料準備中...</td></tr></tbody></table>`)
     var map = mapObject;
@@ -483,9 +488,9 @@ var App = {
                         map.on('locationfound', function (e) {
                             BottonBarWeight.set("location_mark", true)
 
-                            App.current_ajax_times = 4
+                            App.current_ajax_times = 1
                             App.completed_ajax_times = 0,
-                                App.ajax_package_name = ["附近公車站資料", "公共自行車-鄰近站點", "公共自行車-剩餘位置", "你的位置描述"]
+                                App.ajax_package_name = ["你的位置描述"]
 
                             var MyLoc = [];
                             MyLoc[0] = e.latlng.lat
