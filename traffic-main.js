@@ -611,7 +611,7 @@ var App = {
                   ">繼續</button></div>
                  
                   <div class="mt-1">
-                 <input type="text" class="form-control" id="bus-data-search-input" disabled placeholder="請等待資料載入完成">
+                 <input type="text" class="form-control" id="bus-data-search-input" >
                  <ul class="list-group" id="bus-data-search-result"></ul>
                  </div>
                     `)
@@ -993,7 +993,7 @@ var DATA = {
         else if (pars.type === "BUS.getData") {
             console.log(pars.by)
             console.log(pars.city)
-            $("#bus-data-search-input").attr("disabled").attr("placeholder", `請等待資料載入完成`)
+            $("#bus-data-search-input").attr("placeholder", `請等待資料載入完成`)
 
             var datatype = (pars.by == 'Route' ? '路線' : '車站')
             $("#bus-data-search-input").removeAttr("disabled").attr("placeholder", `輸入 ${datatype} 名稱`)
