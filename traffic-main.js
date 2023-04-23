@@ -307,10 +307,10 @@ var App = {
 
         //-----------------//
 
-        {
+        /*{
             name: "TRAstation",
             path: ["home", "TRAsearch", "TRAstation"]
-        },
+        },*/
         {
             name: "UBIKEstation",
             path: ["home", "UBIKEstation"]
@@ -608,10 +608,10 @@ var App = {
                     by = 'Stop'
                   }
                   DATA.query({'type':'BUS.getData','by':by,'city':$('#CitySelsct').val()})
-                  ">繼續</button>
-
-                  <span id="bus-data-loading"></span>
-
+                  ">繼續</button></div>
+                 <span id="bus-data-loading"></span>
+                 <input type="text" class="form-control" id="bus-data-search-input" disabled placeholder="請等待資料載入完成">
+                 <ul class="list-group" id="bus-data-search-result"></ul>
                     `)
 
 
@@ -984,8 +984,9 @@ var DATA = {
             $("#stationAvaliableBike").html(`
             一般:${pars.data[0].AvailableRentBikesDetail.GeneralBikes}<br>
             電輔:${pars.data[0].AvailableRentBikesDetail.ElectricBikes}<br>
+            <p></p>
             空位:${pars.data[0].AvailableReturnBikes}<br>
-            <i class="bi bi-clock"></i>${pars.data[0].UpdateTime.split("T")[1].split("+")[0]}`)
+            <i class="bi bi-clock"></i> ${pars.data[0].UpdateTime.split("T")[1].split("+")[0]}`)
         }
         else if (pars.type === "BUS.getData") {
             console.log(pars.by)
@@ -1002,6 +1003,9 @@ var DATA = {
                 if (this.localData.BUS_Data[i].city == pars.city && this.localData.BUS_Data[i].by == pars.by) {
                     isData = true
                     $("#bus-data-loading").text("找到快取資料")
+
+                    var datatype = (pars.by=='Route'?'路線':'車站')
+                    $("#bus-data-search-input").removeAttr("disabled").attr("placeholder",`請輸入 ${datatype}名稱`)
                     break;
                 }
             }
@@ -1018,6 +1022,9 @@ var DATA = {
                             "data":res,
                             "update":getTime("date")
                         })
+
+                        var datatype = (pars.by=='Route'?'路線':'車站')
+                        $("#bus-data-search-input").removeAttr("disabled").attr("placeholder",`請輸入 ${datatype}名稱`)
                     }
                 })
             }
