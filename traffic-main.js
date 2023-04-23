@@ -104,7 +104,7 @@ async function timeDisplay(Displaysec) {
 function getNearBusAndBikes(loc, container, mapObject, page) {
     console.log("getNearBusAndBikes")
 
-    App.completed_ajax_times += 3;
+    App.current_ajax_times += 3;
     App.ajax_package_name=["附近公車站資料","附近公共自行車站資料","公共自行車剩餘位置"]
 
 
