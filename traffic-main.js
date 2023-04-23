@@ -609,9 +609,11 @@ var App = {
                   }
                   DATA.query({'type':'BUS.getData','by':by,'city':$('#CitySelsct').val()})
                   ">繼續</button></div>
-                 <span id="bus-data-loading"></span>
+                 
+                  <div class="mt-1">
                  <input type="text" class="form-control" id="bus-data-search-input" disabled placeholder="請等待資料載入完成">
                  <ul class="list-group" id="bus-data-search-result"></ul>
+                 </div>
                     `)
 
 
