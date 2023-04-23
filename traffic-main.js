@@ -376,8 +376,9 @@ var App = {
     },
     goToPage: function (page, par1, par2, par3, from) {
         let isAvailablePage = false;
-        BottonBarWeight.set("location_mark", false)
+      
         if (this.current_ajax_times == this.completed_ajax_times) {
+            BottonBarWeight.set("location_mark", false)
             for (i = 0; i < this._availablePage.length; i++) {
                 if (this._availablePage[i].name === page) {
                     isAvailablePage = true
