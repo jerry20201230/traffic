@@ -376,7 +376,7 @@ var App = {
     },
     goToPage: function (page, par1, par2, par3, from) {
         let isAvailablePage = false;
-      
+
         if (this.current_ajax_times == this.completed_ajax_times) {
             BottonBarWeight.set("location_mark", false)
             for (i = 0; i < this._availablePage.length; i++) {
@@ -607,7 +607,7 @@ var App = {
                   }else{
                     by = 'Stop'
                   }
-                  DATA.query({'type':'BUS.getData','by':by,'city':$('#CitySelsct').val()})
+                  DATA.query({'type':'BUS.getData','by':by,'city':$('#CitySelsct').val(),'text':$('#bus-data-search-input').val()})
                   ">繼續</button></div>
                  
                   <div class="mt-1">
@@ -857,7 +857,7 @@ var App = {
             } else {
                 //error
             }
-        }else{
+        } else {
             Toast.toast("請等待目前頁面載入完成")
         }
     },
@@ -993,42 +993,33 @@ var DATA = {
         else if (pars.type === "BUS.getData") {
             console.log(pars.by)
             console.log(pars.city)
+            $("#bus-data-search-input").attr("disabled").attr("placeholder", `請等待資料載入完成`)
 
-            if (!this.localData.BUS_Data) {
-                this.localData.BUS_Data = []
-                console.log(this.localData)
-                localStorage.setItem("data", JSON.stringify(this.localData))
-            }
+            var datatype = (pars.by == 'Route' ? '路線' : '車站')
+            $("#bus-data-search-input").removeAttr("disabled").attr("placeholder", `輸入 ${datatype} 名稱`)
+            App.completed_ajax_times = 0; App.current_ajax_times = 1; App.ajax_package_name = ["公車基本資料"]
 
-            var isData = false;
-            for (i = 0; i < this.localData.BUS_arr.length; i++) {
-                if (this.localData.BUS_Data[i].city == pars.city && this.localData.BUS_Data[i].by == pars.by) {
-                    isData = true
-                    $("#bus-data-loading").text("找到快取資料")
 
-                    var datatype = (pars.by=='Route'?'路線':'車站')
-                    $("#bus-data-search-input").removeAttr("disabled").attr("placeholder",`請輸入 ${datatype}名稱`)
-                    break;
+            if (pars.city !== "InterBus") {
+                $("#bus-data-search-result").html(`<li class="list-group-item">正在搜尋資料</li>`)
+                
+                if(pars.by == "Station"){
+                    AJAX.getBasicApi({
+                        url:`https://tdx.transportdata.tw/api/basic/v2/Bus/Stop/City/${pars.city}?%24filter=contains%28StopName%2FZh_tw%2C%20%27${pars.text}%27%29&%24format=JSON`,
+                        success:function(res){
+                            $("#bus-data-search-result").html(`<li class="list-group-item">共找到 ${res.length} 筆資料</li>`)
+                            for(i=0;i<res.length;i++){
+                            $("#bus-data-search-result").append(`<li class="list-group-item">${res[i].StopName.Zh_tw}</li>`)
+                            }
+                        }
+                    
+                    })
+                }else{
+
                 }
-            }
-            if (!isData) {
-                $("#bus-data-loading").text("正在讀取資料")
-                App.completed_ajax_times=0;App.current_ajax_times=1;App.ajax_package_name=["公車基本資料"]
-                AJAX.getBasicApi({
-                    url: `https://tdx.transportdata.tw/api/basic/v2/Bus/${pars.by}/City/${pars.city}?%24format=JSON`,
-                    success: function (res) {
-                        console.log(res)
-                        DATA.localData.BUS_Data.push({
-                            "by":pars.by,
-                            "city":pars.city,
-                            "data":res,
-                            "update":getTime("date")
-                        })
 
-                        var datatype = (pars.by=='Route'?'路線':'車站')
-                        $("#bus-data-search-input").removeAttr("disabled").attr("placeholder",`請輸入 ${datatype}名稱`)
-                    }
-                })
+            }else{
+
             }
         }
 
