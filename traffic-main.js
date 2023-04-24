@@ -1003,7 +1003,7 @@ var DATA = {
             if (pars.city !== "InterBus") {
                 $("#bus-data-search-result").html(`<li class="list-group-item">正在搜尋資料</li>`)
                 
-                if(pars.by == "Station"){
+                if(pars.by == "Stop"){
                     AJAX.getBasicApi({
                         url:`https://tdx.transportdata.tw/api/basic/v2/Bus/Stop/City/${pars.city}?%24filter=contains%28StopName%2FZh_tw%2C%20%27${pars.text}%27%29&%24format=JSON`,
                         success:function(res){
