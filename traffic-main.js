@@ -590,28 +590,27 @@ var App = {
                     
                     <div class="form-check form-check-inline">
                     <input class="form-check-input" checked type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-                    <label class="form-check-label" for="inlineRadio1">依據路線</label>
+                    <label class="form-check-label" for="inlineRadio1">搜尋路線</label>
                   </div>
 
                   <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-                    <label class="form-check-label" for="inlineRadio2">依據車站</label>
+                    <label class="form-check-label" for="inlineRadio2">搜尋車站</label>
                   </div>
                   
-                  </div>
-
-                  <button class="btn btn-primary" onclick="
-                  var by;
-                  if(document.getElementById('inlineRadio1').checked){
-                    by = 'Route'
-                  }else{
-                    by = 'Stop'
-                  }
-                  DATA.query({'type':'BUS.getData','by':by,'city':$('#CitySelsct').val(),'text':$('#bus-data-search-input').val()})
-                  ">繼續</button></div>
+                  </div></div>
                  
                   <div class="mt-1">
-                 <input type="text" class="form-control" id="bus-data-search-input" >
+                 <input type="text" class="form-control mb-1" id="bus-data-search-input" placeholder="輸入關鍵字">
+                 <button class="btn btn-primary" onclick="
+                 var by;
+                 if(document.getElementById('inlineRadio1').checked){
+                   by = 'Route'
+                 }else{
+                   by = 'Stop'
+                 }
+                 DATA.query({'type':'BUS.getData','by':by,'city':$('#CitySelsct').val(),'text':$('#bus-data-search-input').val()})
+                 ">搜尋</button>
                  <ul class="list-group" id="bus-data-search-result"></ul>
                  </div>
                     `)
@@ -1014,8 +1013,23 @@ var DATA = {
                         }
                     
                     })
-                }else{
-
+                }else if(pars.by == "Route"){
+                    AJAX.getBasicApi({
+                        url:`https://tdx.transportdata.tw/api/basic/v2/Bus/Route/City/${pars.city}?%24filter=RouteName%2FZh_tw%20eq%20%27${pars.text}%27&%24format=JSON`,
+                        success:function(res){
+                            $("#bus-data-search-result").html(`<li class="list-group-item">共找到 ${res.length} 筆資料</li>`)
+                            for(i=0;i<res.length;i++){
+                            $("#bus-data-search-result").append(`
+                            <li class="list-group-item">
+                            
+                            <h3>${res[i].RouteName.Zh_tw}</h3>
+                            <h5>${res[i].Operators.OperatorName.Zh_tw}</h5>
+                            
+                            </li>`)
+                            }
+                        }
+                    
+                    })
                 }
 
             }else{
