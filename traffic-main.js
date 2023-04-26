@@ -584,7 +584,7 @@ var App = {
                     <div id="step1" class="d-flex"><select class="form-select me-1" id="CitySelsct"></select></div>
                     <div id="step2" class="mt-1">
                  <input type="text" class="form-control mb-1" id="bus-data-search-input" placeholder="輸入關鍵字">
-                <div class="d-flex" style="overflow-x:scroll" id="label-container"></div>
+                <div class="d-flex mb-2" style="overflow-x:scroll" id="label-container"></div>
                     <div class="form-check form-check-inline">
                     <input class="form-check-input" checked type="radio" name="inlineRadioOptions" onclick="DATA.query({type:'BUS.getBadge'})" id="inlineRadio1" value="option1">
                     <label class="form-check-label" for="inlineRadio1">搜尋路線</label>
@@ -1004,7 +1004,7 @@ var DATA = {
                             success: function (res) {
                                 $("#bus-data-search-result").html(`<li class="list-group-item">搜尋${datatype} ${pars.text}<br>共找到 ${res.length} 筆資料</li>`)
                                 for (i = 0; i < res.length; i++) {
-                                    $("#bus-data-search-result").append(`<li class="list-group-item">${res[i].StopName.Zh_tw}</li>`)
+                                    $("#bus-data-search-result").append(`<li class="list-group-item">${res[i].StopName.Zh_tw}<br>StationGroupID:${res[i].StationGroupID}</li>`)
                                 }
                             }
 
@@ -1051,7 +1051,7 @@ var DATA = {
                             success: function (res) {
                                 $("#bus-data-search-result").html(`<li class="list-group-item">搜尋${datatype} ${pars.text}<br>共找到 ${res.length} 筆資料</li>`)
                                 for (i = 0; i < res.length; i++) {
-                                    $("#bus-data-search-result").append(`<li class="list-group-item">${res[i].StopName.Zh_tw}</li>`)
+                                    $("#bus-data-search-result").append(`<li class="list-group-item">${res[i].StopName.Zh_tw}StationGroupID:${res[i].StationGroupID}</li>`)
                                 }
                             }
 
