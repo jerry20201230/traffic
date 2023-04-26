@@ -795,7 +795,7 @@ var App = {
 
                     else if (this._availablePage[i].name == "BUSsearch_result_byRoute") {
 
-                        App.renderTitle("公車路線")
+                        App.renderTitle(par3)
                         App.renderhtml("#main-content", `123`)
                         App.completed_ajax_times = 0; App.current_ajax_times = 1; App.ajax_package_name = ["公車資料"]
 
