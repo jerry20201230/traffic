@@ -1004,7 +1004,7 @@ var DATA = {
                             success: function (res) {
                                 $("#bus-data-search-result").html(`<li class="list-group-item">搜尋${datatype} ${pars.text}<br>共找到 ${res.length} 筆資料</li>`)
                                 for (i = 0; i < res.length; i++) {
-                                    $("#bus-data-search-result").append(`<li class="list-group-item">${res[i].StopName.Zh_tw}<br>StationGroupID:${res[i].StationGroupID}</li>`)
+                                    $("#bus-data-search-result").append(`<li class="list-group-item">${res[i].StopName.Zh_tw}<br>StationID:${res[i].StationID}</li>`)
                                 }
                             }
 
@@ -1051,7 +1051,7 @@ var DATA = {
                             success: function (res) {
                                 $("#bus-data-search-result").html(`<li class="list-group-item">搜尋${datatype} ${pars.text}<br>共找到 ${res.length} 筆資料</li>`)
                                 for (i = 0; i < res.length; i++) {
-                                    $("#bus-data-search-result").append(`<li class="list-group-item">${res[i].StopName.Zh_tw}StationGroupID:${res[i].StationGroupID}</li>`)
+                                    $("#bus-data-search-result").append(`<li class="list-group-item">${res[i].StopName.Zh_tw}StationID:${res[i].StationID}</li>`)
                                 }
                             }
 
