@@ -1132,7 +1132,6 @@ var DATA = {
                     { text: "路口", bgColor: "blue", borderColor: "black", color: "white" },
                     { text: "巷口", bgColor: "blue", borderColor: "black", color: "white" },
                     { text: "街口", bgColor: "blue", borderColor: "black", color: "white" },
-                    { text: "村口", bgColor: "blue", borderColor: "black", color: "white" },
                     { text: "一段", bgColor: "blue", borderColor: "black", color: "white" },
                     { text: "二段", bgColor: "blue", borderColor: "black", color: "white" },
                     { text: "三段", bgColor: "blue", borderColor: "black", color: "white" },
