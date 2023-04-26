@@ -988,7 +988,7 @@ var DATA = {
         else if (pars.type === "BUS.getData") {
             console.log(pars.by)
             console.log(pars.city)
-          
+
 
             var datatype = (pars.by == 'Route' ? '路線' : '車站')
 
@@ -1093,7 +1093,7 @@ var DATA = {
                         })
                     }
                 }
-            }else{
+            } else {
                 Toast.toast("請填入關鍵字")
             }
         }
@@ -1101,120 +1101,26 @@ var DATA = {
             if (document.getElementById("inlineRadio1").checked) {
                 $("#label-container").show()
                 var labels = [
-                    {
-                        text: "紅",
-                        bgColor: "red",
-                        borderColor: "black",
-                        color: "white"
-                    },
-                    {
-                        text: "綠",
-                        bgColor: "green",
-                        borderColor: "black",
-                        color: "white"
-                    },
-                    {
-                        text: "藍",
-                        bgColor: "blue",
-                        borderColor: "black",
-                        color: "white"
-                    },
-                    {
-                        text: "棕",
-                        bgColor: "brown",
-                        borderColor: "black",
-                        color: "white"
-                    },
-                    {
-                        text: "橘",
-                        bgColor: "orange",
-                        borderColor: "black",
-                        color: "black"
-                    },
-                    {
-                        text: "黃",
-                        bgColor: "yellow",
-                        borderColor: "black",
-                        color: "black"
-                    },
-                    {
-                        text: "A",
-                        bgColor: "gray",
-                        borderColor: "black",
-                        color: "white"
-                    },
-                    {
-                        text: "B",
-                        bgColor: "gray",
-                        borderColor: "black",
-                        color: "white"
-                    },
-                    {
-                        text: "C",
-                        bgColor: "gray",
-                        borderColor: "black",
-                        color: "white"
-                    },
-                    {
-                        text: "D",
-                        bgColor: "gray",
-                        borderColor: "black",
-                        color: "white"
-                    },
-                    {
-                        text: "E",
-                        bgColor: "gray",
-                        borderColor: "black",
-                        color: "white"
-                    },
-                    {
-                        text: "F",
-                        bgColor: "gray",
-                        borderColor: "black",
-                        color: "white"
-                    },
-                    {
-                        text: "小",
-                        bgColor: "white",
-                        borderColor: "black",
-                        color: "black"
-                    },
-                    {
-                        text: "延",
-                        bgColor: "white",
-                        borderColor: "black",
-                        color: "black"
-                    },
-                    {
-                        text: "繞",
-                        bgColor: "white",
-                        borderColor: "black",
-                        color: "black"
-                    },
-                    {
-                        text: "幹線",
-                        bgColor: "white",
-                        borderColor: "black",
-                        color: "black"
-                    },
-                    {
-                        text: "跳蛙",
-                        bgColor: "white",
-                        borderColor: "black",
-                        color: "black"
-                    },
-                    {
-                        text: "市民",
-                        bgColor: "white",
-                        borderColor: "black",
-                        color: "black"
-                    },
-                    {
-                        text: "通勤",
-                        bgColor: "white",
-                        borderColor: "black",
-                        color: "black"
-                    }
+                    { text: "紅", bgColor: "red", borderColor: "black", color: "white" },
+                    { text: "綠", bgColor: "green", borderColor: "black", color: "white" },
+                    { text: "藍", bgColor: "blue", borderColor: "black", color: "white" },
+                    { text: "棕", bgColor: "brown", borderColor: "black", color: "white" },
+                    { text: "橘", bgColor: "orange", borderColor: "black", color: "black" },
+                    { text: "黃", bgColor: "yellow", borderColor: "black", color: "black" },
+                    { text: "A", bgColor: "gray", borderColor: "black", color: "white" },
+                    { text: "B", bgColor: "gray", borderColor: "black", color: "white" },
+                    { text: "C", bgColor: "gray", borderColor: "black", color: "white" },
+                    { text: "D", bgColor: "gray", borderColor: "black", color: "white" },
+                    { text: "E", bgColor: "gray", borderColor: "black", color: "white" },
+                    { text: "F", bgColor: "gray", borderColor: "black", color: "white" },
+                    { text: "區", bgColor: "white", borderColor: "black", color: "black" },
+                    { text: "小", bgColor: "white", borderColor: "black", color: "black" },
+                    { text: "延", bgColor: "white", borderColor: "black", color: "black" },
+                    { text: "繞", bgColor: "white", borderColor: "black", color: "black" },
+                    { text: "幹線", bgColor: "white", borderColor: "black", color: "black" },
+                    { text: "跳蛙", bgColor: "white", borderColor: "black", color: "black" },
+                    { text: "市民", bgColor: "white", borderColor: "black", color: "black" },
+                    { text: "通勤", bgColor: "white", borderColor: "black", color: "black" }
                 ]
                 $("#label-container").html("")
                 for (i = 0; i < labels.length; i++) {
