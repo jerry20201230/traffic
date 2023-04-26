@@ -580,7 +580,7 @@ var App = {
                     else if (this._availablePage[i].name == "BUSsearch") {
                         this.renderTitle("公車 - 選擇縣市")
                         this.renderhtml("#main-content", `
-                    <span class="text-secondarys">選擇市區公車所在縣市，或公路客運</span>
+                    <span class="text-secondarys">選擇市區公車所在縣市，或公路客運<br>建議輸入清楚，模糊搜尋可能查不到資料</span>
                     <div id="step1" class="d-flex"><select class="form-select me-1" id="CitySelsct"></select></div>
                     <div id="step2" class="mt-1">
                  <input type="text" class="form-control mb-1" id="bus-data-search-input" placeholder="輸入關鍵字">
