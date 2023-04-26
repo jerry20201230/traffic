@@ -584,7 +584,7 @@ var App = {
                     <div id="step1" class="d-flex"><select class="form-select me-1" id="CitySelsct"></select></div>
                     <div id="step2" class="mt-1">
                  <input type="text" class="form-control mb-1" id="bus-data-search-input" placeholder="輸入關鍵字">
-                    
+                <div class="d-flex" style="overflow-x:scroll" id="label-container"></div>
                     <div class="form-check form-check-inline">
                     <input class="form-check-input" checked type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
                     <label class="form-check-label" for="inlineRadio1">搜尋路線</label>
@@ -991,7 +991,7 @@ var DATA = {
             $("#bus-data-search-input").attr("placeholder", `請等待資料載入完成`)
 
             var datatype = (pars.by == 'Route' ? '路線' : '車站')
-            $("#bus-data-search-input").removeAttr("disabled").attr("placeholder", `輸入 ${datatype} 名稱`)
+    
             App.completed_ajax_times = 0; App.current_ajax_times = 1; App.ajax_package_name = ["公車基本資料"]
 
 
@@ -1011,7 +1011,7 @@ var DATA = {
                     })
                 } else if (pars.by == "Route") {
                     AJAX.getBasicApi({
-                        url: `https://tdx.transportdata.tw/api/basic/v2/Bus/Route/City/${pars.city}?%24filter=RouteName%2FZh_tw%20eq%20%27${pars.text}%27&%24format=JSON`,
+                        url: `https://tdx.transportdata.tw/api/basic/v2/Bus/Route/City/${pars.city}?%24filter=contains%28RouteName%2FZh_tw%2C%20%27${pars.text}%27%29&%24top=5&%24format=JSON`,
                         success: function (res) {
                             $("#bus-data-search-result").html(`<li class="list-group-item mb-1">共找到 ${res.length} 筆資料</li>`)
                             for (i = 0; i < res.length; i++) {
