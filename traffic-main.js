@@ -800,7 +800,7 @@ var App = {
                         App.completed_ajax_times = 0; App.current_ajax_times = 1; App.ajax_package_name = ["公車資料"]
 
                         AJAX.getBasicApi({
-                            url: `https://tdx.transportdata.tw/api/basic/v2/Bus/Route/City/${par1}?%24filter=contains%28RouteName%2FZh_tw%2C%20%27${par2}%27%29&%24top=5&%24format=JSON`,
+                            url: `https://tdx.transportdata.tw/api/basic/v2/Bus/Route/City/${par1}?%24filter=contains%28RouteName%2FZh_tw%2C%20%27${par3}%27%29&%24top=5&%24format=JSON`,
                             success: function (res) {
                                 for (i = 0; i < res.length; i++) {
 
