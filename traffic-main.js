@@ -525,18 +525,18 @@ var App = {
 
 
 
-                           /* AJAX.getBasicApi({
-                                url: `https://tdx.transportdata.tw/api/advanced/V3/Map/GeoLocating/Markname/LocationX/${MyLoc[1]}/LocationY/${MyLoc[0]}?%24format=JSON`,
-                                success: function (res) {
-                                    console.log(res)
-                                    if (res[0].Distance > 10) {
-                                        $("#loc-result").text(res[0].Markname + " 附近")
-
-                                    } else {
-                                        $("#loc-result").text(res[0].Markname)
-                                    }
-                                },
-                            })/*/
+                            /* AJAX.getBasicApi({
+                                 url: `https://tdx.transportdata.tw/api/advanced/V3/Map/GeoLocating/Markname/LocationX/${MyLoc[1]}/LocationY/${MyLoc[0]}?%24format=JSON`,
+                                 success: function (res) {
+                                     console.log(res)
+                                     if (res[0].Distance > 10) {
+                                         $("#loc-result").text(res[0].Markname + " 附近")
+ 
+                                     } else {
+                                         $("#loc-result").text(res[0].Markname)
+                                     }
+                                 },
+                             })/*/
 
                         })
                         map.on('locationerror', function () {
@@ -593,11 +593,11 @@ var App = {
                     <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
                     <label class="form-check-label" for="inlineRadio2">搜尋車站</label>
                   </div>
+                 <input type="text" class="form-control mb-1" id="bus-data-search-input" placeholder="輸入關鍵字">
                   
                   </div></div>
                  
                   <div class="mt-1">
-                 <input type="text" class="form-control mb-1" id="bus-data-search-input" placeholder="輸入關鍵字">
                  <button class="btn btn-primary" onclick="
                  var by;
                  if(document.getElementById('inlineRadio1').checked){
@@ -607,7 +607,7 @@ var App = {
                  }
                  DATA.query({'type':'BUS.getData','by':by,'city':$('#CitySelsct').val(),'text':$('#bus-data-search-input').val()})
                  ">搜尋</button>
-                 <ul class="list-group" id="bus-data-search-result"></ul>
+                 <ul class="list-group mt-1" id="bus-data-search-result"></ul>
                  </div>
                     `)
 
@@ -997,40 +997,46 @@ var DATA = {
 
             if (pars.city !== "InterBus") {
                 $("#bus-data-search-result").html(`<li class="list-group-item">正在搜尋資料</li>`)
-                
-                if(pars.by == "Stop"){
+
+                if (pars.by == "Stop") {
                     AJAX.getBasicApi({
-                        url:`https://tdx.transportdata.tw/api/basic/v2/Bus/Stop/City/${pars.city}?%24filter=contains%28StopName%2FZh_tw%2C%20%27${pars.text}%27%29&%24format=JSON`,
-                        success:function(res){
+                        url: `https://tdx.transportdata.tw/api/basic/v2/Bus/Stop/City/${pars.city}?%24filter=contains%28StopName%2FZh_tw%2C%20%27${pars.text}%27%29&%24format=JSON`,
+                        success: function (res) {
                             $("#bus-data-search-result").html(`<li class="list-group-item">共找到 ${res.length} 筆資料</li>`)
-                            for(i=0;i<res.length;i++){
-                            $("#bus-data-search-result").append(`<li class="list-group-item">${res[i].StopName.Zh_tw}</li>`)
+                            for (i = 0; i < res.length; i++) {
+                                $("#bus-data-search-result").append(`<li class="list-group-item">${res[i].StopName.Zh_tw}</li>`)
                             }
                         }
-                    
+
                     })
-                }else if(pars.by == "Route"){
+                } else if (pars.by == "Route") {
                     AJAX.getBasicApi({
-                        url:`https://tdx.transportdata.tw/api/basic/v2/Bus/Route/City/${pars.city}?%24filter=RouteName%2FZh_tw%20eq%20%27${pars.text}%27&%24format=JSON`,
-                        success:function(res){
-                            $("#bus-data-search-result").html(`<li class="list-group-item">共找到 ${res.length} 筆資料</li>`)
-                            for(i=0;i<res.length;i++){
-                            $("#bus-data-search-result").append(`
+                        url: `https://tdx.transportdata.tw/api/basic/v2/Bus/Route/City/${pars.city}?%24filter=RouteName%2FZh_tw%20eq%20%27${pars.text}%27&%24format=JSON`,
+                        success: function (res) {
+                            $("#bus-data-search-result").html(`<li class="list-group-item mb-1">共找到 ${res.length} 筆資料</li>`)
+                            for (i = 0; i < res.length; i++) {
+                                var _Operators;
+                                for(j=0;j<res[i].Operators.length;j++){
+                                    _Operators = _Operators+"、" + res[i].Operators[j].OperatorName.Zh_tw
+                                } 
+                                $("#bus-data-search-result").append(`
                             <li class="list-group-item">
                             
                             <h3>${res[i].RouteName.Zh_tw}</h3>
 
                             <span>${res[i].DepartureStopNameZh} - ${res[i].DestinationStopNameZh}</span><br>
-                            <span>${res[i].Operators[0].OperatorName.Zh_tw}</span>
+                            <span>${_Operators}</span>
                             
                             </li>`)
                             }
+
+
                         }
-                    
+
                     })
                 }
 
-            }else{
+            } else {
 
             }
         }
