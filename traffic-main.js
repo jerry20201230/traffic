@@ -1143,13 +1143,13 @@ var DATA = {
                     { text: "村", bgColor: "yellow", borderColor: "black", color: "black" },
                     { text: "庄", bgColor: "yellow", borderColor: "black", color: "black" },
                     { text: "厝", bgColor: "yellow", borderColor: "black", color: "black" },
-
+                    { text: "坑", bgColor: "yellow", borderColor: "black", color: "black" },
                     { text: "上", bgColor: "yellow", borderColor: "black", color: "black" },
                     { text: "下", bgColor: "yellow", borderColor: "black", color: "black" },
                     { text: "口", bgColor: "yellow", borderColor: "black", color: "black" },
                     { text: "前", bgColor: "yellow", borderColor: "black", color: "black" },
-
-                    
+                    { text: "大", bgColor: "yellow", borderColor: "black", color: "black" },
+                    { text: "小", bgColor: "yellow", borderColor: "black", color: "black" },
                     { text: "轉運", bgColor: "white", borderColor: "black", color: "black" },
                     { text: "社區", bgColor: "white", borderColor: "black", color: "black" },
                     { text: "市場", bgColor: "white", borderColor: "black", color: "black" },
@@ -1161,6 +1161,7 @@ var DATA = {
                     { text: "高鐵", bgColor: "white", borderColor: "black", color: "black" },
                     { text: "高中", bgColor: "white", borderColor: "black", color: "black" },
                     { text: "高職", bgColor: "white", borderColor: "black", color: "black" },
+                    { text: "中學", bgColor: "white", borderColor: "black", color: "black" },
                     { text: "國中", bgColor: "white", borderColor: "black", color: "black" },
                     { text: "國小", bgColor: "white", borderColor: "black", color: "black" },
                 ]
