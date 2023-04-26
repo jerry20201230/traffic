@@ -988,7 +988,7 @@ var DATA = {
         else if (pars.type === "BUS.getData") {
             console.log(pars.by)
             console.log(pars.city)
-            $("#bus-data-search-input").attr("placeholder", `請等待資料載入完成`)
+          
 
             var datatype = (pars.by == 'Route' ? '路線' : '車站')
 
@@ -1002,7 +1002,7 @@ var DATA = {
                         AJAX.getBasicApi({
                             url: `https://tdx.transportdata.tw/api/basic/v2/Bus/Stop/City/${pars.city}?%24filter=contains%28StopName%2FZh_tw%2C%20%27${pars.text}%27%29&%24format=JSON`,
                             success: function (res) {
-                                $("#bus-data-search-result").html(`<li class="list-group-item">共找到 ${res.length} 筆資料</li>`)
+                                $("#bus-data-search-result").html(`<li class="list-group-item">搜尋${datatype} ${pars.text}<br>共找到 ${res.length} 筆資料</li>`)
                                 for (i = 0; i < res.length; i++) {
                                     $("#bus-data-search-result").append(`<li class="list-group-item">${res[i].StopName.Zh_tw}</li>`)
                                 }
@@ -1013,7 +1013,7 @@ var DATA = {
                         AJAX.getBasicApi({
                             url: `https://tdx.transportdata.tw/api/basic/v2/Bus/Route/City/${pars.city}?%24filter=contains%28RouteName%2FZh_tw%2C%20%27${pars.text}%27%29&%24top=5&%24format=JSON`,
                             success: function (res) {
-                                $("#bus-data-search-result").html(`<li class="list-group-item mb-1">共找到 ${res.length} 筆資料</li>`)
+                                $("#bus-data-search-result").html(`<li class="list-group-item">搜尋${datatype} ${pars.text}<br>共找到 ${res.length} 筆資料</li>`)
                                 for (i = 0; i < res.length; i++) {
                                     var _Operators = "";
                                     if (res[i].Operators.length == 1) {
@@ -1049,7 +1049,7 @@ var DATA = {
                         AJAX.getBasicApi({
                             url: `https://tdx.transportdata.tw/api/basic/v2/Bus/Stop/InterCity?%24filter=contains%28%20StopName%2FZh_tw%20%2C%20%27${pars.text}%27%29&%24format=JSON`,
                             success: function (res) {
-                                $("#bus-data-search-result").html(`<li class="list-group-item">共找到 ${res.length} 筆資料</li>`)
+                                $("#bus-data-search-result").html(`<li class="list-group-item">搜尋${datatype} ${pars.text}<br>共找到 ${res.length} 筆資料</li>`)
                                 for (i = 0; i < res.length; i++) {
                                     $("#bus-data-search-result").append(`<li class="list-group-item">${res[i].StopName.Zh_tw}</li>`)
                                 }
@@ -1062,7 +1062,7 @@ var DATA = {
                         AJAX.getBasicApi({
                             url: `https://tdx.transportdata.tw/api/basic/v2/Bus/Route/InterCity?%24filter=contains%28%20RouteName%2FZh_tw%20%2C%20%27${pars.text}%27%29&%24format=JSON`,
                             success: function (res) {
-                                $("#bus-data-search-result").html(`<li class="list-group-item mb-1">共找到 ${res.length} 筆資料</li>`)
+                                $("#bus-data-search-result").html(`<li class="list-group-item">搜尋${datatype} ${pars.text}<br>共找到 ${res.length} 筆資料</li>`)
                                 for (i = 0; i < res.length; i++) {
                                     var _Operators = "";
                                     if (res[i].Operators.length == 1) {
@@ -1093,6 +1093,8 @@ var DATA = {
                         })
                     }
                 }
+            }else{
+                Toast.toast("請填入關鍵字")
             }
         }
         else if (pars.type === "BUS.getBadge") {
@@ -1136,6 +1138,54 @@ var DATA = {
                         color: "black"
                     },
                     {
+                        text: "A",
+                        bgColor: "gray",
+                        borderColor: "black",
+                        color: "white"
+                    },
+                    {
+                        text: "B",
+                        bgColor: "gray",
+                        borderColor: "black",
+                        color: "white"
+                    },
+                    {
+                        text: "C",
+                        bgColor: "gray",
+                        borderColor: "black",
+                        color: "white"
+                    },
+                    {
+                        text: "D",
+                        bgColor: "gray",
+                        borderColor: "black",
+                        color: "white"
+                    },
+                    {
+                        text: "E",
+                        bgColor: "gray",
+                        borderColor: "black",
+                        color: "white"
+                    },
+                    {
+                        text: "F",
+                        bgColor: "gray",
+                        borderColor: "black",
+                        color: "white"
+                    },
+                    {
+                        text: "延",
+                        bgColor: "white",
+                        borderColor: "black",
+                        color: "black"
+                    },
+                    {
+                        text: "繞",
+                        bgColor: "white",
+                        borderColor: "black",
+                        color: "black"
+                    },
+                    {
                         text: "幹線",
                         bgColor: "white",
                         borderColor: "black",
@@ -1160,7 +1210,7 @@ var DATA = {
                         color: "black"
                     }
                 ]
-
+                $("#label-container").html("")
                 for (i = 0; i < labels.length; i++) {
                     $("#label-container").append(`<span class="badge m-1" style="background:${labels[i].bgColor};color:${labels[i].color};border:solid 1px ${labels[i].borderColor};user-select:none" onclick="$('#bus-data-search-input').val($('#bus-data-search-input').val()+'${labels[i].text}')">${labels[i].text}</span>`)
                 }
