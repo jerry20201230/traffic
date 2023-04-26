@@ -586,12 +586,12 @@ var App = {
                  <input type="text" class="form-control mb-1" id="bus-data-search-input" placeholder="輸入關鍵字">
                 <div class="d-flex" style="overflow-x:scroll" id="label-container"></div>
                     <div class="form-check form-check-inline">
-                    <input class="form-check-input" checked type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+                    <input class="form-check-input" checked type="radio" name="inlineRadioOptions" onclick="DATA.query({type:'BUS.getBadge'})" id="inlineRadio1" value="option1">
                     <label class="form-check-label" for="inlineRadio1">搜尋路線</label>
                   </div>
 
                   <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" onclick="DATA.query({type:'BUS.getBadge'})" id="inlineRadio2" value="option2">
                     <label class="form-check-label" for="inlineRadio2">搜尋車站</label>
                   </div>
                   
@@ -1019,8 +1019,6 @@ var DATA = {
                                 if (res[i].Operators.length == 1) {
                                     _Operators = res[i].Operators[0].OperatorName.Zh_tw
                                 } else {
-
-
                                     for (j = 0; j < res[i].Operators.length; j++) {
                                         if(_Operators == ""){
                                             _Operators = _Operators + res[i].Operators[j].OperatorName.Zh_tw
@@ -1050,7 +1048,74 @@ var DATA = {
 
             }
         }
+        else if (pars.type === "BUS.getBadge") {
+            if(document.getElementById("inlineRadio1").checked){
+                $("#label-container").show()
+                var labels = [
+                    {
+                        text:"紅",
+                        bgColor:"red",
+                        borderColor:"black",
+                        color:"white"
+                    },
+                    {
+                        text:"綠",
+                        bgColor:"green",
+                        borderColor:"black",
+                        color:"white"
+                    },
+                    {
+                        text:"藍",
+                        bgColor:"blue",
+                        borderColor:"black",
+                        color:"white"
+                    },
+                    {
+                        text:"棕",
+                        bgColor:"red",
+                        borderColor:"black",
+                        color:"white"
+                    },
+                    {
+                        text:"橘",
+                        bgColor:"orange",
+                        borderColor:"black",
+                        color:"white"
+                    },
+                    {
+                        text:"黃",
+                        bgColor:"yellow",
+                        borderColor:"black",
+                        color:"black"
+                    },
+                    {
+                        text:"幹線",
+                        bgColor:"white",
+                        borderColor:"black",
+                        color:"black"
+                    },
+                    {
+                        text:"跳蛙",
+                        bgColor:"white",
+                        borderColor:"black",
+                        color:"black"
+                    },
+                    {
+                        text:"市民",
+                        bgColor:"white",
+                        borderColor:"black",
+                        color:"black"
+                    }
+                ]
 
+                for(i=0;i<labels.length;i++){
+                    $("#label-container").append(`<span class="badge" style="background:${labels[i].bgColor};color:${labels[i].color}" onclick="$('#bus-data-search-input').val($('#bus-data-search-input').val()+'${labels[i].text}')">${labels[i].text}</span>`)
+                }
+            }else{
+                $("#label-container").hide()
+            }
+
+        }
 
         else {
             alert("ERROR")
