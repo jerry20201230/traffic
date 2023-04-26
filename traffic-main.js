@@ -1174,6 +1174,12 @@ var DATA = {
                         color: "white"
                     },
                     {
+                        text: "小",
+                        bgColor: "white",
+                        borderColor: "black",
+                        color: "black"
+                    },
+                    {
                         text: "延",
                         bgColor: "white",
                         borderColor: "black",
