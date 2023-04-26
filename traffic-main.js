@@ -448,7 +448,7 @@ var App = {
                 <div class="card p-2">
                     <span class="text-secondary">
                     開啟定位以搜尋附近車站<br>
-                    你的位置: <span id="loc-result">資料準備中...</span><br>
+                    <!--你的位置: <span id="loc-result">資料準備中...</span><br>-->
                     公車: <span id="bus-result">資料準備中...</span><br>    
                     公共自行車: <span id="bike-result">資料準備中...</span> 
                     </span>
@@ -492,10 +492,6 @@ var App = {
                         map.on('locationfound', function (e) {
                             BottonBarWeight.set("location_mark", true)
 
-                            App.current_ajax_times = 1
-                            App.completed_ajax_times = 0,
-                                App.ajax_package_name = ["你的位置描述"]
-
                             var MyLoc = [];
                             MyLoc[0] = e.latlng.lat
                             MyLoc[1] = e.latlng.lng
@@ -529,7 +525,7 @@ var App = {
 
 
 
-                            AJAX.getBasicApi({
+                           /* AJAX.getBasicApi({
                                 url: `https://tdx.transportdata.tw/api/advanced/V3/Map/GeoLocating/Markname/LocationX/${MyLoc[1]}/LocationY/${MyLoc[0]}?%24format=JSON`,
                                 success: function (res) {
                                     console.log(res)
@@ -540,7 +536,7 @@ var App = {
                                         $("#loc-result").text(res[0].Markname)
                                     }
                                 },
-                            })
+                            })/*/
 
                         })
                         map.on('locationerror', function () {
@@ -1023,7 +1019,9 @@ var DATA = {
                             <li class="list-group-item">
                             
                             <h3>${res[i].RouteName.Zh_tw}</h3>
-                            <h5>${res[i].Operators.OperatorName.Zh_tw}</h5>
+
+                            <span>${res[i].DepartureStopNameZh} - ${res[i].DestinationStopNameZh}</span><br>
+                            <span>${res[i].Operators[0].OperatorName.Zh_tw}</span>
                             
                             </li>`)
                             }
