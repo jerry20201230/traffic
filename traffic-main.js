@@ -48,9 +48,9 @@ function delay(n) {
 }
 (function ($) {
     $.UrlParam = function (name) {
-        
+
         var url = new URL(location.href),
-        result = url.searchParams.get(name);
+            result = url.searchParams.get(name);
         return result
 
     }
@@ -296,8 +296,8 @@ var App = {
             path: ["home", "UBIKEstation"]
         },
         {
-            name:"BUSsearch_result_byRoute",
-            path:["home","BUSsearch","BUSsearch_result_byRoute"]
+            name: "BUSsearch_result_byRoute",
+            path: ["home", "BUSsearch", "BUSsearch_result_byRoute"]
         },
 
         {
@@ -793,17 +793,19 @@ var App = {
 
                     }
 
-                    else if(this._availablePage[i].name == "BUSsearch_result_byRoute"){
+                    else if (this._availablePage[i].name == "BUSsearch_result_byRoute") {
 
                         App.renderTitle("公車路線")
-                        App.renderhtml("#main-container",`123`)
+                        App.renderhtml("#main-content", `123`)
+                        App.completed_ajax_times = 0; App.current_ajax_times = 1; App.ajax_package_name = ["公車資料"]
+
                         AJAX.getBasicApi({
                             url: `https://tdx.transportdata.tw/api/basic/v2/Bus/Route/City/${par1}?%24filter=contains%28RouteName%2FZh_tw%2C%20%27${par2}%27%29&%24top=5&%24format=JSON`,
-                            success:function(res){
+                            success: function (res) {
                                 for (i = 0; i < res.length; i++) {
 
-                                if(res[i].RouteName.Zh_tw == par3)
-                                    var _Operators = "";
+                                    if (res[i].RouteName.Zh_tw == par3)
+                                        var _Operators = "";
                                     if (res[i].Operators.length == 1) {
                                         _Operators = res[i].Operators[0].OperatorName.Zh_tw
                                     } else {
@@ -815,8 +817,8 @@ var App = {
                                             }
                                         }
                                     }
-                                   console.log(res[i])
-                                   break;
+                                    console.log(res[i])
+                                    break;
                                 }
 
                             }
@@ -1158,11 +1160,13 @@ var DATA = {
                     { text: "庄", bgColor: "yellow", borderColor: "black", color: "black" },
                     { text: "厝", bgColor: "yellow", borderColor: "black", color: "black" },
                     { text: "坑", bgColor: "yellow", borderColor: "black", color: "black" },
+                    { text: "口", bgColor: "yellow", borderColor: "black", color: "black" },
                     { text: "上", bgColor: "yellow", borderColor: "black", color: "black" },
                     { text: "下", bgColor: "yellow", borderColor: "black", color: "black" },
-                    { text: "口", bgColor: "yellow", borderColor: "black", color: "black" },
                     { text: "前", bgColor: "yellow", borderColor: "black", color: "black" },
+                    { text: "後", bgColor: "yellow", borderColor: "black", color: "black" },
                     { text: "大", bgColor: "yellow", borderColor: "black", color: "black" },
+                    { text: "中", bgColor: "yellow", borderColor: "black", color: "black" },
                     { text: "小", bgColor: "yellow", borderColor: "black", color: "black" },
                     { text: "轉運", bgColor: "white", borderColor: "black", color: "black" },
                     { text: "社區", bgColor: "white", borderColor: "black", color: "black" },
@@ -1177,8 +1181,9 @@ var DATA = {
                     { text: "中學", bgColor: "white", borderColor: "black", color: "black" },
                     { text: "國中", bgColor: "white", borderColor: "black", color: "black" },
                     { text: "國小", bgColor: "white", borderColor: "black", color: "black" },
+                    { text: "郵局", bgColor: "white", borderColor: "black", color: "black" },
                     { text: "土地公", bgColor: "white", borderColor: "black", color: "black" },
-                
+
                 ]
                 $("#label-container").html("")
                 for (i = 0; i < labels.length; i++) {
