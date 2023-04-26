@@ -1022,7 +1022,11 @@ var DATA = {
 
 
                                     for (j = 0; j < res[i].Operators.length; j++) {
-                                        _Operators = _Operators + "、" + res[i].Operators[j].OperatorName.Zh_tw
+                                        if(_Operators == ""){
+                                            _Operators = _Operators + res[i].Operators[j].OperatorName.Zh_tw
+                                        }else{
+                                            _Operators = _Operators + "、" + res[i].Operators[j].OperatorName.Zh_tw
+                                        }
                                     }
                                 }
                                 $("#bus-data-search-result").append(`
