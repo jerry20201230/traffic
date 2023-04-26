@@ -1164,6 +1164,8 @@ var DATA = {
                     { text: "中學", bgColor: "white", borderColor: "black", color: "black" },
                     { text: "國中", bgColor: "white", borderColor: "black", color: "black" },
                     { text: "國小", bgColor: "white", borderColor: "black", color: "black" },
+                    { text: "土地公", bgColor: "white", borderColor: "black", color: "black" },
+                
                 ]
                 $("#label-container").html("")
                 for (i = 0; i < labels.length; i++) {
