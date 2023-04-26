@@ -1004,7 +1004,7 @@ var DATA = {
                             success: function (res) {
                                 $("#bus-data-search-result").html(`<li class="list-group-item">搜尋${datatype} ${pars.text}<br>共找到 ${res.length} 筆資料</li>`)
                                 for (i = 0; i < res.length; i++) {
-                                    $("#bus-data-search-result").append(`<li class="list-group-item">${res[i].StopName.Zh_tw}<br>StationID:${res[i].StationID}</li>`)
+                                    $("#bus-data-search-result").append(`<li class="list-group-item">${res[i].StopName.Zh_tw}<br>StopUID:${res[i].StopUID}</li>`)
                                 }
                             }
 
@@ -1051,7 +1051,7 @@ var DATA = {
                             success: function (res) {
                                 $("#bus-data-search-result").html(`<li class="list-group-item">搜尋${datatype} ${pars.text}<br>共找到 ${res.length} 筆資料</li>`)
                                 for (i = 0; i < res.length; i++) {
-                                    $("#bus-data-search-result").append(`<li class="list-group-item">${res[i].StopName.Zh_tw}StationID:${res[i].StationID}</li>`)
+                                    $("#bus-data-search-result").append(`<li class="list-group-item">${res[i].StopName.Zh_tw}StopUID${res[i].StopUID}</li>`)
                                 }
                             }
 
@@ -1159,7 +1159,6 @@ var DATA = {
                     { text: "車站", bgColor: "white", borderColor: "black", color: "black" },
                     { text: "高鐵", bgColor: "white", borderColor: "black", color: "black" },
                     { text: "高中", bgColor: "white", borderColor: "black", color: "black" },
-                    { text: "高職", bgColor: "white", borderColor: "black", color: "black" },
                     { text: "中學", bgColor: "white", borderColor: "black", color: "black" },
                     { text: "國中", bgColor: "white", borderColor: "black", color: "black" },
                     { text: "國小", bgColor: "white", borderColor: "black", color: "black" },
