@@ -1127,7 +1127,7 @@ var DATA = {
                         text: "橘",
                         bgColor: "orange",
                         borderColor: "black",
-                        color: "white"
+                        color: "black"
                     },
                     {
                         text: "黃",
@@ -1162,7 +1162,7 @@ var DATA = {
                 ]
 
                 for (i = 0; i < labels.length; i++) {
-                    $("#label-container").append(`<span class="badge m-1" style="background:${labels[i].bgColor};color:${labels[i].color};border:solid 1px ${labels[i].borderColor}" onclick="$('#bus-data-search-input').val($('#bus-data-search-input').val()+'${labels[i].text}')">${labels[i].text}</span>`)
+                    $("#label-container").append(`<span class="badge m-1" style="background:${labels[i].bgColor};color:${labels[i].color};border:solid 1px ${labels[i].borderColor};user-select:none" onclick="$('#bus-data-search-input').val($('#bus-data-search-input').val()+'${labels[i].text}')">${labels[i].text}</span>`)
                 }
             } else {
                 $("#label-container").hide()
