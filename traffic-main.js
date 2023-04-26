@@ -1016,9 +1016,15 @@ var DATA = {
                             $("#bus-data-search-result").html(`<li class="list-group-item mb-1">共找到 ${res.length} 筆資料</li>`)
                             for (i = 0; i < res.length; i++) {
                                 var _Operators;
-                                for(j=0;j<res[i].Operators.length;j++){
-                                    _Operators = _Operators+"、" + res[i].Operators[j].OperatorName.Zh_tw
-                                } 
+                                if (res[i].Operators.length == 1) {
+                                    _Operators = res[i].Operators[0].OperatorName.Zh_tw
+                                } else {
+
+
+                                    for (j = 0; j < res[i].Operators.length; j++) {
+                                        _Operators = _Operators + "、" + res[i].Operators[j].OperatorName.Zh_tw
+                                    }
+                                }
                                 $("#bus-data-search-result").append(`
                             <li class="list-group-item">
                             
