@@ -583,6 +583,7 @@ var App = {
                     <span class="text-secondarys">選擇市區公車所在縣市，或公路客運</span>
                     <div id="step1" class="d-flex"><select class="form-select me-1" id="CitySelsct"></select></div>
                     <div id="step2" class="mt-1">
+                 <input type="text" class="form-control mb-1" id="bus-data-search-input" placeholder="輸入關鍵字">
                     
                     <div class="form-check form-check-inline">
                     <input class="form-check-input" checked type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
@@ -593,7 +594,6 @@ var App = {
                     <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
                     <label class="form-check-label" for="inlineRadio2">搜尋車站</label>
                   </div>
-                 <input type="text" class="form-control mb-1" id="bus-data-search-input" placeholder="輸入關鍵字">
                   
                   </div></div>
                  
@@ -1015,7 +1015,7 @@ var DATA = {
                         success: function (res) {
                             $("#bus-data-search-result").html(`<li class="list-group-item mb-1">共找到 ${res.length} 筆資料</li>`)
                             for (i = 0; i < res.length; i++) {
-                                var _Operators;
+                                var _Operators = "";
                                 if (res[i].Operators.length == 1) {
                                     _Operators = res[i].Operators[0].OperatorName.Zh_tw
                                 } else {
