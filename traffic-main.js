@@ -48,31 +48,11 @@ function delay(n) {
 }
 (function ($) {
     $.UrlParam = function (name) {
-        if (name !== "ALL_PARS") {
+        
+        var url = new URL(location.href),
+        result = url.searchParams.get(name);
+        return result
 
-
-            //宣告正規表達式
-            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-            /*
-             * window.location.search 獲取URL ?之後的參數(包含問號)
-             * substr(1) 獲取第一個字以後的字串(就是去除掉?號)
-             * match(reg) 用正規表達式檢查是否符合要查詢的參數
-            */
-            var r = window.location.search.substr(1).match(reg);
-            //如果取出的參數存在則取出參數的值否則回穿null
-            if (r != null) return (r[2]); return null;
-        } else {
-            var r = window.location.search.substr(1).split("&")
-            var all_par = { pars: {} }
-            for (i = 0; i < r.length; i++) {
-                if (r[i].split("=")[0] === "page") {
-                    all_par.page = r[i].split("=")[1]
-                } else {
-                    all_par.pars[r[i].split("=")[0]] = r[i].split("=")[1]
-                }
-            }
-            return all_par
-        }
     }
 })(jQuery);
 
@@ -314,6 +294,10 @@ var App = {
         {
             name: "UBIKEstation",
             path: ["home", "UBIKEstation"]
+        },
+        {
+            name:"BUSsearch_result_byRoute",
+            path:["home","BUSsearch","BUSsearch_result_byRoute"]
         },
 
         {
@@ -809,6 +793,36 @@ var App = {
 
                     }
 
+                    else if(this._availablePage[i].name == "BUSsearch_result_byRoute"){
+
+                        App.renderTitle("公車路線")
+                        App.renderhtml("#main-container",`123`)
+                        AJAX.getBasicApi({
+                            url: `https://tdx.transportdata.tw/api/basic/v2/Bus/Route/City/${par1}?%24filter=contains%28RouteName%2FZh_tw%2C%20%27${par2}%27%29&%24top=5&%24format=JSON`,
+                            success:function(res){
+                                for (i = 0; i < res.length; i++) {
+
+                                if(res[i].RouteName.Zh_tw == par3)
+                                    var _Operators = "";
+                                    if (res[i].Operators.length == 1) {
+                                        _Operators = res[i].Operators[0].OperatorName.Zh_tw
+                                    } else {
+                                        for (j = 0; j < res[i].Operators.length; j++) {
+                                            if (_Operators == "") {
+                                                _Operators = _Operators + res[i].Operators[j].OperatorName.Zh_tw
+                                            } else {
+                                                _Operators = _Operators + "、" + res[i].Operators[j].OperatorName.Zh_tw
+                                            }
+                                        }
+                                    }
+                                   console.log(res[i])
+                                   break;
+                                }
+
+                            }
+                        })
+                    }
+
 
                     else if (this._availablePage[i].name == "Map") {
                         this.renderTitle("地圖")
@@ -1013,6 +1027,7 @@ var DATA = {
                         AJAX.getBasicApi({
                             url: `https://tdx.transportdata.tw/api/basic/v2/Bus/Route/City/${pars.city}?%24filter=contains%28RouteName%2FZh_tw%2C%20%27${pars.text}%27%29&%24top=5&%24format=JSON`,
                             success: function (res) {
+                                DATA._storage[0] = res
                                 $("#bus-data-search-result").html(`<li class="list-group-item">搜尋${datatype} ${pars.text}<br>共找到 ${res.length} 筆資料</li>`)
                                 for (i = 0; i < res.length; i++) {
                                     var _Operators = "";
@@ -1028,7 +1043,7 @@ var DATA = {
                                         }
                                     }
                                     $("#bus-data-search-result").append(`
-                            <li class="list-group-item">
+                            <li class="list-group-item" onclick="App.goToPage('BUSsearch_result_byRoute','${pars.city}','${pars.text}','${res[i].RouteName.Zh_tw}')">
                             
                             <h3>${res[i].RouteName.Zh_tw}</h3>
 
