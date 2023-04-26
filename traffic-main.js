@@ -610,7 +610,7 @@ var App = {
                  <ul class="list-group mt-1" id="bus-data-search-result"></ul>
                  </div>
                     `)
-                    DATA.query({type:'BUS.getBadge'})
+                        DATA.query({ type: 'BUS.getBadge' })
 
                         this.createElement("#CitySelsct", "citySelect", { end: "公車" })
                         $("#CitySelsct").append(`<option value="InterBus">公路客運</option>`)
@@ -991,43 +991,43 @@ var DATA = {
             $("#bus-data-search-input").attr("placeholder", `請等待資料載入完成`)
 
             var datatype = (pars.by == 'Route' ? '路線' : '車站')
-    
+
             App.completed_ajax_times = 0; App.current_ajax_times = 1; App.ajax_package_name = ["公車基本資料"]
 
+            if (pars.text !== "") {
+                if (pars.city !== "InterBus") {
+                    $("#bus-data-search-result").html(`<li class="list-group-item">正在搜尋資料</li>`)
 
-            if (pars.city !== "InterBus") {
-                $("#bus-data-search-result").html(`<li class="list-group-item">正在搜尋資料</li>`)
-
-                if (pars.by == "Stop") {
-                    AJAX.getBasicApi({
-                        url: `https://tdx.transportdata.tw/api/basic/v2/Bus/Stop/City/${pars.city}?%24filter=contains%28StopName%2FZh_tw%2C%20%27${pars.text}%27%29&%24format=JSON`,
-                        success: function (res) {
-                            $("#bus-data-search-result").html(`<li class="list-group-item">共找到 ${res.length} 筆資料</li>`)
-                            for (i = 0; i < res.length; i++) {
-                                $("#bus-data-search-result").append(`<li class="list-group-item">${res[i].StopName.Zh_tw}</li>`)
+                    if (pars.by == "Stop") {
+                        AJAX.getBasicApi({
+                            url: `https://tdx.transportdata.tw/api/basic/v2/Bus/Stop/City/${pars.city}?%24filter=contains%28StopName%2FZh_tw%2C%20%27${pars.text}%27%29&%24format=JSON`,
+                            success: function (res) {
+                                $("#bus-data-search-result").html(`<li class="list-group-item">共找到 ${res.length} 筆資料</li>`)
+                                for (i = 0; i < res.length; i++) {
+                                    $("#bus-data-search-result").append(`<li class="list-group-item">${res[i].StopName.Zh_tw}</li>`)
+                                }
                             }
-                        }
 
-                    })
-                } else if (pars.by == "Route") {
-                    AJAX.getBasicApi({
-                        url: `https://tdx.transportdata.tw/api/basic/v2/Bus/Route/City/${pars.city}?%24filter=contains%28RouteName%2FZh_tw%2C%20%27${pars.text}%27%29&%24top=5&%24format=JSON`,
-                        success: function (res) {
-                            $("#bus-data-search-result").html(`<li class="list-group-item mb-1">共找到 ${res.length} 筆資料</li>`)
-                            for (i = 0; i < res.length; i++) {
-                                var _Operators = "";
-                                if (res[i].Operators.length == 1) {
-                                    _Operators = res[i].Operators[0].OperatorName.Zh_tw
-                                } else {
-                                    for (j = 0; j < res[i].Operators.length; j++) {
-                                        if(_Operators == ""){
-                                            _Operators = _Operators + res[i].Operators[j].OperatorName.Zh_tw
-                                        }else{
-                                            _Operators = _Operators + "、" + res[i].Operators[j].OperatorName.Zh_tw
+                        })
+                    } else if (pars.by == "Route") {
+                        AJAX.getBasicApi({
+                            url: `https://tdx.transportdata.tw/api/basic/v2/Bus/Route/City/${pars.city}?%24filter=contains%28RouteName%2FZh_tw%2C%20%27${pars.text}%27%29&%24top=5&%24format=JSON`,
+                            success: function (res) {
+                                $("#bus-data-search-result").html(`<li class="list-group-item mb-1">共找到 ${res.length} 筆資料</li>`)
+                                for (i = 0; i < res.length; i++) {
+                                    var _Operators = "";
+                                    if (res[i].Operators.length == 1) {
+                                        _Operators = res[i].Operators[0].OperatorName.Zh_tw
+                                    } else {
+                                        for (j = 0; j < res[i].Operators.length; j++) {
+                                            if (_Operators == "") {
+                                                _Operators = _Operators + res[i].Operators[j].OperatorName.Zh_tw
+                                            } else {
+                                                _Operators = _Operators + "、" + res[i].Operators[j].OperatorName.Zh_tw
+                                            }
                                         }
                                     }
-                                }
-                                $("#bus-data-search-result").append(`
+                                    $("#bus-data-search-result").append(`
                             <li class="list-group-item">
                             
                             <h3>${res[i].RouteName.Zh_tw}</h3>
@@ -1036,88 +1036,135 @@ var DATA = {
                             <span>${_Operators}</span>
                             
                             </li>`)
+                                }
+
+
                             }
 
+                        })
+                    }
 
-                        }
+                } else {
+                    if (pars.by == "Stop") {
+                        AJAX.getBasicApi({
+                            url: `https://tdx.transportdata.tw/api/basic/v2/Bus/Stop/InterCity?%24filter=contains%28%20StopName%2FZh_tw%20%2C%20%27${pars.text}%27%29&%24format=JSON`,
+                            success: function (res) {
+                                $("#bus-data-search-result").html(`<li class="list-group-item">共找到 ${res.length} 筆資料</li>`)
+                                for (i = 0; i < res.length; i++) {
+                                    $("#bus-data-search-result").append(`<li class="list-group-item">${res[i].StopName.Zh_tw}</li>`)
+                                }
+                            }
 
-                    })
+                        })
+
+                    }
+                    else if (pars.by == "Route") {
+                        AJAX.getBasicApi({
+                            url: `https://tdx.transportdata.tw/api/basic/v2/Bus/Route/InterCity?%24filter=contains%28%20RouteName%2FZh_tw%20%2C%20%27${pars.text}%27%29&%24format=JSON`,
+                            success: function (res) {
+                                $("#bus-data-search-result").html(`<li class="list-group-item mb-1">共找到 ${res.length} 筆資料</li>`)
+                                for (i = 0; i < res.length; i++) {
+                                    var _Operators = "";
+                                    if (res[i].Operators.length == 1) {
+                                        _Operators = res[i].Operators[0].OperatorName.Zh_tw
+                                    } else {
+                                        for (j = 0; j < res[i].Operators.length; j++) {
+                                            if (_Operators == "") {
+                                                _Operators = _Operators + res[i].Operators[j].OperatorName.Zh_tw
+                                            } else {
+                                                _Operators = _Operators + "、" + res[i].Operators[j].OperatorName.Zh_tw
+                                            }
+                                        }
+                                    }
+                                    $("#bus-data-search-result").append(`
+                            <li class="list-group-item">
+                            
+                            <h3>${res[i].RouteName.Zh_tw}</h3>
+
+                            <span>${res[i].DepartureStopNameZh} - ${res[i].DestinationStopNameZh}</span><br>
+                            <span>${_Operators}</span>
+                            
+                            </li>`)
+                                }
+
+
+                            }
+
+                        })
+                    }
                 }
-
-            } else {
-
             }
         }
         else if (pars.type === "BUS.getBadge") {
-            if(document.getElementById("inlineRadio1").checked){
+            if (document.getElementById("inlineRadio1").checked) {
                 $("#label-container").show()
                 var labels = [
                     {
-                        text:"紅",
-                        bgColor:"red",
-                        borderColor:"black",
-                        color:"white"
+                        text: "紅",
+                        bgColor: "red",
+                        borderColor: "black",
+                        color: "white"
                     },
                     {
-                        text:"綠",
-                        bgColor:"green",
-                        borderColor:"black",
-                        color:"white"
+                        text: "綠",
+                        bgColor: "green",
+                        borderColor: "black",
+                        color: "white"
                     },
                     {
-                        text:"藍",
-                        bgColor:"blue",
-                        borderColor:"black",
-                        color:"white"
+                        text: "藍",
+                        bgColor: "blue",
+                        borderColor: "black",
+                        color: "white"
                     },
                     {
-                        text:"棕",
-                        bgColor:"brown",
-                        borderColor:"black",
-                        color:"white"
+                        text: "棕",
+                        bgColor: "brown",
+                        borderColor: "black",
+                        color: "white"
                     },
                     {
-                        text:"橘",
-                        bgColor:"orange",
-                        borderColor:"black",
-                        color:"white"
+                        text: "橘",
+                        bgColor: "orange",
+                        borderColor: "black",
+                        color: "white"
                     },
                     {
-                        text:"黃",
-                        bgColor:"yellow",
-                        borderColor:"black",
-                        color:"black"
+                        text: "黃",
+                        bgColor: "yellow",
+                        borderColor: "black",
+                        color: "black"
                     },
                     {
-                        text:"幹線",
-                        bgColor:"white",
-                        borderColor:"black",
-                        color:"black"
+                        text: "幹線",
+                        bgColor: "white",
+                        borderColor: "black",
+                        color: "black"
                     },
                     {
-                        text:"跳蛙",
-                        bgColor:"white",
-                        borderColor:"black",
-                        color:"black"
+                        text: "跳蛙",
+                        bgColor: "white",
+                        borderColor: "black",
+                        color: "black"
                     },
                     {
-                        text:"市民",
-                        bgColor:"white",
-                        borderColor:"black",
-                        color:"black"
+                        text: "市民",
+                        bgColor: "white",
+                        borderColor: "black",
+                        color: "black"
                     },
                     {
-                        text:"通勤",
-                        bgColor:"white",
-                        borderColor:"black",
-                        color:"black"
+                        text: "通勤",
+                        bgColor: "white",
+                        borderColor: "black",
+                        color: "black"
                     }
                 ]
 
-                for(i=0;i<labels.length;i++){
+                for (i = 0; i < labels.length; i++) {
                     $("#label-container").append(`<span class="badge m-1" style="background:${labels[i].bgColor};color:${labels[i].color};border:solid 1px ${labels[i].borderColor}" onclick="$('#bus-data-search-input').val($('#bus-data-search-input').val()+'${labels[i].text}')">${labels[i].text}</span>`)
                 }
-            }else{
+            } else {
                 $("#label-container").hide()
                 $("#label-container").html("")
             }
