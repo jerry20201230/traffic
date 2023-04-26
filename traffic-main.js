@@ -610,7 +610,7 @@ var App = {
                  <ul class="list-group mt-1" id="bus-data-search-result"></ul>
                  </div>
                     `)
-
+                    DATA.query({type:'BUS.getBadge'})
 
                         this.createElement("#CitySelsct", "citySelect", { end: "公車" })
                         $("#CitySelsct").append(`<option value="InterBus">公路客運</option>`)
@@ -1119,6 +1119,7 @@ var DATA = {
                 }
             }else{
                 $("#label-container").hide()
+                $("#label-container").html("")
             }
 
         }
