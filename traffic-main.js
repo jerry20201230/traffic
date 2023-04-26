@@ -578,7 +578,7 @@ var App = {
 
                     }
                     else if (this._availablePage[i].name == "BUSsearch") {
-                        this.renderTitle("公車 - 選擇縣市")
+                        this.renderTitle("公車 - 搜尋")
                         this.renderhtml("#main-content", `
                     <span class="text-secondarys">選擇市區公車所在縣市，或公路客運<br>建議輸入清楚，模糊搜尋可能查不到資料</span>
                     <div id="step1" class="d-flex"><select class="form-select me-1" id="CitySelsct"></select></div>
@@ -992,7 +992,7 @@ var DATA = {
 
             var datatype = (pars.by == 'Route' ? '路線' : '車站')
 
-            App.completed_ajax_times = 0; App.current_ajax_times = 1; App.ajax_package_name = ["公車基本資料"]
+            App.completed_ajax_times = 0; App.current_ajax_times = 1; App.ajax_package_name = ["公車資料"]
 
             if (pars.text !== "") {
                 if (pars.city !== "InterBus") {
@@ -1132,13 +1132,24 @@ var DATA = {
                     { text: "路口", bgColor: "blue", borderColor: "black", color: "white" },
                     { text: "巷口", bgColor: "blue", borderColor: "black", color: "white" },
                     { text: "街口", bgColor: "blue", borderColor: "black", color: "white" },
-                    { text: "路", bgColor: "blue", borderColor: "black", color: "white" },
-                    { text: "巷", bgColor: "blue", borderColor: "black", color: "white" },
-                    { text: "街", bgColor: "blue", borderColor: "black", color: "white" },
-                    { text: "里", bgColor: "blue", borderColor: "black", color: "white" },
+                    { text: "村口", bgColor: "blue", borderColor: "black", color: "white" },
+                    { text: "路", bgColor: "yellow", borderColor: "black", color: "black" },
+                    { text: "巷", bgColor: "yellow", borderColor: "black", color: "black" },
+                    { text: "街", bgColor: "yellow", borderColor: "black", color: "black" },
+                    { text: "里", bgColor: "yellow", borderColor: "black", color: "black" },
+                    { text: "村", bgColor: "yellow", borderColor: "black", color: "black" },
+                    { text: "庄", bgColor: "yellow", borderColor: "black", color: "black" },
+                    { text: "厝", bgColor: "yellow", borderColor: "black", color: "black" },
+
+                    { text: "上", bgColor: "yellow", borderColor: "black", color: "black" },
+                    { text: "下", bgColor: "yellow", borderColor: "black", color: "black" },
+                    { text: "口", bgColor: "yellow", borderColor: "black", color: "black" },
+                    { text: "前", bgColor: "yellow", borderColor: "black", color: "black" },
+
                     { text: "一段", bgColor: "blue", borderColor: "black", color: "white" },
                     { text: "二段", bgColor: "blue", borderColor: "black", color: "white" },
                     { text: "三段", bgColor: "blue", borderColor: "black", color: "white" },
+                    { text: "轉運", bgColor: "white", borderColor: "black", color: "black" },
                     { text: "社區", bgColor: "white", borderColor: "black", color: "black" },
                     { text: "市場", bgColor: "white", borderColor: "black", color: "black" },
                     { text: "公園", bgColor: "white", borderColor: "black", color: "black" },
