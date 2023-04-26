@@ -1105,11 +1105,17 @@ var DATA = {
                         bgColor:"white",
                         borderColor:"black",
                         color:"black"
+                    },
+                    {
+                        text:"通勤",
+                        bgColor:"white",
+                        borderColor:"black",
+                        color:"black"
                     }
                 ]
 
                 for(i=0;i<labels.length;i++){
-                    $("#label-container").append(`<span class="badge" style="background:${labels[i].bgColor};color:${labels[i].color}" onclick="$('#bus-data-search-input').val($('#bus-data-search-input').val()+'${labels[i].text}')">${labels[i].text}</span>`)
+                    $("#label-container").append(`<span class="badge m-1" style="background:${labels[i].bgColor};color:${labels[i].color};border:solid 1px ${labels[i].borderColor}" onclick="$('#bus-data-search-input').val($('#bus-data-search-input').val()+'${labels[i].text}')">${labels[i].text}</span>`)
                 }
             }else{
                 $("#label-container").hide()
