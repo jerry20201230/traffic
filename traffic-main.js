@@ -1127,8 +1127,34 @@ var DATA = {
                     $("#label-container").append(`<span class="badge m-1" style="background:${labels[i].bgColor};color:${labels[i].color};border:solid 1px ${labels[i].borderColor};user-select:none" onclick="$('#bus-data-search-input').val($('#bus-data-search-input').val()+'${labels[i].text}')">${labels[i].text}</span>`)
                 }
             } else {
-                $("#label-container").hide()
+                $("#label-container").show()
+                var labels = [
+                    { text: "路口", bgColor: "blue", borderColor: "black", color: "white" },
+                    { text: "巷口", bgColor: "blue", borderColor: "black", color: "white" },
+                    { text: "街口", bgColor: "blue", borderColor: "black", color: "white" },
+                    { text: "路", bgColor: "blue", borderColor: "black", color: "white" },
+                    { text: "巷", bgColor: "blue", borderColor: "black", color: "white" },
+                    { text: "街", bgColor: "blue", borderColor: "black", color: "white" },
+                    { text: "里", bgColor: "blue", borderColor: "black", color: "white" },
+                    { text: "一段", bgColor: "blue", borderColor: "black", color: "white" },
+                    { text: "二段", bgColor: "blue", borderColor: "black", color: "white" },
+                    { text: "三段", bgColor: "blue", borderColor: "black", color: "white" },
+                    { text: "社區", bgColor: "white", borderColor: "black", color: "black" },
+                    { text: "市場", bgColor: "white", borderColor: "black", color: "black" },
+                    { text: "公園", bgColor: "white", borderColor: "black", color: "black" },
+                    { text: "醫院", bgColor: "white", borderColor: "black", color: "black" },
+                    { text: "捷運", bgColor: "white", borderColor: "black", color: "black" },
+                    { text: "車站", bgColor: "white", borderColor: "black", color: "black" },
+                    { text: "高鐵", bgColor: "white", borderColor: "black", color: "black" },
+                    { text: "高中", bgColor: "white", borderColor: "black", color: "black" },
+                    { text: "高職", bgColor: "white", borderColor: "black", color: "black" },
+                    { text: "國中", bgColor: "white", borderColor: "black", color: "black" },
+                    { text: "國小", bgColor: "white", borderColor: "black", color: "black" },
+                ]
                 $("#label-container").html("")
+                for (i = 0; i < labels.length; i++) {
+                    $("#label-container").append(`<span class="badge m-1" style="background:${labels[i].bgColor};color:${labels[i].color};border:solid 1px ${labels[i].borderColor};user-select:none" onclick="$('#bus-data-search-input').val($('#bus-data-search-input').val()+'${labels[i].text}')">${labels[i].text}</span>`)
+                }
             }
 
         }
