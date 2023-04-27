@@ -564,7 +564,7 @@ var App = {
                     else if (this._availablePage[i].name == "BUSsearch") {
                         this.renderTitle("公車 - 搜尋")
                         this.renderhtml("#main-content", `
-                    <span class="text-secondarys">選擇市區公車所在縣市，或公路客運<br>建議輸入清楚，模糊搜尋可能查不到資料</span>
+                    <span class="text-secondarys">選擇市區公車所在縣市，或公路客運</span>
                     <div id="step1" class="d-flex"><select class="form-select me-1" id="CitySelsct"></select></div>
                     <div id="step2" class="mt-1">
                  <input type="text" class="form-control mb-1" id="bus-data-search-input" placeholder="輸入關鍵字">
@@ -889,6 +889,7 @@ var App = {
     renderTitle: function (title) {
         $("#header").text(title)
         if($("#nav-top").width()-85 < $("#header").width()){
+            $("#header").width($("#nav-top").width()-85 )
             wrapContentsInMarquee(document.getElementById("header"))
         }
     }
@@ -1030,7 +1031,7 @@ var DATA = {
                         })
                     } else if (pars.by == "Route") {
                         AJAX.getBasicApi({
-                            url: `https://tdx.transportdata.tw/api/basic/v2/Bus/Route/City/${pars.city}?%24filter=contains%28RouteName%2FZh_tw%2C%20%27${pars.text}%27%29&%24top=5&%24format=JSON`,
+                            url: `https://tdx.transportdata.tw/api/basic/v2/Bus/Route/City/${pars.city}?%24filter=contains%28RouteName%2FZh_tw%2C%20%27${pars.text}%27%29&%24format=JSON`,
                             success: function (res) {
                                 DATA._storage[0] = res
                                 $("#bus-data-search-result").html(`<li class="list-group-item">搜尋${datatype} ${pars.text}<br>共找到 ${res.length} 筆資料</li>`)
