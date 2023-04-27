@@ -888,6 +888,9 @@ var App = {
     },
     renderTitle: function (title) {
         $("#header").text(title)
+        if($("#nav-top").width()-85 < $("#header").width()){
+            wrapContentsInMarquee(document.getElementById("header"))
+        }
     }
 }
 
@@ -1138,7 +1141,8 @@ var DATA = {
                     { text: "幹線", bgColor: "white", borderColor: "black", color: "black" },
                     { text: "跳蛙", bgColor: "white", borderColor: "black", color: "black" },
                     { text: "市民", bgColor: "white", borderColor: "black", color: "black" },
-                    { text: "通勤", bgColor: "white", borderColor: "black", color: "black" }
+                    { text: "通勤", bgColor: "white", borderColor: "black", color: "black" },
+                    { text: "小巴", bgColor: "white", borderColor: "black", color: "black" },
                 ]
                 $("#label-container").html("")
                 for (i = 0; i < labels.length; i++) {
