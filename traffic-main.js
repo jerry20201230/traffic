@@ -66,14 +66,14 @@ function isElementOverflowing(element, maxWidth) {
 
 function wrapContentsInMarquee(element, width) {
     var contents = $(element).text();
- 
-    if(width){
+
+    if (width) {
         $(element).html(`<marquee style="width:${width}px;">${contents}`)
 
-    }else{
+    } else {
         $(element).html(`<marquee>${contents}</marquee>`)
     }
-    
+
 
 
 }
@@ -470,7 +470,7 @@ var App = {
                                         ${home_cards.cardName[i]}</span></div></div>`
                             )
                             if (isElementOverflowing(document.getElementById(home_cards.cardID[i]), 100)) {
-                                wrapContentsInMarquee("#"+home_cards.cardID[i]);
+                                wrapContentsInMarquee("#" + home_cards.cardID[i]);
                             }
                         }
                         var map = this.createElement("#map-container", "map", {
@@ -781,6 +781,8 @@ var App = {
                                 } else {
                                     ifStation = true
                                     App.renderhtml("#stationName", `${res[0].StationName.Zh_tw.split("_")[0]} ${res[0].StationName.Zh_tw.split("_")[1]}`)
+                                    App.renderTitle(`${res[0].StationName.Zh_tw.split("_")[0]} ${res[0].StationName.Zh_tw.split("_")[1]}`)
+
                                     currentlocMark.bindPopup(`${res[0].StationName.Zh_tw.split("_")[0]} ${res[0].StationName.Zh_tw.split("_")[1]}`)
                                 }
 
@@ -893,9 +895,9 @@ var App = {
     },
     renderTitle: function (title) {
         $("#header").text(title)
-        if($("#nav-top").width()-85 < $("#header").width()){
-     
-            wrapContentsInMarquee("#header",$("#nav-top").width()-90)
+        if ($("#nav-top").width() - 85 < $("#header").width()) {
+
+            wrapContentsInMarquee("#header", $("#nav-top").width() - 90)
         }
     }
 }
