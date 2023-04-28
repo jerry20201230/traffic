@@ -23,13 +23,9 @@
 
     <style>
         .homepage-card {
-
-
             --bs-border-opacity: .3;
 
             cursor: pointer;
-
-
         }
 
     </style>
@@ -38,14 +34,19 @@
 
 <body>
     <nav class="navbar navbar-dark bg-primary p-2 sticky-top" id="nav-top">
-        <div style="width: 100%;text-align: center;" class="p-2">
+        <div style="width: 100%;text-align: center;
+        display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-content: center;
+    align-items: center;" >
             <a class="navbar-brand text-light" style="flex:1 0 auto;" id="header">大眾運輸查詢系統</a>
             <button class="navbar-toggler text-light" type="button" data-bs-toggle="offcanvas"
                 data-bs-target="#offcanvasDarkNavbar" style="  
                 position:absolute;
                 left:0.5rem;
                 top:0.5rem;
-                line-height: 1.5;
                 padding:5px;" aria-controls="offcanvasDarkNavbar">
                 <span class="navbar-toggler-icon text-light"></span>
             </button>
@@ -54,9 +55,8 @@
             position:absolute;
             right:0.5rem;
             top:0.5rem;
-            line-height: 1.5;
             padding:5px;" onclick="App.goToPage('Map')">
-                <i class="bi bi-map-fill navbar-toggler-icon" style="background: none;"></i></button>
+                <i class="bi bi-map-fill navbar-toggler-icon " style="background: none;line-height: 1.5;"></i></button>
         </div>
     </nav>
     <div id="app">
