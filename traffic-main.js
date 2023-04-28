@@ -65,12 +65,17 @@ function isElementOverflowing(element, maxWidth) {
 }
 
 function wrapContentsInMarquee(element, width) {
-    var marquee = document.createElement('marquee'),
-        contents = element.innerText;
+    var contents = $(element).text();
+ 
+    if(width){
+        $(element).html(`<marquee style="width:${width}px;">${contents}`)
 
-    marquee.innerText = contents;
-    element.innerHTML = '';
-    element.appendChild(marquee);
+    }else{
+        $(element).html(`<marquee>${contents}</marquee>`)
+    }
+    
+
+
 }
 
 async function timeDisplay(Displaysec) {
@@ -465,7 +470,7 @@ var App = {
                                         ${home_cards.cardName[i]}</span></div></div>`
                             )
                             if (isElementOverflowing(document.getElementById(home_cards.cardID[i]), 100)) {
-                                wrapContentsInMarquee(document.getElementById(home_cards.cardID[i]));
+                                wrapContentsInMarquee("#"+home_cards.cardID[i]);
                             }
                         }
                         var map = this.createElement("#map-container", "map", {
@@ -889,8 +894,8 @@ var App = {
     renderTitle: function (title) {
         $("#header").text(title)
         if($("#nav-top").width()-85 < $("#header").width()){
-            $("#header").width($("#nav-top").width()-85 )
-            wrapContentsInMarquee(document.getElementById("header"))
+     
+            wrapContentsInMarquee("#header",$("#nav-top").width()-90)
         }
     }
 }
