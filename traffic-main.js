@@ -68,10 +68,10 @@ function wrapContentsInMarquee(element, width) {
     var contents = $(element).text();
 
     if (width) {
-        $(element).html(`<marquee style="width:${width}px;">${contents}`)
+        $(element).html(`<marquee style="width:${width}px;line-height:1">${contents}`)
 
     } else {
-        $(element).html(`<marquee>${contents}</marquee>`)
+        $(element).html(`<marquee  style="line-height:1">${contents}</marquee>`)
     }
 
 
@@ -897,7 +897,7 @@ var App = {
         $("#header").text(title)
         if ($("#nav-top").width() - 85 < $("#header").width()) {
 
-            wrapContentsInMarquee("#header", $("#nav-top").width() - 90)
+            wrapContentsInMarquee("#header", $("#nav-top").width() - 110)
         }
     }
 }
