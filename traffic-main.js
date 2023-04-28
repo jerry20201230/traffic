@@ -1143,6 +1143,7 @@ var DATA = {
                     { text: "F", bgColor: "gray", borderColor: "black", color: "white" },
                     { text: "副", bgColor: "white", borderColor: "black", color: "black" },
                     { text: "區", bgColor: "white", borderColor: "black", color: "black" },
+                    { text: "預", bgColor: "white", borderColor: "black", color: "black" },
                     { text: "小", bgColor: "white", borderColor: "black", color: "black" },
                     { text: "延", bgColor: "white", borderColor: "black", color: "black" },
                     { text: "繞", bgColor: "white", borderColor: "black", color: "black" },
