@@ -895,7 +895,7 @@ var App = {
     },
     renderTitle: function (title) {
         $("#header").text(title)
-        if ($("#nav-top").width() - 85 < $("#header").width()) {
+        if ($("#nav-top").width() - 110 < $("#header").width()) {
 
             wrapContentsInMarquee("#header", $("#nav-top").width() - 110)
         }
