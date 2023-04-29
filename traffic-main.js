@@ -892,7 +892,7 @@ var App = {
     },
     renderTitle: function (title) {
         $("#header").text(title)
-        if ($("#nav-top").width()-20 < $("#header").width()) {
+        if ($("#nav-top").width()-32 < $("#header").width()) {
 
             wrapContentsInMarquee("#header", $("#nav-top").width() - 100)
         }
@@ -1394,9 +1394,9 @@ var system_offcanvas = {
                     `
     <div class="card text-dark mb-1" >
     <div class="card-body">
-      <h5 class="card-title bi bi-cloud-arrow-down-fill">&nbsp;資料</h5>
-      <p class="card-text">
-       正在讀取資料
+      <h5 class="card-title bi bi-cloud-check-fill">&nbsp;資料</h5>
+      <p class="card-text text-success">
+      就緒
       </p>
     </div>
   </div>`
@@ -1415,10 +1415,10 @@ var system_offcanvas = {
         } else {
             _temp = _temp +
                 `
-<div class="card text-dark mb-1" >
+<div class="card bg-danger text-light mb-1" >
 <div class="card-body">
   <h5 class="card-title bi bi-cloud-slash-fill">&nbsp;資料</h5>
-  <p class="card-text text-danger">
+  <p class="card-text">
    資料讀取失敗
   </p>
 </div>
