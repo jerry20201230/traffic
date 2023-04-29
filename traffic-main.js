@@ -68,14 +68,11 @@ function wrapContentsInMarquee(element, width) {
     var contents = $(element).text();
 
     if (width) {
-        $(element).html(`<marquee style="width:${width}px;line-height:1" class="pt-1">${contents}`)
+        $(element).html(`<marquee style="width:${width}px;line-height:1;align-items:center;" class="pt-1">${contents}</marquee>`)
 
     } else {
-        $(element).html(`<marquee  style="line-height:1" class="pt-1">${contents}</marquee>`)
+        $(element).html(`<marquee  style="line-height:1;align-items:center;" class="pt-1">${contents}</marquee>`)
     }
-
-
-
 }
 
 async function timeDisplay(Displaysec) {
@@ -86,7 +83,7 @@ async function timeDisplay(Displaysec) {
 
 }
 
-function getNearBusAndBikes(loc, container, mapObject, page) {
+function getNearBusAndBikes(loc, container, mapObject, page,rem) {
     console.log("getNearBusAndBikes")
 
     App.current_ajax_times += 3;
