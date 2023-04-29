@@ -68,10 +68,10 @@ function wrapContentsInMarquee(element, width) {
     var contents = $(element).text();
 
     if (width) {
-        $(element).html(`<marquee style="width:${width}px;line-height:1;align-items:center;" class="pt-1">${contents}</marquee>`)
+        $(element).html(`<marquee style="width:${width}px;line-height:1;align-items:center;    margin-left: 1.25rem!important;" class="pt-1">${contents}</marquee>`)
 
     } else {
-        $(element).html(`<marquee  style="line-height:1;align-items:center;" class="pt-1">${contents}</marquee>`)
+        $(element).html(`<marquee  style="line-height:1;align-items:center;    margin-left: 1.25rem!important;" class="pt-1">${contents}</marquee>`)
     }
 }
 
@@ -1149,6 +1149,8 @@ var DATA = {
                     { text: "跳蛙", bgColor: "white", borderColor: "black", color: "black" },
                     { text: "市民", bgColor: "white", borderColor: "black", color: "black" },
                     { text: "通勤", bgColor: "white", borderColor: "black", color: "black" },
+                    { text: "快捷", bgColor: "white", borderColor: "black", color: "black" },
+                    { text: "巴士", bgColor: "white", borderColor: "black", color: "black" },
                     { text: "小巴", bgColor: "white", borderColor: "black", color: "black" },
                 ]
                 $("#label-container").html("")
