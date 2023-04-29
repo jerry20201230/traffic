@@ -29,12 +29,7 @@
         }
 
     </style>
-
-</head>
-
-<body>
-    <nav class="navbar navbar-dark bg-primary p-2 sticky-top" id="nav-top">
-        <div style="width: 100%;text-align: center;
+<!--<div style="width: 100%;text-align: center;
         display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
@@ -42,8 +37,18 @@
     align-content: center;
     align-items: center;
      text-align :cecenter;" >
-            <a class="navbar-brand text-light m-0" style="width:fit-content;align-self:center;flex:1 0 auto;" id="header">大眾運輸查詢系統</a>
-            <button class="navbar-toggler text-light" type="button" data-bs-toggle="offcanvas"
+           
+
+            
+        </div>-->
+</head>
+
+<body>
+    <nav class="navbar navbar-dark bg-primary p-2 sticky-top" id="nav-top">
+        <div class="container text-center">
+            <div class="row">
+              <div class="col">
+                <button class="navbar-toggler text-light" type="button" data-bs-toggle="offcanvas"
                 data-bs-target="#offcanvasDarkNavbar" style="  
                 position:absolute;
                 left:0.5rem;
@@ -51,14 +56,21 @@
                 padding:5px;" aria-controls="offcanvasDarkNavbar">
                 <span class="navbar-toggler-icon text-light"></span>
             </button>
+              </div>
+              <div class="col-6">
+                <a class="navbar-brand text-light m-0" style="width:fit-content;align-self:center;flex:1 0 auto;" id="header">大眾運輸查詢系統</a>
 
-            <button class="navbar-toggler" style="  
+              </div>
+              <div class="col">
+                <button class="navbar-toggler" style="  
             position:absolute;
             right:0.5rem;
             top:0.5rem;
             padding:5px;" onclick="App.goToPage('Map')">
                 <i class="bi bi-map-fill navbar-toggler-icon " style="background: none;line-height: 1.5;"></i></button>
-        </div>
+              </div>
+            </div>
+          </div>
     </nav>
     <div id="app">
 

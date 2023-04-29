@@ -894,6 +894,7 @@ var App = {
         $("#header").text(title)
         if ($("#nav-top").width()- $("#header").width() < 20 || $("#header").width() > $("#nav-bottom").width()) {
 
+      
             wrapContentsInMarquee("#header", $("#nav-top").width() - 110)
         }
     }
