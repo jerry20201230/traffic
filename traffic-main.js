@@ -1285,8 +1285,9 @@ var AJAX = {
                 }else{
                     let refresh_sec = pars.delay - r
                     $(pars.progBar).css("width", (refresh_sec * (100 / pars.delay)) + "%").text(refresh_sec).removeClass("bg-secondary")
+                    await delay(1)
                 }
-                await delay(1)
+              
             }
         }
         console.log("REF-break")
