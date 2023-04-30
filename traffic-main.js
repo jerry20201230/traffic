@@ -1277,10 +1277,14 @@ var AJAX = {
             }
             // await delay(pars.delay)
             for (r = 0; r < pars.delay; r++) {
-                let refresh_sec = pars.delay - r
-                $(pars.progBar).css("width", (refresh_sec * (100 / pars.delay)) + "%").text(refresh_sec).removeClass("bg-secondary")
+                console.log($(pars.progBar))
+                
                 if ($(pars.progBar).length == 0) {
-                    break;
+                  
+                    return;
+                }else{
+                    let refresh_sec = pars.delay - r
+                    $(pars.progBar).css("width", (refresh_sec * (100 / pars.delay)) + "%").text(refresh_sec).removeClass("bg-secondary")
                 }
                 await delay(1)
             }
