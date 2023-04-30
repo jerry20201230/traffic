@@ -83,6 +83,13 @@ async function timeDisplay(Displaysec) {
 
 }
 
+function getCityName(code){
+
+}
+function getCityCode(name){
+
+}
+
 function getNearBusAndBikes(loc, container, mapObject, page, rem) {
     
 
@@ -1550,7 +1557,7 @@ document.body.onload = function (e) {
             }
         })
         AJAX.getBasicApi({
-            url: `https://tdx.transportdata.tw/api/basic/v3/Rail/TRA/Station?%24format=JSON`,
+            url: `https://tdx.transportdata.tw/api/basic/v2/Rail/THSR/Station?%24format=JSON`,
             success: function (res) {
                 temp_data.HSR.data = res
                 temp_data.HSR.update = getTime("date")
