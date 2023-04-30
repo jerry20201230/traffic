@@ -892,7 +892,7 @@ var App = {
     },
     renderTitle: function (title) {
         $("#header").text(title)
-        if ($("#nav-top").width()- $("#header").width() < 40 || $("#header").width() > $("#nav-bottom").width()) {
+        if ($("#nav-top").width()- $("#header").width() < 80 || $("#header").width() > $("#nav-bottom").width()) {
 
       
             wrapContentsInMarquee("#header", $("#nav-top").width() - 110)
