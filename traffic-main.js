@@ -85,7 +85,7 @@ async function timeDisplay(Displaysec) {
 
 function getNearBusAndBikes(loc, container, mapObject, page, rem) {
     $("#refresh_prog").remove()
-    
+
     console.log("getNearBusAndBikes")
 
     App.current_ajax_times += 3;
@@ -1515,12 +1515,13 @@ document.body.onload = function (e) {
 
         var temp_data = {
             TRA: {},
-            HSR: {}
+            HSR: {},
+            CITY:{}
         }
-        var data_installed = [false, false]
-        App.current_ajax_times = 2
+        var data_installed = [false, false,false]
+        App.current_ajax_times = 3
         App.completed_ajax_times = 0
-        App.ajax_package_name = ["基本資料 - 火車站", "基本資料 - 高鐵站"]
+        App.ajax_package_name = ["基本資料 - 火車站", "基本資料 - 高鐵站","基本資料 - 行政區"]
         system_offcanvas.refresh()
         AJAX.getBasicApi({
             url: `https://tdx.transportdata.tw/api/basic/v3/Rail/TRA/Station?%24format=JSON`,
@@ -1549,6 +1550,27 @@ document.body.onload = function (e) {
                 temp_data.HSR.data = res
                 temp_data.HSR.update = getTime("date")
                 data_installed[1] = true
+
+                console.log(temp_data)
+
+                if (data_installed[0] === data_installed[1] === true) {
+                    localStorage.setItem("data", JSON.stringify(temp_data))
+                    localStorage.setItem("ver", "1.0")
+
+                    if ($.UrlParam("page") == null || $.UrlParam("page") == "") {
+                        App.goToPage("home")
+                    } else {
+                        App.goToPage($.UrlParam("page"), $.UrlParam("par1"), $.UrlParam("par2"), $.UrlParam("par3"), "url")
+                    }
+                }
+            }
+        })
+        AJAX.getBasicApi({
+            url: `https://tdx.transportdata.tw/api/basic/v2/Basic/City?%24format=JSON`,
+            success: function (res) {
+                temp_data.CITY.data = res
+                temp_data.CITY.update = getTime("date")
+                data_installed[2] = true
 
                 console.log(temp_data)
 
