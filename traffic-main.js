@@ -89,6 +89,7 @@ function getCityName(code) {
     for (i = 0; i < DATA.localData.CITY.data.length; i++) {
         if (DATA.localData.CITY.data[i].City == code) {
             is = true
+            
             return DATA.localData.CITY.data[i].CityName
         }
     }
@@ -360,29 +361,10 @@ var App = {
             if (!end) {
                 end = ""
             }
-            $(containerID).append(`<option value="Taipei">臺北市${end}</option>`)
-            $(containerID).append(`<option value="Taichung">臺中市${end}</option>`)
-            $(containerID).append(`<option value="Keelung">基隆市${end}</option>`)
-            $(containerID).append(`<option value="Tainan">臺南市${end}</option>`)
-            $(containerID).append(`<option value="Kaohsiung">高雄市${end}</option>`)
-            $(containerID).append(`<option value="NewTaipei">新北市${end}</option>`)
-            $(containerID).append(`<option value="YilanCounty">宜蘭縣${end}</option>`)
-            $(containerID).append(`<option value="Taoyuan">桃園市${end}</option>`)
-            $(containerID).append(`<option value="Chiayi">嘉義市${end}</option>`)
-            $(containerID).append(`<option value="HsinchuCounty">新竹縣${end}</option>`)
-            $(containerID).append(`<option value="MiaoliCounty">苗栗縣${end}</option>`)
-            $(containerID).append(`<option value="NantouCounty">南投縣${end}</option>`)
-            $(containerID).append(`<option value="ChanghuaCounty">彰化縣${end}</option>`)
-            $(containerID).append(`<option value="Hsinchu">新竹市${end}</option>`)
-            $(containerID).append(`<option value="YunlinCounty">雲林縣${end}</option>`)
-            $(containerID).append(`<option value="ChiayiCounty">嘉義縣${end}</option>`)
-            $(containerID).append(`<option value="PingtungCounty">屏東縣${end}</option>`)
-            $(containerID).append(`<option value="HualienCounty">花蓮縣${end}</option>`)
-            $(containerID).append(`<option value="TaitungCounty">臺東縣${end}</option>`)
-            $(containerID).append(`<option value="KinmenCounty">金門縣${end}</option>`)
-            $(containerID).append(`<option value="PenghuCounty">澎湖縣${end}</option>`)
-            $(containerID).append(`<option value="LienchiangCounty">連江縣${end}</option>`)
 
+            for(i=0;i<DATA.localData.CITY.length;i++){
+                $(containerID).append(`<option value="${DATA.localData.CITY[i].City}">${DATA.localData.CITY[i].CityName}{end}</option>`)
+            }
         }
     },
     goToPage: function (page, par1, par2, par3, from) {
@@ -729,6 +711,8 @@ var App = {
                                 App.goToPage("home")
                                 Toast.toast("無法解析網址參數")
                             }
+                        }else if(from == "button"){
+                            location.reload()
                         }
                         var MyLoc = [par1, par2]
                         this.renderTitle("公共自行車 - 站點資訊")
