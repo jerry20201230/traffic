@@ -83,15 +83,31 @@ async function timeDisplay(Displaysec) {
 
 }
 
-function getCityName(code){
-
+function getCityName(code) {
+    //ex: getCityName("Taipei") => "臺北市"
+    var is = false
+    for (i = 0; i < DATA.localData.CITY.data.length; i++) {
+        if (DATA.localData.CITY.data[i].City == code) {
+            is = true
+            return DATA.localData.CITY.data[i].CityName
+        }
+    }
+    if (!is) { return null }
 }
-function getCityCode(name){
-
+function getCityCode(name) {
+     //ex: getCityCode("臺北市") => "Taipei"
+    var is = false
+    for (i = 0; i < DATA.localData.CITY.data.length; i++) {
+        if (DATA.localData.CITY.data[i].CityName == name) {
+            is = true
+            return DATA.localData.CITY.data[i].City
+        }
+    }
+    if (!is) { return null }
 }
 
 function getNearBusAndBikes(loc, container, mapObject, page, rem) {
-    
+
 
     console.log("getNearBusAndBikes")
 
@@ -1285,16 +1301,16 @@ var AJAX = {
             // await delay(pars.delay)
             for (r = 0; r < pars.delay; r++) {
                 console.log($(pars.progBar))
-                
+
                 if ($(pars.progBar).length == 0) {
-                  
+
                     return;
-                }else{
+                } else {
                     let refresh_sec = pars.delay - r
                     $(pars.progBar).css("width", (refresh_sec * (100 / pars.delay)) + "%").text(refresh_sec).removeClass("bg-secondary")
                     await delay(1)
                 }
-              
+
             }
         }
         console.log("REF-break")
@@ -1526,14 +1542,14 @@ document.body.onload = function (e) {
     if (!localStorage.getItem("ver")) {
 
         var temp_data = {
-            TRA: {data:undefined,update:NaN},
-            HSR: {data:undefined,update:NaN},
-            CITY:{data:undefined,update:NaN}
+            TRA: { data: undefined, update: NaN },
+            HSR: { data: undefined, update: NaN },
+            CITY: { data: undefined, update: NaN }
         }
-        var data_installed = [false, false,false]
+        var data_installed = [false, false, false]
         App.current_ajax_times = 3
         App.completed_ajax_times = 0
-        App.ajax_package_name = ["基本資料 - 火車站", "基本資料 - 高鐵站","基本資料 - 行政區"]
+        App.ajax_package_name = ["基本資料 - 火車站", "基本資料 - 高鐵站", "基本資料 - 行政區"]
         system_offcanvas.refresh()
         AJAX.getBasicApi({
             url: `https://tdx.transportdata.tw/api/basic/v3/Rail/TRA/Station?%24format=JSON`,
@@ -1546,7 +1562,7 @@ document.body.onload = function (e) {
                 if (data_installed[0] === data_installed[1] === true) {
                     localStorage.setItem("data", JSON.stringify(temp_data))
                     localStorage.setItem("ver", "1.0")
-
+                    DATA.localData = JSON.parse(localStorage.getItem("data"))
                     if ($.UrlParam("page") == null || $.UrlParam("page") == "") {
                         App.goToPage("home")
                     } else {
@@ -1568,6 +1584,7 @@ document.body.onload = function (e) {
                 if (data_installed[0] === data_installed[1] === true) {
                     localStorage.setItem("data", JSON.stringify(temp_data))
                     localStorage.setItem("ver", "1.0")
+                    DATA.localData = JSON.parse(localStorage.getItem("data"))
 
                     if ($.UrlParam("page") == null || $.UrlParam("page") == "") {
                         App.goToPage("home")
@@ -1589,6 +1606,7 @@ document.body.onload = function (e) {
                 if (data_installed[0] === data_installed[1] === true) {
                     localStorage.setItem("data", JSON.stringify(temp_data))
                     localStorage.setItem("ver", "1.0")
+                    DATA.localData = JSON.parse(localStorage.getItem("data"))
 
                     if ($.UrlParam("page") == null || $.UrlParam("page") == "") {
                         App.goToPage("home")
