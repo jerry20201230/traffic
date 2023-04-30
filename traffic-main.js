@@ -83,7 +83,9 @@ async function timeDisplay(Displaysec) {
 
 }
 
-function getNearBusAndBikes(loc, container, mapObject, page,rem) {
+function getNearBusAndBikes(loc, container, mapObject, page, rem) {
+    $("#refresh_prog").remove()
+    
     console.log("getNearBusAndBikes")
 
     App.current_ajax_times += 3;
@@ -666,7 +668,7 @@ var App = {
                         <label class="btn btn-outline-primary" for="btnradio2">南下</label>
                         
                     </div>
-                        <div class="progress mt-1"><div id="railway_refresh_prog" class="progress-bar" role="progressbar" aria-label="auto refresh process"style="width: 25%"></div></div><table class="table table-sm" style="text-align:center"><thead><tr><th scope="col">時間</th><th scope="col">車次</th><th scope="col">車種</th><th scope="col">經</th><th scope="col">往</th><th scope="col">備註</th></tr></thead><tbody id="railway-lightbox"><tr id="railway-lightboxloading"><td colspan="6" style="text-align:center">正在取得資料</td></tr></tbody></table></p></div></div>
+                        <div class="progress mt-1"><div id="refresh_prog" class="progress-bar" role="progressbar" aria-label="auto refresh process"style="width: 25%"></div></div><table class="table table-sm" style="text-align:center"><thead><tr><th scope="col">時間</th><th scope="col">車次</th><th scope="col">車種</th><th scope="col">經</th><th scope="col">往</th><th scope="col">備註</th></tr></thead><tbody id="railway-lightbox"><tr id="railway-lightboxloading"><td colspan="6" style="text-align:center">正在取得資料</td></tr></tbody></table></p></div></div>
                     
                  `, "html")
                         console.log([TRA_Station_Data.StationPosition.PositionLat, TRA_Station_Data.StationPosition.PositionLon])
@@ -694,7 +696,7 @@ var App = {
                             url: [`https://tdx.transportdata.tw/api/basic/v2/Rail/TRA/LiveBoard/Station/${TRA_Station_Data.StationID}?%24format=JSON`],
                             //success: function (res) { console.log(res) },
                             queryType: "TRA.Direction",
-                            progBar: "#railway_refresh_prog",
+                            progBar: "#refresh_prog",
                             delay: 60
                         })
                     }
@@ -723,7 +725,7 @@ var App = {
                     
 
                     <div class="progress mt-1">
-                    <div id="ubike_refresh_prog" class="progress-bar" role="progressbar" aria-label="auto refresh process"style="width: 25%"></div>
+                    <div id="refresh_prog" class="progress-bar" role="progressbar" aria-label="auto refresh process"style="width: 25%"></div>
                     </div>
 
                     <div id="map-container" class="card mt-1"></div>
@@ -788,7 +790,7 @@ var App = {
                                         url: [`https://tdx.transportdata.tw/api/advanced/v2/Bike/Availability/NearBy?%24spatialFilter=nearby%28${MyLoc[0]}%2C%20${MyLoc[1]}%2C%20${0}%29&%24format=JSON`],
 
                                         queryType: "ubikeStation",
-                                        progBar: "#ubike_refresh_prog",
+                                        progBar: "#refresh_prog",
                                         delay: 60
                                     })
                                 }
@@ -892,9 +894,7 @@ var App = {
     },
     renderTitle: function (title) {
         $("#header").text(title)
-        if ($("#nav-top").width()- $("#header").width() < 80 || $("#header").width() > $("#nav-bottom").width()) {
-
-      
+        if ($("#nav-top").width() - $("#header").width() < 80 || $("#header").width() > $("#nav-bottom").width()) {
             wrapContentsInMarquee("#header", $("#nav-top").width() - 110)
         }
     }
@@ -1534,6 +1534,12 @@ document.body.onload = function (e) {
                     localStorage.setItem("data", JSON.stringify(temp_data))
                     localStorage.setItem("ver", "1.0")
 
+                    if ($.UrlParam("page") == null || $.UrlParam("page") == "") {
+                        App.goToPage("home")
+                    } else {
+                        App.goToPage($.UrlParam("page"), $.UrlParam("par1"), $.UrlParam("par2"), $.UrlParam("par3"), "url")
+                    }
+
                 }
             }
         })
@@ -1549,16 +1555,23 @@ document.body.onload = function (e) {
                 if (data_installed[0] === data_installed[1] === true) {
                     localStorage.setItem("data", JSON.stringify(temp_data))
                     localStorage.setItem("ver", "1.0")
+
+                    if ($.UrlParam("page") == null || $.UrlParam("page") == "") {
+                        App.goToPage("home")
+                    } else {
+                        App.goToPage($.UrlParam("page"), $.UrlParam("par1"), $.UrlParam("par2"), $.UrlParam("par3"), "url")
+                    }
                 }
             }
         })
-    }
-
-
-    if ($.UrlParam("page") == null || $.UrlParam("page") == "") {
-        App.goToPage("home")
     } else {
-        App.goToPage($.UrlParam("page"), $.UrlParam("par1"), $.UrlParam("par2"), $.UrlParam("par3"), "url")
+
+
+        if ($.UrlParam("page") == null || $.UrlParam("page") == "") {
+            App.goToPage("home")
+        } else {
+            App.goToPage($.UrlParam("page"), $.UrlParam("par1"), $.UrlParam("par2"), $.UrlParam("par3"), "url")
+        }
     }
 }
 
