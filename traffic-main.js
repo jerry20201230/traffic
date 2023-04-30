@@ -363,7 +363,7 @@ var App = {
             }
 
             for(i=0;i<DATA.localData.CITY.data.length;i++){
-                $(containerID).append(`<option value="${DATA.localData.CITY[i].City}">${DATA.localData.CITY[i].CityName}{end}</option>`)
+                $(containerID).append(`<option value="${DATA.localData.CITY.data[i].City}">${DATA.localData.CITY[i].CityName}{end}</option>`)
             }
         }
     },
