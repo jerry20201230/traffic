@@ -89,14 +89,14 @@ function getCityName(code) {
     for (i = 0; i < DATA.localData.CITY.data.length; i++) {
         if (DATA.localData.CITY.data[i].City == code) {
             is = true
-            
+
             return DATA.localData.CITY.data[i].CityName
         }
     }
     if (!is) { return null }
 }
 function getCityCode(name) {
-     //ex: getCityCode("臺北市") => "Taipei"
+    //ex: getCityCode("臺北市") => "Taipei"
     var is = false
     for (i = 0; i < DATA.localData.CITY.data.length; i++) {
         if (DATA.localData.CITY.data[i].CityName == name) {
@@ -362,7 +362,7 @@ var App = {
                 end = ""
             }
 
-            for(i=0;i<DATA.localData.CITY.data.length;i++){
+            for (i = 0; i < DATA.localData.CITY.data.length; i++) {
                 $(containerID).append(`<option value="${DATA.localData.CITY.data[i].City}">${DATA.localData.CITY.data[i].CityName}${end}</option>`)
             }
         }
@@ -806,12 +806,12 @@ var App = {
 
                     else if (this._availablePage[i].name == "BUSsearch_result_byRoute") {
 
-                        App.renderTitle(par3)
+                        App.renderTitle("公車路線")
                         App.renderhtml("#main-content", `123`)
                         App.completed_ajax_times = 0; App.current_ajax_times = 1; App.ajax_package_name = ["公車資料"]
 
                         AJAX.getBasicApi({
-                            url: `https://tdx.transportdata.tw/api/basic/v2/Bus/Route/City/${par1}?%24filter=contains%28RouteName%2FZh_tw%2C%20%27${par3}%27%29&%24top=5&%24format=JSON`,
+                            url: `https://tdx.transportdata.tw/api/basic/v2/Bus/Route/City/${par1}?%24filter=RouteName%2FZh_tw%20eq%20%27${par3}%27&%24format=JSON`,
                             success: function (res) {
                                 for (i = 0; i < res.length; i++) {
 
@@ -831,6 +831,8 @@ var App = {
                                     console.log(res[i])
                                     break;
                                 }
+                                App.renderTitle(`${par3} - ${getCityName(par1)}公車`)
+
 
                             }
                         })
