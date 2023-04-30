@@ -362,7 +362,7 @@ var App = {
                 end = ""
             }
 
-            for(i=0;i<DATA.localData.CITY.length;i++){
+            for(i=0;i<DATA.localData.CITY.data.length;i++){
                 $(containerID).append(`<option value="${DATA.localData.CITY[i].City}">${DATA.localData.CITY[i].CityName}{end}</option>`)
             }
         }
@@ -711,8 +711,6 @@ var App = {
                                 App.goToPage("home")
                                 Toast.toast("無法解析網址參數")
                             }
-                        }else if(from == "button"){
-                            location.reload()
                         }
                         var MyLoc = [par1, par2]
                         this.renderTitle("公共自行車 - 站點資訊")
