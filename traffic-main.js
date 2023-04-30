@@ -1518,9 +1518,9 @@ document.body.onload = function (e) {
     if (!localStorage.getItem("ver")) {
 
         var temp_data = {
-            TRA: {},
-            HSR: {},
-            CITY:{}
+            TRA: {data:undefined,update:NaN},
+            HSR: {data:undefined,update:NaN},
+            CITY:{data:undefined,update:NaN}
         }
         var data_installed = [false, false,false]
         App.current_ajax_times = 3
