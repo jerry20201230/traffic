@@ -821,7 +821,7 @@ var App = {
                         <p class="card-text"><div></div></p>
                         
                         </div></div>
-                        
+                        <p></p>
                         
                         <div class="card">
                         <div class="card-body">
@@ -830,6 +830,9 @@ var App = {
                         <p class="card-text">
                         
                         <table class="table table-hover table-sm">
+                        <thead>
+                        <tr><td>車站</td><td></td></tr>
+                        </thead>
                         <tbody id="routeStations">
                         
                         </tbody>
