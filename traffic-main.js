@@ -1269,9 +1269,11 @@ var AJAX = {
     progBar(ele.)
     delay
     */
+   ref_token :[],
     refreshApi: async function (pars) {
         console.log($(pars.progBar).length)
-        while ($(pars.progBar).length !== 0) {
+        this.ref_token = pars.url
+        while ($(pars.progBar).length !== 0 && this.ref_token[0] == pars.url[0]) {
             console.log(pars)
             console.log("REF")
             $(pars.progBar).css("width", (1 * (100 / pars.delay)) + "%").text(120).removeClass("bg-secondary")
