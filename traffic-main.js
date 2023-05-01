@@ -368,6 +368,11 @@ var App = {
         }
     },
     goToPage: function (page, par1, par2, par3, from) {
+
+        $("#refresh_prog").remove()
+        console.log($("#refresh_prog") + "------")
+
+
         let isAvailablePage = false;
 
         if (this.current_ajax_times <= this.completed_ajax_times) {
@@ -609,6 +614,7 @@ var App = {
                         $("#CitySelsct").append(`<option value="InterBus">公路客運</option>`)
                     }
                     else if (this._availablePage[i].name == "TRAstation") {
+                        
                         if (from == "url") {
                             if (!par1) {
                                 App.goToPage("home")
@@ -1287,7 +1293,6 @@ var AJAX = {
                 console.log($(pars.progBar))
 
                 if ($(pars.progBar).length == 0) {
-
                     return;
                 } else {
                     let refresh_sec = pars.delay - r
