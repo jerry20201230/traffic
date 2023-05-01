@@ -614,7 +614,7 @@ var App = {
                         $("#CitySelsct").append(`<option value="InterBus">公路客運</option>`)
                     }
                     else if (this._availablePage[i].name == "TRAstation") {
-                        
+
                         if (from == "url") {
                             if (!par1) {
                                 App.goToPage("home")
@@ -701,7 +701,7 @@ var App = {
 
 
 
-                    //    getNearBusAndBikes([TRA_Station_Data.StationPosition.PositionLat, TRA_Station_Data.StationPosition.PositionLon], "#table-container", map, App._current_page)
+                        //    getNearBusAndBikes([TRA_Station_Data.StationPosition.PositionLat, TRA_Station_Data.StationPosition.PositionLon], "#table-container", map, App._current_page)
 
                         AJAX.refreshApi({
                             url: [`https://tdx.transportdata.tw/api/basic/v2/Rail/TRA/LiveBoard/Station/${TRA_Station_Data.StationID}?%24format=JSON`],
@@ -826,27 +826,33 @@ var App = {
                         AJAX.getBasicApi({
                             url: `https://tdx.transportdata.tw/api/basic/v2/Bus/Route/City/${par1}?%24filter=RouteName%2FZh_tw%20eq%20%27${par3}%27&%24format=JSON`,
                             success: function (res) {
-                                for (i = 0; i < res.length; i++) {
 
-                                    if (res[i].RouteName.Zh_tw == par3)
-                                        var _Operators = "";
-                                    if (res[i].Operators.length == 1) {
-                                        _Operators = res[i].Operators[0].OperatorName.Zh_tw
-                                    } else {
-                                        for (j = 0; j < res[i].Operators.length; j++) {
-                                            if (_Operators == "") {
-                                                _Operators = _Operators + res[i].Operators[j].OperatorName.Zh_tw
-                                            } else {
-                                                _Operators = _Operators + "、" + res[i].Operators[j].OperatorName.Zh_tw
+                                if (res.length > 0) {
+                                    for (i = 0; i < res.length; i++) {
+
+                                        if (res[i].RouteName.Zh_tw == par3)
+                                            var _Operators = "";
+                                        if (res[i].Operators.length == 1) {
+                                            _Operators = res[i].Operators[0].OperatorName.Zh_tw
+                                        } else {
+                                            for (j = 0; j < res[i].Operators.length; j++) {
+                                                if (_Operators == "") {
+                                                    _Operators = _Operators + res[i].Operators[j].OperatorName.Zh_tw
+                                                } else {
+                                                    _Operators = _Operators + "、" + res[i].Operators[j].OperatorName.Zh_tw
+                                                }
                                             }
                                         }
+                                        console.log(res[i])
+                                        break;
                                     }
-                                    console.log(res[i])
-                                    break;
+                                    App.renderTitle(`${par3} - ${getCityName(par1)}公車`)
+                                    $("#stationName").html(par3)
+                                    $("#stationDes").html(`${res[i].DepartureStopNameZh} - ${res[i].DestinationStopNameZh}`)
+                                } else {
+                                    App.goToPage("home")
+                                    Toast.toast("連結無效")
                                 }
-                                App.renderTitle(`${par3} - ${getCityName(par1)}公車`)
-                                $("#stationName").html(par3)
-
 
                             }
                         })
@@ -1277,7 +1283,7 @@ var AJAX = {
     progBar(ele.)
     delay
     */
-   ref_token :[],
+    ref_token: [],
     refreshApi: async function (pars) {
         console.log($(pars.progBar).length)
         this.ref_token = pars.url
