@@ -831,7 +831,7 @@ var App = {
                         
                         <table class="table table-hover table-sm">
                         <thead>
-                        <tr><td>車站</td><td></td></tr>
+                        <tr><td>車站</td><td>時間</td></tr>
                         </thead>
                         <tbody id="routeStations">
                         
