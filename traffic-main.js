@@ -816,9 +816,25 @@ var App = {
                         App.renderhtml("#main-content", `
                         <div class="card">
                         <div class="card-body">
-                        <h5 class="card-title" id="stationName"></h5>
-                        <h6 class="card-subtitle mb-2 text-muted" id="stationDes"></h6>
-                        <p class="card-text"><div id="stationAvaliableBike"></div></p>
+                        <h5 class="card-title" id="routeName"></h5>
+                        <h6 class="card-subtitle mb-2 text-muted" id="routeDes"></h6>
+                        <p class="card-text"><div></div></p>
+                        
+                        </div></div>
+                        
+                        
+                        <div class="card">
+                        <div class="card-body">
+                        <h5 class="card-title"即時到離站</h5>
+                        <h6 class="card-subtitle mb-2 text-muted"></h6>
+                        <p class="card-text">
+                        
+                        <table class="table table-hover table-sm">
+                        <tbody id="routeStations">
+                        
+                        </tbody>
+                        </table>
+                        </p>
                         
                         </div></div>`)
                         App.completed_ajax_times = 0; App.current_ajax_times = 1; App.ajax_package_name = ["公車資料"]
@@ -847,8 +863,17 @@ var App = {
                                         break;
                                     }
                                     App.renderTitle(`${par3} - ${getCityName(par1)}公車`)
-                                    $("#stationName").html(par3)
-                                    $("#stationDes").html(`${res[i].DepartureStopNameZh} - ${res[i].DestinationStopNameZh}`)
+                                    $("#routeName").html(par3)
+                                    $("#routeDes").html(`${res[i].DepartureStopNameZh} - ${res[i].DestinationStopNameZh}`)
+
+                                    AJAX.getBasicApi({
+                                        url: `https://tdx.transportdata.tw/api/basic/v2/Bus/StopOfRoute/City/${par1}?%24filter=RouteName%2FZh_tw%20eq%20%27${par3}%27&%24format=JSON`,
+                                        success: function (res) {
+                                            for(j=0;j<res[0].Stops.length;j++){
+                                                $("#routeStations").append(`<tr><td>${res[0].Stops[j].StopName.Zh_tw}</td><td></td></tr>`)
+                                            }
+                                        }
+                                    })
                                 } else {
                                     App.goToPage("home")
                                     Toast.toast("連結無效")
