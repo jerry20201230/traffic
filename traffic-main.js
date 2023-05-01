@@ -315,10 +315,10 @@ var App = {
 
         //-----------------//
 
-        /*{
+        {
             name: "TRAstation",
             path: ["home", "TRAsearch", "TRAstation"]
-        },*/
+        },
         {
             name: "UBIKEstation",
             path: ["home", "UBIKEstation"]
