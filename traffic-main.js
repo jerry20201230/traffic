@@ -813,7 +813,14 @@ var App = {
                     else if (this._availablePage[i].name == "BUSsearch_result_byRoute") {
 
                         App.renderTitle("公車路線")
-                        App.renderhtml("#main-content", `123`)
+                        App.renderhtml("#main-content", `
+                        <div class="card">
+                        <div class="card-body">
+                        <h5 class="card-title" id="stationName"></h5>
+                        <h6 class="card-subtitle mb-2 text-muted" id="stationDes"></h6>
+                        <p class="card-text"><div id="stationAvaliableBike"></div></p>
+                        
+                        </div></div>`)
                         App.completed_ajax_times = 0; App.current_ajax_times = 1; App.ajax_package_name = ["公車資料"]
 
                         AJAX.getBasicApi({
@@ -838,6 +845,7 @@ var App = {
                                     break;
                                 }
                                 App.renderTitle(`${par3} - ${getCityName(par1)}公車`)
+                                $("#stationName").html(par3)
 
 
                             }
@@ -1294,7 +1302,7 @@ var AJAX = {
             for (r = 0; r < pars.delay; r++) {
                 console.log($(pars.progBar))
 
-                if ($(pars.progBar).length == 0) {
+                if ($(pars.progBar).length == 0 || this.ref_token[0] !== pars.url[0]) {
                     return;
                 } else {
                     let refresh_sec = pars.delay - r
