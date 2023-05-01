@@ -825,7 +825,7 @@ var App = {
                         
                         <div class="card">
                         <div class="card-body">
-                        <h5 class="card-title"即時到離站</h5>
+                        <h5 class="card-title">即時到離站</h5>
                         <h6 class="card-subtitle mb-2 text-muted"></h6>
                         <p class="card-text">
                         
@@ -860,12 +860,13 @@ var App = {
                                             }
                                         }
                                         console.log(res[i])
+                                    $("#routeDes").html(`${res[i].DepartureStopNameZh} - ${res[i].DestinationStopNameZh}`)
+
                                         break;
                                     }
                                     App.renderTitle(`${par3} - ${getCityName(par1)}公車`)
                                     $("#routeName").html(par3)
-                                    $("#routeDes").html(`${res[i].DepartureStopNameZh} - ${res[i].DestinationStopNameZh}`)
-
+                                    App.completed_ajax_times = 0; App.current_ajax_times = 1; App.ajax_package_name = ["公車資料"]
                                     AJAX.getBasicApi({
                                         url: `https://tdx.transportdata.tw/api/basic/v2/Bus/StopOfRoute/City/${par1}?%24filter=RouteName%2FZh_tw%20eq%20%27${par3}%27&%24format=JSON`,
                                         success: function (res) {
