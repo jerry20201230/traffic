@@ -863,7 +863,7 @@ var App = {
                                             }
                                         }
                                         console.log(res[i])
-                                    $("#routeDes").html(`${res[i].DepartureStopNameZh} - ${res[i].DestinationStopNameZh}`)
+                                        $("#routeDes").html(`${res[i].DepartureStopNameZh} - ${res[i].DestinationStopNameZh}`)
 
                                         break;
                                     }
@@ -873,7 +873,7 @@ var App = {
                                     AJAX.getBasicApi({
                                         url: `https://tdx.transportdata.tw/api/basic/v2/Bus/StopOfRoute/City/${par1}?%24filter=RouteName%2FZh_tw%20eq%20%27${par3}%27&%24format=JSON`,
                                         success: function (res) {
-                                            for(j=0;j<res[0].Stops.length;j++){
+                                            for (j = 0; j < res[0].Stops.length; j++) {
                                                 $("#routeStations").append(`<tr><td>${res[0].Stops[j].StopName.Zh_tw}</td><td></td></tr>`)
                                             }
                                         }
@@ -1315,9 +1315,12 @@ var AJAX = {
     ref_token: [],
     refreshApi: async function (pars) {
         console.log($(pars.progBar).length)
+        if(this.ref_token.length>0){
+            pars.delay += 1
+        }
         this.ref_token = pars.url
         while ($(pars.progBar).length !== 0 && this.ref_token[0] == pars.url[0]) {
-            console.log(pars)
+            
             console.log("REF")
             $(pars.progBar).css("width", (1 * (100 / pars.delay)) + "%").text(120).removeClass("bg-secondary")
 
@@ -1519,12 +1522,12 @@ var Leaflet_map = {
 }
 
 var BSpopover = {
-    activePopover:[],
-    show:function(id,title,html){
-        
+    activePopover: [],
+    show: function (id, title, html) {
+
     },
-    dismiss:function(id){}
-} 
+    dismiss: function (id) { }
+}
 
 //----------------------//
 
