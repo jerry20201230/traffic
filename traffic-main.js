@@ -68,7 +68,7 @@ function wrapContentsInMarquee(element, width) {
     var contents = $(element).text();
 
     if (width) {
-        $(element).html(`<marquee style="width:${width}px;line-height:1;align-items:center;">${contents}</marquee>`)
+        $(element).html(`<marquee style="width:${width}px;line-height:1;align-items:center; "${contents}</marquee>`)
 
     } else {
         $(element).html(`<marquee  style="line-height:1;align-items:center;">${contents}</marquee>`)
