@@ -1518,6 +1518,14 @@ var Leaflet_map = {
     }
 }
 
+var BSpopover = {
+    activePopover:[],
+    show:function(id,title,html){
+        
+    },
+    dismiss:function(id){}
+} 
+
 //----------------------//
 
 function updateBatteryUI(battery) {
