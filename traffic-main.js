@@ -867,7 +867,7 @@ var App = {
                                             }
                                         }
                                         console.log(res[i])
-                                        $("#routeDes").html(`${res[i].DepartureStopNameZh} - ${res[i].DestinationStopNameZh}`)
+                                        $("#routeDes").html(`${res[i].DepartureStopNameZh} - ${res[i].DestinationStopNameZh}<br>${_Operators}`)
 
                                         break;
                                     }
