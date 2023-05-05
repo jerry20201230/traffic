@@ -885,7 +885,7 @@ var App = {
                                             AJAX.refreshApi({
                                                 url: [`https://tdx.transportdata.tw/api/basic/v2/Bus/EstimatedTimeOfArrival/City/${par1}/901?%24format=JSON`],
                                                 //success: function (res) { console.log(res) },
-                                                queryType: "",
+                                                queryType: "BUS.Arrival_BY_Route",
                                                 progBar: "#refresh_prog",
                                                 delay: 20
                                             })
@@ -1273,6 +1273,9 @@ var DATA = {
                     $("#label-container").append(`<span class="badge m-1" style="background:${labels[i].bgColor};color:${labels[i].color};border:solid 1px ${labels[i].borderColor};user-select:none" onclick="$('#bus-data-search-input').val($('#bus-data-search-input').val()+'${labels[i].text}')">${labels[i].text}</span>`)
                 }
             }
+
+        }
+        else if(pars.type === "BUS.Arrival_BY_Route"){
 
         }
 
