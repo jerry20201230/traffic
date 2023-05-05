@@ -68,7 +68,7 @@ function wrapContentsInMarquee(element, width) {
     var contents = $(element).text();
 
     if (width) {
-        $(element).html(`<marquee style="width:${width}px;line-height:1;align-items:center; ">${contents}</marquee>`)
+        $(element).html(`<marquee style="width:${width}px;line-height:1;align-items:center;">${contents}</marquee>`)
 
     } else {
         $(element).html(`<marquee  style="line-height:1;align-items:center;">${contents}</marquee>`)
@@ -611,7 +611,7 @@ var App = {
                         DATA.query({ type: 'BUS.getBadge' })
 
                         this.createElement("#CitySelsct", "citySelect", { end: "公車" })
-                        $("#CitySelsct").append(`<option value="InterBus">公路客運</option>`)
+                        $("#CitySelsct").append(`<option value="InterBus">公路客運 (跨縣市)</option>`)
                     }
                     else if (this._availablePage[i].name == "TRAstation") {
 
@@ -828,6 +828,10 @@ var App = {
                         <h5 class="card-title">即時到離站</h5>
                         <h6 class="card-subtitle mb-2 text-muted"></h6>
                         <p class="card-text">
+
+                        <div class="progress mt-1">
+                        <div id="refresh_prog" class="progress-bar" role="progressbar" aria-label="auto refresh process"style="width: 25%"></div>
+                        </div>
                         
                         <table class="table table-hover table-sm">
                         <thead>
@@ -873,9 +877,18 @@ var App = {
                                     AJAX.getBasicApi({
                                         url: `https://tdx.transportdata.tw/api/basic/v2/Bus/StopOfRoute/City/${par1}?%24filter=RouteName%2FZh_tw%20eq%20%27${par3}%27&%24format=JSON`,
                                         success: function (res) {
+                                            DATA._storage[0] = res
                                             for (j = 0; j < res[0].Stops.length; j++) {
                                                 $("#routeStations").append(`<tr><td>${res[0].Stops[j].StopName.Zh_tw}</td><td></td></tr>`)
                                             }
+
+                                            AJAX.refreshApi({
+                                                url: [`https://tdx.transportdata.tw/api/basic/v2/Bus/EstimatedTimeOfArrival/City/${par1}/901?%24format=JSON`],
+                                                //success: function (res) { console.log(res) },
+                                                queryType: "",
+                                                progBar: "#refresh_prog",
+                                                delay: 20
+                                            })
                                         }
                                     })
                                 } else {
