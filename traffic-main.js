@@ -883,7 +883,7 @@ var App = {
                                             }
 
                                             AJAX.refreshApi({
-                                                url: [`https://tdx.transportdata.tw/api/basic/v2/Bus/EstimatedTimeOfArrival/City/${par1}/901?%24format=JSON`],
+                                                url: [`https://tdx.transportdata.tw/api/basic/v2/Bus/EstimatedTimeOfArrival/City/${par1}/${par3}?%24format=JSON`],
                                                 //success: function (res) { console.log(res) },
                                                 queryType: "BUS.Arrival_BY_Route",
                                                 progBar: "#refresh_prog",
