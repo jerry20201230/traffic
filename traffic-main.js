@@ -1307,6 +1307,8 @@ var DATA = {
                                 }
                             }
                             else if (1 <= t && t < 3) {
+                                    
+                                    if(res.PlateNumb && res.PlateNumb!=="" && res.PlateNumb!==-1){$("#" + res.StopUID + "-PlateNumb").html(`<span class="badge bg-secondary text-white">${res.PlateNumb}</span>`)}
                                 $("#" + res.StopUID + "-time").html(`<span class="badge bg-warning text-dark">將到站</span>`)
                             }
                             else if (3 <= t && t < 5) {
