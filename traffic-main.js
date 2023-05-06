@@ -1291,6 +1291,7 @@ var DATA = {
             DATA._storage[1] = pars.data
             var
                 time_labal = {
+                    plateArr: [],
                     basic: function (res) {
 
                         var t = Math.round(res.EstimateTime / 60)
@@ -1298,37 +1299,60 @@ var DATA = {
                         console.log(t)
 
                         if (res.StopStatus == 0 && t >= 0) {//正常
-                            if (t < 1) {
-                                if (res.PlateNumb && res.PlateNumb !== "" && res.PlateNumb !== -1) {
+                            if (res.PlateNumb && res.PlateNumb !== "" && res.PlateNumb !== -1) {
+                                if (!this.plateArr.includes(res.PlateNumb)) {
+                                    this.plateArr.push(res.PlateNumb)
                                     $("#" + res.StopUID + "-time").html(`<span class="badge bg-danger text-white">進站中</span>`)
                                     $("#" + res.StopUID + "-PlateNumb").html(`<span class="badge bg-secondary text-white">${res.PlateNumb}</span>`)
                                 } else {
-                                    $("#" + res.StopUID + "-time").html(`<span class="badge bg-danger text-white">進站中</span>`)
-                                }
-                            }
-                            else if (1 <= t && t < 3) {
+                                    if (t < 1) {
 
-                                if (res.PlateNumb && res.PlateNumb !== "" && res.PlateNumb !== -1) { 
-                                    $("#" + res.StopUID + "-PlateNumb").html(`<span class="badge bg-secondary text-white">${res.PlateNumb}</span>`) 
-                                }else{
-                                    $("#" + res.StopUID + "-PlateNumb").html(``)
+                                        $("#" + res.StopUID + "-time").html(`<span class="badge bg-danger text-white">進站中</span>`)
+
+                                    }
+                                    else if (1 <= t && t < 3) {
+
+                                        $("#" + res.StopUID + "-time").html(`<span class="badge bg-warning text-dark">將到站</span>`)
+                                    }
+                                    else if (3 <= t && t < 5) {
+                                        $("#" + res.StopUID + "-PlateNumb").html(``)
+                                        $("#" + res.StopUID + "-time").html(`<span class="badge bg-warning text-white">${t}分鐘</span>`)
+                                    }
+                                    else if (5 <= t && t < 10) {
+                                        $("#" + res.StopUID + "-PlateNumb").html(``)
+                                        $("#" + res.StopUID + "-time").html(`<span class="badge bg-success">${t}分鐘</span>`)
+                                    }
+                                    else if (t >= 10) {
+                                        $("#" + res.StopUID + "-PlateNumb").html(``)
+                                        $("#" + res.StopUID + "-time").html(`<span class="badge bg-primary">${t}分鐘</span>`)
+                                    }
                                 }
-                                $("#" + res.StopUID + "-time").html(`<span class="badge bg-warning text-dark">將到站</span>`)
-                            }
-                            else if (3 <= t && t < 5) {
-                                $("#" + res.StopUID + "-PlateNumb").html(``)
-                                $("#" + res.StopUID + "-time").html(`<span class="badge bg-warning text-white">${t}分鐘</span>`)
-                            }
-                            else if (5 <= t && t < 10) {
-                                $("#" + res.StopUID + "-PlateNumb").html(``)
-                                $("#" + res.StopUID + "-time").html(`<span class="badge bg-success">${t}分鐘</span>`)
-                            }
-                            else if (t >= 10) {
-                                $("#" + res.StopUID + "-PlateNumb").html(``)
-                                $("#" + res.StopUID + "-time").html(`<span class="badge bg-primary">${t}分鐘</span>`)
                             } else {
-                                $("#" + res.StopUID + "-PlateNumb").html(``)
-                                $("#" + res.StopUID + "-time").html(`<span class="badge bg-danger">ERR</span>`)
+
+                                if (t < 1) {
+
+                                    $("#" + res.StopUID + "-time").html(`<span class="badge bg-danger text-white">進站中</span>`)
+
+                                }
+                                else if (1 <= t && t < 3) {
+
+                                    $("#" + res.StopUID + "-time").html(`<span class="badge bg-warning text-dark">將到站</span>`)
+                                }
+                                else if (3 <= t && t < 5) {
+                                    $("#" + res.StopUID + "-PlateNumb").html(``)
+                                    $("#" + res.StopUID + "-time").html(`<span class="badge bg-warning text-white">${t}分鐘</span>`)
+                                }
+                                else if (5 <= t && t < 10) {
+                                    $("#" + res.StopUID + "-PlateNumb").html(``)
+                                    $("#" + res.StopUID + "-time").html(`<span class="badge bg-success">${t}分鐘</span>`)
+                                }
+                                else if (t >= 10) {
+                                    $("#" + res.StopUID + "-PlateNumb").html(``)
+                                    $("#" + res.StopUID + "-time").html(`<span class="badge bg-primary">${t}分鐘</span>`)
+                                } else {
+                                    $("#" + res.StopUID + "-PlateNumb").html(``)
+                                    $("#" + res.StopUID + "-time").html(`<span class="badge bg-danger">ERR</span>`)
+                                }
                             }
                         }
                         else if (res.StopStatus == 1) {//尚未發車
@@ -1345,17 +1369,25 @@ var DATA = {
                             }
                         }
                         else if (res.StopStatus == 2) {//交管不停靠
+                            $("#" + res.StopUID + "-PlateNumb").html(``)
+
                             $("#" + res.StopUID + "-time").html(`<span class="badge bg-secondary text-white">不停靠</span>`)
                             return `<span class="badge bg-secondary text-white">不停靠</span>`
                         }
                         else if (res.StopStatus == 3) {//末班車已過
+                            $("#" + res.StopUID + "-PlateNumb").html(``)
+
                             $("#" + res.StopUID + "-time").html(`<span class="badge bg-secondary text-white">末班離</span>`)
                             return `<span class="badge bg-secondary text-white">末班離</span>`
                         }
                         else if (res.StopStatus == 4) {//今日未營運
+                            $("#" + res.StopUID + "-PlateNumb").html(``)
+
                             $("#" + res.StopUID + "-time").html(`<span class="badge bg-secondary text-white">今停駛</span>`)
                             return `<span class="badge bg-secondary text-white">今停駛</span>`
                         } else {
+                            $("#" + res.StopUID + "-PlateNumb").html(``)
+
                             $("#" + res.StopUID + "-time").html(`<span class="badge bg-secondary text-white">ERR</span>`)
                         }
                     }
