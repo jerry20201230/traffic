@@ -1295,7 +1295,9 @@ var DATA = {
 
                         var t = Math.round(res.EstimateTime / 60)
 
-                        if (res.StopStatus == 0) {//正常
+                        console.log(t)
+
+                        if (res.StopStatus == 0 && t>=0) {//正常
                             if (t < 1) {
                                 return `<span class="badge bg-danger text-white">進站中</span>`
                             }
@@ -1310,6 +1312,8 @@ var DATA = {
                             }
                             else if (t >= 10) {
                                 return `<span class="badge bg-primary">${t}分</span>`
+                            }else{
+
                             }
                         }
                         else if (res.StopStatus == 1) {//尚未發車
