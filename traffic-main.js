@@ -891,7 +891,7 @@ var App = {
                                         success: function (res) {
                                             DATA._storage[0] = res
                                             for (j = 0; j < res[0].Stops.length; j++) {
-                                                $("#routeStations").append(`<tr><td id="${res[0].Stops[j].StopUID}-time"></td><td>${res[0].Stops[j].StopName.Zh_tw}</td><td></td></tr>`)
+                                                $("#routeStations").append(`<tr><td id="${res[0].Stops[j].StopUID}-time"></td><td>${res[0].Stops[j].StopName.Zh_tw}</td><tdid="${res[0].Stops[j].StopUID}-PlateNumb"></td></tr>`)
                                             }
 
                                             AJAX.refreshApi({
@@ -1299,27 +1299,26 @@ var DATA = {
 
                         if (res.StopStatus == 0 && t >= 0) {//正常
                             if (t < 1) {
+                                if(res.PlateNumb && res.PlateNumb!=="" && res.PlateNumb!==-1){
+                                    $("#" + res.StopUID + "-time").html(`<span class="badge bg-danger text-white">進站中</span>`)
+                                    $("#" + res.StopUID + "-PlateNumb").html(`<span class="badge bg-secondary text-white">${res.PlateNumb}</span>`)
+                                }else{
                                 $("#" + res.StopUID + "-time").html(`<span class="badge bg-danger text-white">進站中</span>`)
-                                return `<span class="badge bg-danger text-white">進站中</span>`
+                                }
                             }
                             else if (1 <= t && t < 3) {
                                 $("#" + res.StopUID + "-time").html(`<span class="badge bg-warning text-dark">將到站</span>`)
-                                return `<span class="badge bg-warning text-dark">將到站</span>`
                             }
                             else if (3 <= t && t < 5) {
                                 $("#" + res.StopUID + "-time").html(`<span class="badge bg-warning text-white">${t}分鐘</span>`)
-                                return `<span class="badge bg-warning text-white">${t}分鐘</span>`
                             }
                             else if (5 <= t && t < 10) {
                                 $("#" + res.StopUID + "-time").html(`<span class="badge bg-success">${t}分鐘</span>`)
-                                return `<span class="badge bg-success">${t}分鐘</span>`
                             }
                             else if (t >= 10) {
                                 $("#" + res.StopUID + "-time").html(`<span class="badge bg-primary">${t}分鐘</span>`)
-                                return `<span class="badge bg-primary">${t}分鐘</span>`
                             } else {
                                 $("#" + res.StopUID + "-time").html(`<span class="badge bg-danger">ERR</span>`)
-                                return `<span class="badge bg-danger">ERR</span>`
                             }
                         }
                         else if (res.StopStatus == 1) {//尚未發車
@@ -1346,6 +1345,8 @@ var DATA = {
                         else if (res.StopStatus == 4) {//今日未營運
                             $("#" + res.StopUID + "-time").html(`<span class="badge bg-secondary text-white">今停駛</span>`)
                             return `<span class="badge bg-secondary text-white">今停駛</span>`
+                        }else{
+                            $("#" + res.StopUID + "-time").html(`<span class="badge bg-secondary text-white">ERR</span>`)
                         }
                     }
                 }
