@@ -831,9 +831,9 @@ var App = {
                         <div class="d-flex">
                         <div class="btn-group" role="group">
                         
-                        <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked><label class="btn btn-outline-primary" for="btnradio1">去程</label>
+                        <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked><label class="btn btn-outline-primary" for="btnradio1" id="btnradio1-h">去程</label>
 
-                        <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off"><label class="btn btn-outline-primary" for="btnradio2">回程</label></div>
+                        <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off"><label class="btn btn-outline-primary" for="btnradio2" id="btnradio2-h">回程</label></div>
                         </div>
 
 
@@ -876,8 +876,8 @@ var App = {
                                         }
                                         console.log(res[i])
 
-                                        $("#btnradio1").text("往"+res[i].DestinationStopNameZh)
-                                        $("#btnradio2").text("往"+res[i].DepartureStopNameZh)
+                                        $("#btnradio1-h").text("往"+res[i].DestinationStopNameZh)
+                                        $("#btnradio2-h").text("往"+res[i].DepartureStopNameZh)
 
                                         $("#routeDes").html(`${res[i].DepartureStopNameZh} - ${res[i].DestinationStopNameZh}<br>${_Operators}`)
 
