@@ -1356,6 +1356,8 @@ var DATA = {
                             }
                         }
                         else if (res.StopStatus == 1) {//尚未發車
+                            $("#" + res.StopUID + "-PlateNumb").html(``)
+
                             console.log(res.NextBusTime)
                             if (t) {//有Est值就顯示
                                 $("#" + res.StopUID + "-time").html(`<span class="badge bg-secondary text-white">${t}分鐘</span>`)
