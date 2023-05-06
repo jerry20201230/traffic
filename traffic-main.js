@@ -1299,27 +1299,35 @@ var DATA = {
 
                         if (res.StopStatus == 0 && t >= 0) {//正常
                             if (t < 1) {
-                                if(res.PlateNumb && res.PlateNumb!=="" && res.PlateNumb!==-1){
+                                if (res.PlateNumb && res.PlateNumb !== "" && res.PlateNumb !== -1) {
                                     $("#" + res.StopUID + "-time").html(`<span class="badge bg-danger text-white">進站中</span>`)
                                     $("#" + res.StopUID + "-PlateNumb").html(`<span class="badge bg-secondary text-white">${res.PlateNumb}</span>`)
-                                }else{
-                                $("#" + res.StopUID + "-time").html(`<span class="badge bg-danger text-white">進站中</span>`)
+                                } else {
+                                    $("#" + res.StopUID + "-time").html(`<span class="badge bg-danger text-white">進站中</span>`)
                                 }
                             }
                             else if (1 <= t && t < 3) {
-                                    
-                                    if(res.PlateNumb && res.PlateNumb!=="" && res.PlateNumb!==-1){$("#" + res.StopUID + "-PlateNumb").html(`<span class="badge bg-secondary text-white">${res.PlateNumb}</span>`)}
+
+                                if (res.PlateNumb && res.PlateNumb !== "" && res.PlateNumb !== -1) { 
+                                    $("#" + res.StopUID + "-PlateNumb").html(`<span class="badge bg-secondary text-white">${res.PlateNumb}</span>`) 
+                                }else{
+                                    $("#" + res.StopUID + "-PlateNumb").html(``)
+                                }
                                 $("#" + res.StopUID + "-time").html(`<span class="badge bg-warning text-dark">將到站</span>`)
                             }
                             else if (3 <= t && t < 5) {
+                                $("#" + res.StopUID + "-PlateNumb").html(``)
                                 $("#" + res.StopUID + "-time").html(`<span class="badge bg-warning text-white">${t}分鐘</span>`)
                             }
                             else if (5 <= t && t < 10) {
+                                $("#" + res.StopUID + "-PlateNumb").html(``)
                                 $("#" + res.StopUID + "-time").html(`<span class="badge bg-success">${t}分鐘</span>`)
                             }
                             else if (t >= 10) {
+                                $("#" + res.StopUID + "-PlateNumb").html(``)
                                 $("#" + res.StopUID + "-time").html(`<span class="badge bg-primary">${t}分鐘</span>`)
                             } else {
+                                $("#" + res.StopUID + "-PlateNumb").html(``)
                                 $("#" + res.StopUID + "-time").html(`<span class="badge bg-danger">ERR</span>`)
                             }
                         }
@@ -1328,11 +1336,11 @@ var DATA = {
                             if (t) {//有Est值就顯示
                                 $("#" + res.StopUID + "-time").html(`<span class="badge bg-secondary text-white">${t}分鐘</span>`)
                                 return `<span class="badge bg-secondary text-white">${t}分鐘</span>`
-                            } else if(res.NextBusTime) {
+                            } else if (res.NextBusTime) {
                                 $("#" + res.StopUID + "-time").html(`<span class="badge bg-secondary text-white">${res.NextBusTime.split("T")[1].split("+")[0].split(":")[0]}:${res.NextBusTime.split("T")[1].split("+")[0].split(":")[1]}</span>`)
                                 return `<span class="badge bg-secondary text-white">${res.NextBusTime.split("T")[1].split("+")[0].split(":")[0]}:${res.NextBusTime.split("T")[1].split("+")[0].split(":")[1]}</span>`
-                            }else{
-                                 $("#" + res.StopUID + "-time").html(`<span class="badge bg-secondary text-white">未發車</span>`)
+                            } else {
+                                $("#" + res.StopUID + "-time").html(`<span class="badge bg-secondary text-white">未發車</span>`)
                                 return `<span class="badge bg-secondary text-white">未發車</span>`
                             }
                         }
@@ -1347,7 +1355,7 @@ var DATA = {
                         else if (res.StopStatus == 4) {//今日未營運
                             $("#" + res.StopUID + "-time").html(`<span class="badge bg-secondary text-white">今停駛</span>`)
                             return `<span class="badge bg-secondary text-white">今停駛</span>`
-                        }else{
+                        } else {
                             $("#" + res.StopUID + "-time").html(`<span class="badge bg-secondary text-white">ERR</span>`)
                         }
                     }
