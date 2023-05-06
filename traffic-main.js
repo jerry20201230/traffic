@@ -891,7 +891,7 @@ var App = {
                                         success: function (res) {
                                             DATA._storage[0] = res
                                             for (j = 0; j < res[0].Stops.length; j++) {
-                                                $("#routeStations").append(`<tr><td id="${res[0].Stops[j].StopUID}-time"></td><td>${res[0].Stops[j].StopName.Zh_tw}</td><tdid="${res[0].Stops[j].StopUID}-PlateNumb"></td></tr>`)
+                                                $("#routeStations").append(`<tr> <td id="${res[0].Stops[j].StopUID}-time"></td> <td>${res[0].Stops[j].StopName.Zh_tw}</td> <td id="${res[0].Stops[j].StopUID}-PlateNumb"></td></tr>`)
                                             }
 
                                             AJAX.refreshApi({
