@@ -1305,13 +1305,7 @@ var DATA = {
                                     $("#" + res.StopUID + "-time").html(`<span class="badge bg-danger text-white">進站中</span>`)
                                     $("#" + res.StopUID + "-PlateNumb").html(`<span class="badge bg-secondary text-white">${res.PlateNumb}</span>`)
                                 } else {
-                                    if (t < 1) {
-
-                                        $("#" + res.StopUID + "-time").html(`<span class="badge bg-danger text-white">進站中</span>`)
-
-                                    }
-                                    else if (1 <= t && t < 3) {
-
+                                     if (0 <= t && t < 3) {
                                         $("#" + res.StopUID + "-time").html(`<span class="badge bg-warning text-dark">將到站</span>`)
                                     }
                                     else if (3 <= t && t < 5) {
@@ -1328,14 +1322,7 @@ var DATA = {
                                     }
                                 }
                             } else {
-
-                                if (t < 1) {
-
-                                    $("#" + res.StopUID + "-time").html(`<span class="badge bg-danger text-white">進站中</span>`)
-
-                                }
-                                else if (1 <= t && t < 3) {
-
+                                 if (0 <= t && t < 3) {
                                     $("#" + res.StopUID + "-time").html(`<span class="badge bg-warning text-dark">將到站</span>`)
                                 }
                                 else if (3 <= t && t < 5) {
@@ -1402,6 +1389,7 @@ var DATA = {
             if (document.getElementById("btnradio2").checked) {
                 dir = 1
             }
+            time_labal.plateArr = []
             for (i = 0; i < pars.data.length; i++) {
 
                 if (pars.data[i].Direction == 2 || pars.data[i].Direction == dir) {
