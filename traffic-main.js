@@ -828,6 +828,14 @@ var App = {
                         <h5 class="card-title">即時到離站</h5>
                         <h6 class="card-subtitle mb-2 text-muted"></h6>
                         <p class="card-text">
+                        <div class="d-flex">
+                        <div class="btn-group" role="group">
+                        
+                        <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked><label class="btn btn-outline-primary" for="btnradio1">Radio 1</label>
+
+                        <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off"><label class="btn btn-outline-primary" for="btnradio2">Radio 2</label></div>
+                        </div>
+
 
                         <div class="progress mt-1">
                         <div id="refresh_prog" class="progress-bar" role="progressbar" aria-label="auto refresh process"style="width: 25%"></div>
@@ -879,7 +887,7 @@ var App = {
                                         success: function (res) {
                                             DATA._storage[0] = res
                                             for (j = 0; j < res[0].Stops.length; j++) {
-                                                $("#routeStations").append(`<tr><td>${res[0].Stops[j].StopName.Zh_tw}</td><td></td></tr>`)
+                                                $("#routeStations").append(`<tr><td id="${res[0].Stops[j].StopUID}-time"></td><td>${res[0].Stops[j].StopName.Zh_tw}</td><td></td></tr>`)
                                             }
 
                                             AJAX.refreshApi({
@@ -1275,8 +1283,56 @@ var DATA = {
             }
 
         }
-        else if(pars.type === "BUS.Arrival_BY_Route"){
+        else if (pars.type === "BUS.Arrival_BY_Route") {
+            var labels = {
+                time: {
+                    basic: function (res) {
 
+                        var t = Math.round(res.EstimateTime / 60)
+
+                        if (res.StopStatus == 0) {//正常
+                            if (t < 1) {
+                                return `<span class="badge bg-danger text-white">進站中</span>`
+                            }
+                            else if (1 <= t < 3) {
+                                return `<span class="badge bg-warning text-dark">將到站</span>`
+                            }
+                            else if (3 <= t < 5) {
+                                return `<span class="badge bg-warning text-white">${t}分</span>`
+                            }
+                            else if (5 <= t < 10) {
+                                return `<span class="badge bg-success">${t}分</span>`
+                            }
+                            else if (t >= 10) {
+                                return `<span class="badge bg-primary">${t}分</span>`
+                            }
+                        }
+                        else if (res.StopStatus == 1) {//尚未發車
+                            if (t) {//有Est值就顯示
+                                return `<span class="badge bg-secondary text-white">${t}分</span>`
+                            } else {
+                                return `<span class="badge bg-secondary text-white">未發車</span>`
+                            }
+                        }
+                        else if (res.StopStatus == 2) {//交管不停靠
+                            return `<span class="badge bg-secondary text-white">不停靠</span>`
+                        }
+                        else if(res.StopStatus == 3){//末班車已過
+                            return `<span class="badge bg-secondary text-white">末班離</span>`
+                        }
+                        else if(res.StopStatus == 4){//今日未營運
+                            return `<span class="badge bg-secondary text-white">今停駛</span>`
+                        }
+                    }
+                },
+                platenumb: {
+
+                }
+            }
+
+            for(i=0;i<pars.data.length;i++){
+                
+            }
         }
 
         else {
@@ -1321,6 +1377,14 @@ var AJAX = {
             BottonBarWeight.set("disconnected")
         }
     },
+
+
+    toggleRefreshApi:function(){
+
+    },
+
+
+
     /*
     url,
     success,
@@ -1331,12 +1395,12 @@ var AJAX = {
     ref_token: [],
     refreshApi: async function (pars) {
         console.log($(pars.progBar).length)
-        if(this.ref_token.length>0){
+        if (this.ref_token.length > 0) {
             pars.delay += 1
         }
         this.ref_token = pars.url
         while ($(pars.progBar).length !== 0 && this.ref_token[0] == pars.url[0]) {
-            
+
             console.log("REF")
             $(pars.progBar).css("width", (1 * (100 / pars.delay)) + "%").text(120).removeClass("bg-secondary")
 
