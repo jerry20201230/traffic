@@ -1305,20 +1305,20 @@ var DATA = {
                                 return `<span class="badge bg-warning text-dark">將到站</span>`
                             }
                             else if (3 <= t < 5) {
-                                return `<span class="badge bg-warning text-white">${t}分</span>`
+                                return `<span class="badge bg-warning text-white">${t}分鐘</span>`
                             }
                             else if (5 <= t < 10) {
-                                return `<span class="badge bg-success">${t}分</span>`
+                                return `<span class="badge bg-success">${t}分鐘</span>`
                             }
                             else if (t >= 10) {
-                                return `<span class="badge bg-primary">${t}分</span>`
+                                return `<span class="badge bg-primary">${t}分鐘</span>`
                             }else{
 
                             }
                         }
                         else if (res.StopStatus == 1) {//尚未發車
                             if (t) {//有Est值就顯示
-                                return `<span class="badge bg-secondary text-white">${t}分</span>`
+                                return `<span class="badge bg-secondary text-white">${t}分鐘</span>`
                             } else {
                                 return `<span class="badge bg-secondary text-white">未發車</span>`
                             }
