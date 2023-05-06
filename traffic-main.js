@@ -1340,7 +1340,7 @@ var DATA = {
             }
             for(i=0;i<pars.data.length;i++){
                 if(pars.data[i].Direction ==2 || pars.data[i].Direction == dir){
-                    $("#"+pars.data[i].StopUID).html(time_labal.basic(res[i]))
+                    $("#"+pars.data[i].StopUID).html(time_labal.basic(pars.data[i]))
                 }
             }
         }
