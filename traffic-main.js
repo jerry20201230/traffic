@@ -1327,8 +1327,8 @@ var DATA = {
                             if (t) {//有Est值就顯示
                                 $("#" + res.StopUID + "-time").html(`<span class="badge bg-secondary text-white">${t}分鐘</span>`)
                                 return `<span class="badge bg-secondary text-white">${t}分鐘</span>`
-                            } else if(res.NextBusTime !== "") {
-                                $("#" + res.StopUID + "-time").html(`<span class="badge bg-secondary text-white">未發車</span>`)
+                            } else if(res.NextBusTime) {
+                                $("#" + res.StopUID + "-time").html(`<span class="badge bg-secondary text-white">${res.NextBusTime.split("T")[1].split("+")[0].split(":")[0]}:${res.NextBusTime.split("T")[1].split("+")[0].split(":")[1]}</span>`)
                                 return `<span class="badge bg-secondary text-white">${res.NextBusTime.split("T")[1].split("+")[0].split(":")[0]}:${res.NextBusTime.split("T")[1].split("+")[0].split(":")[1]}</span>`
                             }else{
                                  $("#" + res.StopUID + "-time").html(`<span class="badge bg-secondary text-white">未發車</span>`)
