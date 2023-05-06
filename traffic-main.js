@@ -1339,6 +1339,7 @@ var DATA = {
                 dir = 1
             }
             for(i=0;i<pars.data.length;i++){
+                console.log(pars.data[i].StopUID)
                 if(pars.data[i].Direction ==2 || pars.data[i].Direction == dir){
                     $("#"+pars.data[i].StopUID).html(time_labal.basic(pars.data[i]))
                 }
