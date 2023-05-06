@@ -1288,8 +1288,9 @@ var DATA = {
 
         }
         else if (pars.type === "BUS.Arrival_BY_Route") {
-            var labels = {
-                time: {
+            DATA._storage[1] = pars.data
+            var 
+                time_labal= {
                     basic: function (res) {
 
                         var t = Math.round(res.EstimateTime / 60)
@@ -1328,14 +1329,19 @@ var DATA = {
                             return `<span class="badge bg-secondary text-white">今停駛</span>`
                         }
                     }
-                },
-                platenumb: {
-
                 }
-            }
 
+            
+            
+
+            var dir = 0
+            if(document.getElementById("btnradio2").checked){
+                dir = 1
+            }
             for(i=0;i<pars.data.length;i++){
-                $("#"+pars.data[i].StopUID)
+                if(res[i].Direction ==2 || res[i].Direction == dir){
+                    $("#"+pars.data[i].StopUID).html(time_labal.basic(res[i]))
+                }
             }
         }
 
