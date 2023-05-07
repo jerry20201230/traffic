@@ -840,6 +840,7 @@ var App = {
                         <div class="progress mt-1">
                         <div id="refresh_prog" class="progress-bar" role="progressbar" aria-label="auto refresh process"style="width: 25%"></div>
                         </div>
+                        <span id="refresh-text"></span>
                        <div style="max-height:15em; overflow-y:scroll;"> 
                         <table class="table table-hover table-sm">
                         <thead>
@@ -922,7 +923,8 @@ var App = {
                                                 //success: function (res) { console.log(res) },
                                                 queryType: "BUS.Arrival_BY_Route",
                                                 progBar: "#refresh_prog",
-                                                delay: 20
+                                                delay: 20,
+                                                success:$("#refresh-text").text("")
                                             })
                                         }
                                     })
@@ -1453,9 +1455,20 @@ var DATA = {
         }
         else if(pars.type == "BUS.RoureReverse"){
             console.log(this._storage[0])
-            if(document.getElementById("btnradio1").checked){
-                
+            $("#routeStations").html("")
+            if(document.getElementById("btnradio1").checked){//0
+                for(i=0;i<this._storage[0][0].Stops.length;i++){
+
+                    $("#routeStations").append(`<tr> <td id="${this._storage[0][0].Stops[i].StopUID}-time"></td> <td>${this._storage[0][0].Stops[i].StopName.Zh_tw}</td> <td id="${this._storage[0][0].Stops[i].StopUID}-PlateNumb"></td></tr>`)
+                }
+            }else if(document.getElementById("btnradio2").checked){//1
+                for(i=0;i<this._storage[0][1].Stops.length;i++){
+                    $("#routeStations").append(`<tr> <td id="${this._storage[0][1].Stops[i].StopUID}-time"></td> <td>${this._storage[0][1].Stops[i].StopName.Zh_tw}</td> <td id="${this._storage[0][1].Stops[i].StopUID}-PlateNumb"></td></tr>`)
+                }
+            }else{
+                alert("error 5000")
             }
+            $("#refresh-text").text("請等待資料刷新")
         }
 
         else {
@@ -1535,7 +1548,7 @@ var AJAX = {
                     success:
                         function (res) {
                             DATA.query({ data: res, type: pars.queryType })
-                            //pars.success(res)
+                            pars.success(res)
                         }
                 })
             }
