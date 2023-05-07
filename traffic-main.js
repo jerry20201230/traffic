@@ -911,7 +911,8 @@ var App = {
                                                 var Mark = L.marker(MyLoc, {
                                                     icon: blueIcon
                                                 }).addTo(map);
-                                                Mark.bindPopup(`<span clss="badge text-white">公車</span> ${res[0].Stops[j].StopName.Zh_tw}`)
+                                                map.setView(MyLoc,12)
+                                                Mark.bindPopup(`<span clss="badge bg-primary">公車</span> ${res[0].Stops[j].StopName.Zh_tw}`)
 
                                             }
 
