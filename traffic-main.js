@@ -778,6 +778,7 @@ var App = {
                         }).addTo(map);
                         currentlocMark.bindPopup(``)
 
+                        document.body.scrollTop = document.documentElement.scrollTop = 0;
 
 
                         var ifStation;
@@ -829,7 +830,7 @@ var App = {
                         <h6 class="card-subtitle mb-2 text-muted"></h6>
                         <p class="card-text">
                         <div class="d-flex">
-                        <div class="btn-group" role="group">
+                        <div class="btn-group" role="group" id="route-switch">
                         
                         <input onclick="DATA.query({type:'BUS.RoureReverse'})" type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked><label class="btn btn-outline-primary" for="btnradio1" id="btnradio1-h">去程</label>
 
@@ -856,7 +857,7 @@ var App = {
                         </div></div>
                         
                         </div>
-
+                        <p></p>
                         <div class="card">
                         <div class="card-body">
                         <h5 class="card-title">站牌地圖</h5>
@@ -864,8 +865,11 @@ var App = {
                         <div class="card mt-1" id="map-container">
                         
                         </div></div>`)
+
+                        document.body.scrollTop = document.documentElement.scrollTop = 0;
+
                         App.completed_ajax_times = 0; App.current_ajax_times = 1; App.ajax_package_name = ["公車資料"]
-                        var map = this.createElement("#map-container", "map", {  center: [23.75518176611264, 120.9406086935125], zoom: 7 })
+                        var map = this.createElement("#map-container", "map", { center: [23.75518176611264, 120.9406086935125], zoom: 7 })
 
                         AJAX.getBasicApi({
                             url: `https://tdx.transportdata.tw/api/basic/v2/Bus/Route/City/${par1}?%24filter=RouteName%2FZh_tw%20eq%20%27${par3}%27&%24format=JSON`,
@@ -894,6 +898,20 @@ var App = {
 
                                         $("#routeDes").html(`${res[i].DepartureStopNameZh} - ${res[i].DestinationStopNameZh}<br>${_Operators}`)
 
+                                        $("#routeDes").append(`<hr>`)
+
+                                        if (res[i].TicketPriceDescriptionZh) {
+                                            $("#routeDes").append(`票價: ${res[i].TicketPriceDescriptionZh}<br>`)
+                                        } else {
+                                            $("#routeDes").append(`票價: 資料未提供<br>`)
+                                        }
+
+                                        
+                                        if (res[i].FareBufferZoneDescriptionZh) {
+                                            $("#routeDes").append(`收費緩衝區: ${res[i].FareBufferZoneDescriptionZh}<br>`)
+                                        } else {
+                                            $("#routeDes").append(`收費緩衝區: 資料未提供<br>`)
+                                        }
                                         break;
                                     }
                                     App.renderTitle(`${par3} - ${getCityName(par1)}公車`)
@@ -903,7 +921,13 @@ var App = {
                                         url: `https://tdx.transportdata.tw/api/basic/v2/Bus/StopOfRoute/City/${par1}?%24filter=RouteName%2FZh_tw%20eq%20%27${par3}%27&%24format=JSON`,
                                         success: function (res) {
                                             DATA._storage[0] = res
-                                            
+                                            if (res.length < 2) {
+                                                // $("#btnradio2").attr("disabled",true)
+                                                //$("#btnradio2-h").html(`<s>${$("#btnradio2-h").text()}</s>(無返程)`)
+
+                                                $("#route-switch").hide()
+
+                                            }
                                             for (j = 0; j < res[0].Stops.length; j++) {
                                                 $("#routeStations").append(`<tr> <td id="${res[0].Stops[j].StopUID}-time"></td> <td>${res[0].Stops[j].StopName.Zh_tw}</td> <td id="${res[0].Stops[j].StopUID}-PlateNumb"></td></tr>`)
 
@@ -920,7 +944,7 @@ var App = {
                                                 var Mark = L.marker(MyLoc, {
                                                     icon: blueIcon
                                                 }).addTo(map);
-                                                map.setView(MyLoc,12)
+                                                map.setView(MyLoc, 12)
                                                 Mark.bindPopup(`<span class="badge bg-primary">公車</span> ${res[0].Stops[j].StopName.Zh_tw}`)
 
                                             }
@@ -931,7 +955,7 @@ var App = {
                                                 queryType: "BUS.Arrival_BY_Route",
                                                 progBar: "#refresh_prog",
                                                 delay: 20,
-                                                success:$("#refresh-text").text("")
+                                                success: $("#refresh-text").text("")
                                             })
                                         }
                                     })
@@ -1460,19 +1484,19 @@ var DATA = {
                 }
             }
         }
-        else if(pars.type == "BUS.RoureReverse"){
+        else if (pars.type == "BUS.RoureReverse") {
             console.log(this._storage[0])
             $("#routeStations").html("")
-            if(document.getElementById("btnradio1").checked){//0
-                for(i=0;i<this._storage[0][0].Stops.length;i++){
+            if (document.getElementById("btnradio1").checked) {//0
+                for (i = 0; i < this._storage[0][0].Stops.length; i++) {
 
                     $("#routeStations").append(`<tr> <td id="${this._storage[0][0].Stops[i].StopUID}-time"></td> <td>${this._storage[0][0].Stops[i].StopName.Zh_tw}</td> <td id="${this._storage[0][0].Stops[i].StopUID}-PlateNumb"></td></tr>`)
                 }
-            }else if(document.getElementById("btnradio2").checked){//1
-                for(i=0;i<this._storage[0][1].Stops.length;i++){
+            } else if (document.getElementById("btnradio2").checked) {//1
+                for (i = 0; i < this._storage[0][1].Stops.length; i++) {
                     $("#routeStations").append(`<tr> <td id="${this._storage[0][1].Stops[i].StopUID}-time"></td> <td>${this._storage[0][1].Stops[i].StopName.Zh_tw}</td> <td id="${this._storage[0][1].Stops[i].StopUID}-PlateNumb"></td></tr>`)
                 }
-            }else{
+            } else {
                 alert("error 5000")
             }
             $("#refresh-text").text("*請等待資料刷新*")
