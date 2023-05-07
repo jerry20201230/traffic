@@ -852,8 +852,12 @@ var App = {
                         </div>
                         </p>
                         
-                        </div></div>`)
+                        </div></div>
+                        
+                        </div>
+                        <div class="card mt-1" id="map-container">`)
                         App.completed_ajax_times = 0; App.current_ajax_times = 1; App.ajax_package_name = ["公車資料"]
+                        var map = this.createElement("#map-container", "map", { center: MyLoc, zoom: 19 })
 
                         AJAX.getBasicApi({
                             url: `https://tdx.transportdata.tw/api/basic/v2/Bus/Route/City/${par1}?%24filter=RouteName%2FZh_tw%20eq%20%27${par3}%27&%24format=JSON`,
@@ -893,6 +897,22 @@ var App = {
                                             DATA._storage[0] = res
                                             for (j = 0; j < res[0].Stops.length; j++) {
                                                 $("#routeStations").append(`<tr> <td id="${res[0].Stops[j].StopUID}-time"></td> <td>${res[0].Stops[j].StopName.Zh_tw}</td> <td id="${res[0].Stops[j].StopUID}-PlateNumb"></td></tr>`)
+
+                                                var MyLoc = [res[0].Stops[j].StopPosition.PositionLat, res[0].Stops[j].StopPosition.PositionLon]
+                                                var blueIcon = new L.Icon({
+                                                    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
+                                                    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+                                                    iconSize: [25, 41],
+                                                    iconAnchor: [12, 41],
+                                                    popupAnchor: [1, -34],
+                                                    shadowSize: [41, 41]
+                                                });
+
+                                                var mark = L.marker(MyLoc, {
+                                                    icon: blueIcon
+                                                }).addTo(map);
+                                                Mark.bindPopup(`<span clss="badge text-white">公車</span> ${res[0].Stops[j].StopName.Zh_tw}`)
+
                                             }
 
                                             AJAX.refreshApi({
@@ -1330,25 +1350,25 @@ var DATA = {
                                         $("#" + res.StopUID + "-time").html(`<span class="badge bg-danger text-white">進站中</span>`)
                                     }
                                     else
-                                    if (1 <= t && t < 3) {
-                                        $("#" + res.StopUID + "-time").html(`<span class="badge bg-warning text-dark">將到站</span>`)
-                                    }
-                                    else if (3 <= t && t < 5) {
-                                        $("#" + res.StopUID + "-PlateNumb").html(``)
-                                        $("#" + res.StopUID + "-time").html(`<span class="badge bg-warning text-white">${t}分鐘</span>`)
-                                    }
-                                    else if (5 <= t && t < 10) {
-                                        $("#" + res.StopUID + "-PlateNumb").html(``)
-                                        $("#" + res.StopUID + "-time").html(`<span class="badge bg-success">${t}分鐘</span>`)
-                                    }
-                                    else if (t >= 10) {
-                                        $("#" + res.StopUID + "-PlateNumb").html(``)
-                                        $("#" + res.StopUID + "-time").html(`<span class="badge bg-primary">${t}分鐘</span>`)
-                                    }
-                                    else {
-                                        $("#" + res.StopUID + "-PlateNumb").html(``)
-                                        $("#" + res.StopUID + "-time").html(`<span class="badge bg-danger">ERR</span>`)
-                                    }
+                                        if (1 <= t && t < 3) {
+                                            $("#" + res.StopUID + "-time").html(`<span class="badge bg-warning text-dark">將到站</span>`)
+                                        }
+                                        else if (3 <= t && t < 5) {
+                                            $("#" + res.StopUID + "-PlateNumb").html(``)
+                                            $("#" + res.StopUID + "-time").html(`<span class="badge bg-warning text-white">${t}分鐘</span>`)
+                                        }
+                                        else if (5 <= t && t < 10) {
+                                            $("#" + res.StopUID + "-PlateNumb").html(``)
+                                            $("#" + res.StopUID + "-time").html(`<span class="badge bg-success">${t}分鐘</span>`)
+                                        }
+                                        else if (t >= 10) {
+                                            $("#" + res.StopUID + "-PlateNumb").html(``)
+                                            $("#" + res.StopUID + "-time").html(`<span class="badge bg-primary">${t}分鐘</span>`)
+                                        }
+                                        else {
+                                            $("#" + res.StopUID + "-PlateNumb").html(``)
+                                            $("#" + res.StopUID + "-time").html(`<span class="badge bg-danger">ERR</span>`)
+                                        }
                                 }
                             } else {
                                 if (t <= 0) {
