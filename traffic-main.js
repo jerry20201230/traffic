@@ -840,7 +840,7 @@ var App = {
                         <div class="progress mt-1">
                         <div id="refresh_prog" class="progress-bar" role="progressbar" aria-label="auto refresh process"style="width: 25%"></div>
                         </div>
-                        
+                       <div style="max-height:10em;"> 
                         <table class="table table-hover table-sm">
                         <thead>
                      
@@ -849,6 +849,7 @@ var App = {
                         
                         </tbody>
                         </table>
+                        </div>
                         </p>
                         
                         </div></div>`)
