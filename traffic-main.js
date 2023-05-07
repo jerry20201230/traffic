@@ -841,7 +841,7 @@ var App = {
                         <div id="refresh_prog" class="progress-bar" role="progressbar" aria-label="auto refresh process"style="width: 25%"></div>
                         </div>
                        
-                       <div style="max-height:15em; overflow-y:scroll;"> 
+                       <div style="max-height:18em; overflow-y:scroll;"> 
                         <table class="table table-hover table-sm">
                         <thead>
                      
@@ -856,7 +856,14 @@ var App = {
                         </div></div>
                         
                         </div>
-                        <div class="card mt-1" id="map-container">`)
+
+                        <div class="card">
+                        <div class="card-body">
+                        <h5 class="card-title">站牌地圖</h5>
+                        <p  class="card-text">
+                        <div class="card mt-1" id="map-container">
+                        </p>
+                        </div></div>`)
                         App.completed_ajax_times = 0; App.current_ajax_times = 1; App.ajax_package_name = ["公車資料"]
                         var map = this.createElement("#map-container", "map", {  center: [23.75518176611264, 120.9406086935125], zoom: 7 })
 
@@ -1325,7 +1332,7 @@ var DATA = {
 
                         if (res.StopStatus == 0 && t >= 0) {//正常
                             if (res.PlateNumb && res.PlateNumb !== "" && res.PlateNumb !== -1) {
-                                if (!this.plateArr.includes(res.PlateNumb)) {
+                                if (true) {
                                     this.plateArr.push(res.PlateNumb)
                                     if (t <= 0) {
                                         $("#" + res.StopUID + "-time").html(`<span class="badge bg-danger text-white">進站中</span>`)
