@@ -912,7 +912,7 @@ var App = {
                                                     icon: blueIcon
                                                 }).addTo(map);
                                                 map.setView(MyLoc,12)
-                                                Mark.bindPopup(`<span clss="badge bg-primary">公車</span> ${res[0].Stops[j].StopName.Zh_tw}`)
+                                                Mark.bindPopup(`<span class="badge bg-primary">公車</span> ${res[0].Stops[j].StopName.Zh_tw}`)
 
                                             }
 
