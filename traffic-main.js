@@ -860,9 +860,9 @@ var App = {
                         <div class="card">
                         <div class="card-body">
                         <h5 class="card-title">站牌地圖</h5>
-                        <p  class="card-text">
+            
                         <div class="card mt-1" id="map-container">
-                        </p>
+                        
                         </div></div>`)
                         App.completed_ajax_times = 0; App.current_ajax_times = 1; App.ajax_package_name = ["公車資料"]
                         var map = this.createElement("#map-container", "map", {  center: [23.75518176611264, 120.9406086935125], zoom: 7 })
@@ -1332,7 +1332,7 @@ var DATA = {
 
                         if (res.StopStatus == 0 && t >= 0) {//正常
                             if (res.PlateNumb && res.PlateNumb !== "" && res.PlateNumb !== -1) {
-                                if (true) {
+                                if (true) {//這邊原本是 in array，但是怪怪的
                                     this.plateArr.push(res.PlateNumb)
                                     if (t <= 0) {
                                         $("#" + res.StopUID + "-time").html(`<span class="badge bg-danger text-white">進站中</span>`)
