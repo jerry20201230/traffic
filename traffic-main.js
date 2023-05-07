@@ -833,7 +833,7 @@ var App = {
                         
                         <input onclick="DATA.query('BUS.RoureReverse')" type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked><label class="btn btn-outline-primary" for="btnradio1" id="btnradio1-h">去程</label>
 
-                        <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off"><label class="btn btn-outline-primary" for="btnradio2" id="btnradio2-h">回程</label></div>
+                        <input onclick="DATA.query('BUS.RoureReverse')" type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off"><label class="btn btn-outline-primary" for="btnradio2" id="btnradio2-h">回程</label></div>
                         </div>
 
 
