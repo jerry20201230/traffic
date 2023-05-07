@@ -831,9 +831,9 @@ var App = {
                         <div class="d-flex">
                         <div class="btn-group" role="group">
                         
-                        <input onclick="DATA.query('BUS.RoureReverse')" type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked><label class="btn btn-outline-primary" for="btnradio1" id="btnradio1-h">去程</label>
+                        <input onclick="DATA.query({type:'BUS.RoureReverse'})" type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked><label class="btn btn-outline-primary" for="btnradio1" id="btnradio1-h">去程</label>
 
-                        <input onclick="DATA.query('BUS.RoureReverse')" type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off"><label class="btn btn-outline-primary" for="btnradio2" id="btnradio2-h">回程</label></div>
+                        <input onclick="DATA.query({type:'BUS.RoureReverse'})" type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off"><label class="btn btn-outline-primary" for="btnradio2" id="btnradio2-h">回程</label></div>
                         </div>
 
 
@@ -1453,6 +1453,9 @@ var DATA = {
         }
         else if(pars.type == "BUS.RoureReverse"){
             console.log(this._storage[0])
+            if(document.getElementById("btnradio1").checked){
+                
+            }
         }
 
         else {
