@@ -836,11 +836,11 @@ var App = {
                         <input onclick="DATA.query({type:'BUS.RoureReverse'})" type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off"><label class="btn btn-outline-primary" for="btnradio2" id="btnradio2-h">回程</label></div>
                         </div>
 
-
+                        <span id="refresh-text" class="text-danger"></span>
                         <div class="progress mt-1">
                         <div id="refresh_prog" class="progress-bar" role="progressbar" aria-label="auto refresh process"style="width: 25%"></div>
                         </div>
-                        <span id="refresh-text"></span>
+                       
                        <div style="max-height:15em; overflow-y:scroll;"> 
                         <table class="table table-hover table-sm">
                         <thead>
@@ -1468,7 +1468,7 @@ var DATA = {
             }else{
                 alert("error 5000")
             }
-            $("#refresh-text").text("請等待資料刷新")
+            $("#refresh-text").text("*請等待資料刷新*")
         }
 
         else {
@@ -1548,7 +1548,7 @@ var AJAX = {
                     success:
                         function (res) {
                             DATA.query({ data: res, type: pars.queryType })
-                            pars.success(res)
+                            $("#refresh-text").text("")
                         }
                 })
             }
