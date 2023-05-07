@@ -725,8 +725,8 @@ var App = {
                 
                     <div class="card">
                     <div class="card-body">
-                    <h5 class="card-title" id="stationName">名稱</h5>
-                    <h6 class="card-subtitle mb-2 text-muted" id="stationStatus">狀態</h6>
+                    <h5 class="card-title" id="stationName">站點名稱</h5>
+                    <h6 class="card-subtitle mb-2 text-muted" id="stationStatus">站點狀態</h6>
                     <p class="card-text"><div id="stationAvaliableBike"></div></p>
                     
                     </div>
@@ -816,7 +816,7 @@ var App = {
                         App.renderhtml("#main-content", `
                         <div class="card">
                         <div class="card-body">
-                        <h5 class="card-title" id="routeName"></h5>
+                        <h5 class="card-title" id="routeName">資料讀取中</h5>
                         <h6 class="card-subtitle mb-2 text-muted" id="routeDes"></h6>
                         <p class="card-text"><div></div></p>
                         
@@ -857,7 +857,7 @@ var App = {
                         </div>
                         <div class="card mt-1" id="map-container">`)
                         App.completed_ajax_times = 0; App.current_ajax_times = 1; App.ajax_package_name = ["公車資料"]
-                        var map = this.createElement("#map-container", "map", {  center: [23.75518176611264, 120.9406086935125], zoom: 19 })
+                        var map = this.createElement("#map-container", "map", {  center: [23.75518176611264, 120.9406086935125], zoom: 7 })
 
                         AJAX.getBasicApi({
                             url: `https://tdx.transportdata.tw/api/basic/v2/Bus/Route/City/${par1}?%24filter=RouteName%2FZh_tw%20eq%20%27${par3}%27&%24format=JSON`,
@@ -908,7 +908,7 @@ var App = {
                                                     shadowSize: [41, 41]
                                                 });
 
-                                                var mark = L.marker(MyLoc, {
+                                                var Mark = L.marker(MyLoc, {
                                                     icon: blueIcon
                                                 }).addTo(map);
                                                 Mark.bindPopup(`<span clss="badge text-white">公車</span> ${res[0].Stops[j].StopName.Zh_tw}`)
