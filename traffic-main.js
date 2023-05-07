@@ -497,7 +497,7 @@ var App = {
                             var circle = L.circle([MyLoc[0], MyLoc[1]], {
                                 color: 'blue',
                                 fillColor: '#0d6efd',
-                                fillOpacity: 0.5,
+                                fillOpacity: 0.1,
                                 radius: 500
                             }).addTo(map);
                             circle.bindPopup("查詢範圍(500公尺)")
@@ -1303,10 +1303,34 @@ var DATA = {
                             if (res.PlateNumb && res.PlateNumb !== "" && res.PlateNumb !== -1) {
                                 if (!this.plateArr.includes(res.PlateNumb)) {
                                     this.plateArr.push(res.PlateNumb)
-                                    $("#" + res.StopUID + "-time").html(`<span class="badge bg-danger text-white">進站中</span>`)
+                                    if (t <= 0) {
+                                        $("#" + res.StopUID + "-time").html(`<span class="badge bg-danger text-white">進站中</span>`)
+                                    }
+                                    else if (1 <= t && t < 3) {
+                                        $("#" + res.StopUID + "-time").html(`<span class="badge bg-warning text-dark">將到站</span>`)
+                                    }
+                                    else if (3 <= t && t < 5) {
+                                        $("#" + res.StopUID + "-PlateNumb").html(``)
+                                        $("#" + res.StopUID + "-time").html(`<span class="badge bg-warning text-white">${t}分鐘</span>`)
+                                    }
+                                    else if (5 <= t && t < 10) {
+                                        $("#" + res.StopUID + "-PlateNumb").html(``)
+                                        $("#" + res.StopUID + "-time").html(`<span class="badge bg-success">${t}分鐘</span>`)
+                                    }
+                                    else if (t >= 10) {
+                                        $("#" + res.StopUID + "-PlateNumb").html(``)
+                                        $("#" + res.StopUID + "-time").html(`<span class="badge bg-primary">${t}分鐘</span>`)
+                                    } else {
+                                        $("#" + res.StopUID + "-PlateNumb").html(``)
+                                        $("#" + res.StopUID + "-time").html(`<span class="badge bg-danger">ERR</span>`)
+                                    }
                                     $("#" + res.StopUID + "-PlateNumb").html(`<span class="badge bg-secondary text-white">${res.PlateNumb}</span>`)
                                 } else {
-                                     if (0 <= t && t < 3) {
+                                    if (t <= 0) {
+                                        $("#" + res.StopUID + "-time").html(`<span class="badge bg-danger text-white">進站中</span>`)
+                                    }
+                                    else
+                                    if (1 <= t && t < 3) {
                                         $("#" + res.StopUID + "-time").html(`<span class="badge bg-warning text-dark">將到站</span>`)
                                     }
                                     else if (3 <= t && t < 5) {
@@ -1321,9 +1345,16 @@ var DATA = {
                                         $("#" + res.StopUID + "-PlateNumb").html(``)
                                         $("#" + res.StopUID + "-time").html(`<span class="badge bg-primary">${t}分鐘</span>`)
                                     }
+                                    else {
+                                        $("#" + res.StopUID + "-PlateNumb").html(``)
+                                        $("#" + res.StopUID + "-time").html(`<span class="badge bg-danger">ERR</span>`)
+                                    }
                                 }
                             } else {
-                                 if (0 <= t && t < 3) {
+                                if (t <= 0) {
+                                    $("#" + res.StopUID + "-time").html(`<span class="badge bg-danger text-white">進站中</span>`)
+                                }
+                                else if (1 <= t && t < 3) {
                                     $("#" + res.StopUID + "-time").html(`<span class="badge bg-warning text-dark">將到站</span>`)
                                 }
                                 else if (3 <= t && t < 5) {
