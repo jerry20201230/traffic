@@ -761,7 +761,7 @@ var App = {
 
 
 
-                        var map = this.createElement("#map-container", "map", { center: MyLoc, zoom: 19 })
+                        var map = this.createElement("#map-container", "map", { center: [23.75518176611264, 120.9406086935125], zoom: 19 })
                         getNearBusAndBikes(MyLoc, "#table-container", map, App._current_page)
 
                         var redIcon = new L.Icon({
