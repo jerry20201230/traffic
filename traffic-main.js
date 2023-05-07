@@ -761,7 +761,7 @@ var App = {
 
 
 
-                        var map = this.createElement("#map-container", "map", { center: [23.75518176611264, 120.9406086935125], zoom: 19 })
+                        var map = this.createElement("#map-container", "map", { center: MyLoc, zoom: 19 })
                         getNearBusAndBikes(MyLoc, "#table-container", map, App._current_page)
 
                         var redIcon = new L.Icon({
@@ -857,7 +857,7 @@ var App = {
                         </div>
                         <div class="card mt-1" id="map-container">`)
                         App.completed_ajax_times = 0; App.current_ajax_times = 1; App.ajax_package_name = ["公車資料"]
-                        var map = this.createElement("#map-container", "map", { center: MyLoc, zoom: 19 })
+                        var map = this.createElement("#map-container", "map", {  center: [23.75518176611264, 120.9406086935125], zoom: 19 })
 
                         AJAX.getBasicApi({
                             url: `https://tdx.transportdata.tw/api/basic/v2/Bus/Route/City/${par1}?%24filter=RouteName%2FZh_tw%20eq%20%27${par3}%27&%24format=JSON`,
