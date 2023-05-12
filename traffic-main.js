@@ -1382,12 +1382,21 @@ var DATA = {
                                     $("#" + res.StopUID + "-time").html(`<span class="badge bg-danger">ERR</span>`)
                                 }
 
-                            if(res.IsLastBus){
-                                $("#" + res.StopUID + "-PlateNumb").html(`<span class="badge bg-danger text-white">${res.PlateNumb}</span>`)
-                            }else{
-                                $("#" + res.StopUID + "-PlateNumb").html(`<span class="badge bg-secondary text-white">${res.PlateNumb}</span>`)
-                            }
+                                if (res.Estimates[0]) {
 
+                                } else {
+
+                                }
+                                for (r = 0; r < res.Estimates.length; r++) {
+                                    if (res.Estimates[r].PlateNumb == res.PlateNumb) {
+                                        if (res.Estimates[r].IsLastBus) {
+                                            $("#" + res.StopUID + "-PlateNumb").html(`<span class="badge bg-danger text-white">${res.PlateNumb}</span>`)
+                                        } else {
+                                            $("#" + res.StopUID + "-PlateNumb").html(`<span class="badge bg-success text-white">${res.PlateNumb}</span>`)
+                                        }
+                                        break
+                                    }
+                                }
                             } else {
                                 if (t <= 0) {
                                     $("#" + res.StopUID + "-PlateNumb").html(``)
