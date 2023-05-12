@@ -1154,10 +1154,10 @@ var DATA = {
   <tbody>
     <tr>
       <td>一般</td>
-      <td>${pars.data[0].AvailableRentBikesDetail.GeneralBikes}</td>
+      <td>電輔</td>
     </tr>
     <tr>
-      <td>電輔</td>
+      <td>${pars.data[0].AvailableRentBikesDetail.GeneralBikes}</td>
       <td>${pars.data[0].AvailableRentBikesDetail.ElectricBikes}</td>
     
     </tr>
