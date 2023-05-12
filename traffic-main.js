@@ -1144,7 +1144,7 @@ var DATA = {
 
 
 
-            <table class="table">
+            <table class="table table-bordered">
   <thead>
     <tr>
       <th scope="col" colspan="2">車輛</th>
@@ -1154,15 +1154,16 @@ var DATA = {
   <tbody>
     <tr>
       <td>一般</td>
-      <td>電輔</td>
+      <td>電輔</td> 
+      <td>${pars.data[0].AvailableReturnBikes}</td>
     </tr>
     <tr>
       <td>${pars.data[0].AvailableRentBikesDetail.GeneralBikes}</td>
       <td>${pars.data[0].AvailableRentBikesDetail.ElectricBikes}</td>
-    
+    <td></td>
     </tr>
     <tr>
-      <td>${pars.data[0].AvailableReturnBikes}</td>
+     
     </tr>
   </tbody>
 </table>
