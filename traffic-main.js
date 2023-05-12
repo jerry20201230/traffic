@@ -1141,10 +1141,32 @@ var DATA = {
 
 
             $("#stationAvaliableBike").html(`
-            一般:${pars.data[0].AvailableRentBikesDetail.GeneralBikes}<br>
-            電輔:${pars.data[0].AvailableRentBikesDetail.ElectricBikes}<br>
-            <p></p>
-            空位:${pars.data[0].AvailableReturnBikes}<br>
+
+
+
+            <table class="table">
+  <thead>
+    <tr>
+      <th scope="col" colspan="2">車輛</th>
+      <th scope="col">空位</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>一般</td>
+      <td>${pars.data[0].AvailableRentBikesDetail.GeneralBikes}</td>
+    </tr>
+    <tr>
+      <td>電輔</td>
+      <td>${pars.data[0].AvailableRentBikesDetail.ElectricBikes}</td>
+    
+    </tr>
+    <tr>
+      <td>${pars.data[0].AvailableReturnBikes}</td>
+    </tr>
+  </tbody>
+</table>
+
             <i class="bi bi-clock"></i> ${pars.data[0].UpdateTime.split("T")[1].split("+")[0]}`)
         }
         else if (pars.type === "BUS.getData") {
