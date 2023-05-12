@@ -906,7 +906,7 @@ var App = {
                                             $("#routeDes").append(`票價: 資料未提供<br>`)
                                         }
 
-                                        
+
                                         if (res[i].FareBufferZoneDescriptionZh) {
                                             $("#routeDes").append(`收費緩衝區: ${res[i].FareBufferZoneDescriptionZh}<br>`)
                                         } else {
@@ -1356,60 +1356,45 @@ var DATA = {
 
                         if (res.StopStatus == 0 && t >= 0) {//正常
                             if (res.PlateNumb && res.PlateNumb !== "" && res.PlateNumb !== -1) {
-                                if (true) {//這邊原本是 in array，但是怪怪的
-                                    this.plateArr.push(res.PlateNumb)
-                                    if (t <= 0) {
-                                        $("#" + res.StopUID + "-time").html(`<span class="badge bg-danger text-white">進站中</span>`)
-                                    }
-                                    else if (1 <= t && t < 3) {
-                                        $("#" + res.StopUID + "-time").html(`<span class="badge bg-warning text-dark">將到站</span>`)
-                                    }
-                                    else if (3 <= t && t < 5) {
-                                        $("#" + res.StopUID + "-PlateNumb").html(``)
-                                        $("#" + res.StopUID + "-time").html(`<span class="badge bg-warning text-white">${t}分鐘</span>`)
-                                    }
-                                    else if (5 <= t && t < 10) {
-                                        $("#" + res.StopUID + "-PlateNumb").html(``)
-                                        $("#" + res.StopUID + "-time").html(`<span class="badge bg-success">${t}分鐘</span>`)
-                                    }
-                                    else if (t >= 10) {
-                                        $("#" + res.StopUID + "-PlateNumb").html(``)
-                                        $("#" + res.StopUID + "-time").html(`<span class="badge bg-primary">${t}分鐘</span>`)
-                                    } else {
-                                        $("#" + res.StopUID + "-PlateNumb").html(``)
-                                        $("#" + res.StopUID + "-time").html(`<span class="badge bg-danger">ERR</span>`)
-                                    }
-                                    $("#" + res.StopUID + "-PlateNumb").html(`<span class="badge bg-secondary text-white">${res.PlateNumb}</span>`)
-                                } else {
-                                    if (t <= 0) {
-                                        $("#" + res.StopUID + "-time").html(`<span class="badge bg-danger text-white">進站中</span>`)
-                                    }
-                                    else
-                                        if (1 <= t && t < 3) {
-                                            $("#" + res.StopUID + "-time").html(`<span class="badge bg-warning text-dark">將到站</span>`)
-                                        }
-                                        else if (3 <= t && t < 5) {
-                                            $("#" + res.StopUID + "-PlateNumb").html(``)
-                                            $("#" + res.StopUID + "-time").html(`<span class="badge bg-warning text-white">${t}分鐘</span>`)
-                                        }
-                                        else if (5 <= t && t < 10) {
-                                            $("#" + res.StopUID + "-PlateNumb").html(``)
-                                            $("#" + res.StopUID + "-time").html(`<span class="badge bg-success">${t}分鐘</span>`)
-                                        }
-                                        else if (t >= 10) {
-                                            $("#" + res.StopUID + "-PlateNumb").html(``)
-                                            $("#" + res.StopUID + "-time").html(`<span class="badge bg-primary">${t}分鐘</span>`)
-                                        }
-                                        else {
-                                            $("#" + res.StopUID + "-PlateNumb").html(``)
-                                            $("#" + res.StopUID + "-time").html(`<span class="badge bg-danger">ERR</span>`)
-                                        }
-                                }
-                            } else {
+
+                                this.plateArr.push(res.PlateNumb)
                                 if (t <= 0) {
+                                    $("#" + res.StopUID + "-PlateNumb").html(``)
                                     $("#" + res.StopUID + "-time").html(`<span class="badge bg-danger text-white">進站中</span>`)
                                 }
                                 else if (1 <= t && t < 3) {
+                                    $("#" + res.StopUID + "-PlateNumb").html(``)
+                                    $("#" + res.StopUID + "-time").html(`<span class="badge bg-warning text-dark">將到站</span>`)
+                                }
+                                else if (3 <= t && t < 5) {
+                                    $("#" + res.StopUID + "-PlateNumb").html(``)
+                                    $("#" + res.StopUID + "-time").html(`<span class="badge bg-warning text-white">${t}分鐘</span>`)
+                                }
+                                else if (5 <= t && t < 10) {
+                                    $("#" + res.StopUID + "-PlateNumb").html(``)
+                                    $("#" + res.StopUID + "-time").html(`<span class="badge bg-success">${t}分鐘</span>`)
+                                }
+                                else if (t >= 10) {
+                                    $("#" + res.StopUID + "-PlateNumb").html(``)
+                                    $("#" + res.StopUID + "-time").html(`<span class="badge bg-primary">${t}分鐘</span>`)
+                                } else {
+                                    $("#" + res.StopUID + "-PlateNumb").html(``)
+                                    $("#" + res.StopUID + "-time").html(`<span class="badge bg-danger">ERR</span>`)
+                                }
+
+                            if(res.IsLastBus){
+                                $("#" + res.StopUID + "-PlateNumb").html(`<span class="badge bg-danger text-white">${res.PlateNumb}</span>`)
+                            }else{
+                                $("#" + res.StopUID + "-PlateNumb").html(`<span class="badge bg-secondary text-white">${res.PlateNumb}</span>`)
+                            }
+
+                            } else {
+                                if (t <= 0) {
+                                    $("#" + res.StopUID + "-PlateNumb").html(``)
+                                    $("#" + res.StopUID + "-time").html(`<span class="badge bg-danger text-white">進站中</span>`)
+                                }
+                                else if (1 <= t && t < 3) {
+                                    $("#" + res.StopUID + "-PlateNumb").html(``)
                                     $("#" + res.StopUID + "-time").html(`<span class="badge bg-warning text-dark">將到站</span>`)
                                 }
                                 else if (3 <= t && t < 5) {
