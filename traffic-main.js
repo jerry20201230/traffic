@@ -1638,6 +1638,9 @@ var AJAX = {
                     let refresh_sec = pars.delay - r
                     $(pars.progBar).css("width", (refresh_sec * (100 / pars.delay)) + "%").text(refresh_sec).removeClass("bg-secondary")
                     await delay(1)
+                    if(r<2){
+                        $(pars.progBar).css("width", (100) + "%").text("資料更新中")
+                    }
                 }
 
             }
