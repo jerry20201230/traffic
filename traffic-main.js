@@ -1593,10 +1593,10 @@ var AJAX = {
         while ($(pars.progBar).length !== 0 && this.ref_token[0] == pars.url[0]) {
 
             console.log("REF")
-            $(pars.progBar).css("width", (1 * (100 / pars.delay)) + "%").text("資料更新中").removeClass("bg-secondary")
 
             App.current_ajax_times = pars.url.length
             for (i = 0; i < pars.url.length; i++) {
+                $(pars.progBar).css("width", (100) + "%").text("資料更新中")
                 App.completed_ajax_times = 0, App.ajax_package_name = ["資料"]
                 this.getBasicApi({
                     url: pars.url[i],
