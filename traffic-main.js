@@ -1550,9 +1550,12 @@ var AJAX = {
             BottonBarWeight.set("spinner", true)
             var accesstoken = JSON.parse($("#req_header").text());
             var _async
-            if(pars.async == undefined){
+            if(pars.async == undefined || pars.async == null){
                 _async = true
             }else{
+                if(!pars.async){
+                    $(pars.progBar).css("width", (100) + "%").text("資料更新中")
+                }
                 _async = pars.async
             }
             console.log("[BASIC API]",pars,_async)
@@ -1612,16 +1615,17 @@ var AJAX = {
             $(pars.progBar).css("width", (100) + "%").text("資料更新中")
             App.current_ajax_times = pars.url.length
             for (i = 0; i < pars.url.length; i++) {
-                $(pars.progBar).css("width", (100) + "%").text("資料更新中")
                 App.completed_ajax_times = 0, App.ajax_package_name = ["資料"]
                 this.getBasicApi({
                     url: pars.url[i],
                     async:false,
+                    progBar:pars.progBar,
                     success:
                         function (res) {
                             DATA.query({ data: res, type: pars.queryType })
                             $("#refresh-text").text("")
                         }
+                    
                 })
             }
             // await delay(pars.delay)
