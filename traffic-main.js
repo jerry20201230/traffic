@@ -1609,7 +1609,7 @@ var AJAX = {
         while ($(pars.progBar).length !== 0 && this.ref_token[0] == pars.url[0]) {
 
             console.log("REF")
-
+            $(pars.progBar).css("width", (100) + "%").text("資料更新中")
             App.current_ajax_times = pars.url.length
             for (i = 0; i < pars.url.length; i++) {
                 $(pars.progBar).css("width", (100) + "%").text("資料更新中")
@@ -1637,6 +1637,7 @@ var AJAX = {
                 }
 
             }
+            $(pars.progBar).css("width", (100) + "%").text("資料更新中")
         }
         console.log("REF-break")
         return;
