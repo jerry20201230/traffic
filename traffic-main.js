@@ -1540,6 +1540,7 @@ var AJAX = {
             }else{
                 _async = pars.async
             }
+            console.log("[BASIC API]",pars,_async)
             $.ajax({
                 url: pars.url,
                 method: "GET",
