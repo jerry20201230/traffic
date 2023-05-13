@@ -1550,7 +1550,7 @@ var AJAX = {
             BottonBarWeight.set("spinner", true)
             var accesstoken = JSON.parse($("#req_header").text());
             var _async
-            if(!pars.async){
+            if(pars.async == undefined){
                 _async = true
             }else{
                 _async = pars.async
