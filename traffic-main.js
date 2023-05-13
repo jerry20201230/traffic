@@ -365,6 +365,21 @@ var App = {
             for (i = 0; i < DATA.localData.CITY.data.length; i++) {
                 $(containerID).append(`<option value="${DATA.localData.CITY.data[i].City}">${DATA.localData.CITY.data[i].CityName}${end}</option>`)
             }
+        }else if(type == "refreshProg"){
+            var Id = pars.id 
+            if(!pars.id){
+                Id = "refresh_prog"
+            }else{
+                Id = pars.id
+            }
+
+            $("#refresh_control_center").html(`
+            <div class="progress mt-1 me-1" style="flex-grow:1">
+            <div id="refresh_prog" class="progress-bar" role="progressbar" aria-label="auto refresh process"style="width: 25%"></div>
+            </div>
+            
+            <button id="refresh_toggle" class="bi bi-pause-btn"></button>
+            `).show()
         }
     },
     goToPage: function (page, par1, par2, par3, from) {
