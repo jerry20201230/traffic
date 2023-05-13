@@ -1155,7 +1155,7 @@ var DATA = {
     <tr>
       <td>一般</td>
       <td>電輔</td> 
-      <td rowspan="2">${pars.data[0].AvailableReturnBikes}</td>
+      <td rowspan="2" style="vertical-align: middle">${pars.data[0].AvailableReturnBikes}</td>
     </tr>
     <tr>
       <td>${pars.data[0].AvailableRentBikesDetail.GeneralBikes}</td>
@@ -1534,6 +1534,12 @@ var AJAX = {
         if (isLogined) {
             BottonBarWeight.set("spinner", true)
             var accesstoken = JSON.parse($("#req_header").text());
+            var _async
+            if(!pars.async){
+                _async = true
+            }else{
+                _async = pars.async
+            }
             $.ajax({
                 url: pars.url,
                 method: "GET",
@@ -1541,6 +1547,7 @@ var AJAX = {
                 headers: {
                     "authorization": "Bearer " + accesstoken.access_token,
                 },
+                async:_async,
                 success: function (res) {
                     App.completed_ajax_times++
                     if (App.completed_ajax_times === App.current_ajax_times) {
@@ -1586,13 +1593,14 @@ var AJAX = {
         while ($(pars.progBar).length !== 0 && this.ref_token[0] == pars.url[0]) {
 
             console.log("REF")
-            $(pars.progBar).css("width", (1 * (100 / pars.delay)) + "%").text(120).removeClass("bg-secondary")
+            $(pars.progBar).css("width", (1 * (100 / pars.delay)) + "%").text("資料更新中").removeClass("bg-secondary")
 
             App.current_ajax_times = pars.url.length
             for (i = 0; i < pars.url.length; i++) {
                 App.completed_ajax_times = 0, App.ajax_package_name = ["資料"]
                 this.getBasicApi({
                     url: pars.url[i],
+                    async:false,
                     success:
                         function (res) {
                             DATA.query({ data: res, type: pars.queryType })
