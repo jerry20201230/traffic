@@ -107,7 +107,7 @@ function getCityCode(name) {
     if (!is) { return null }
 }
 
-function getNearBusAndBikes(loc, container, mapObject, page, rem) {
+function getNearBusAndBikes(loc, container, mapObject, page, skip) {
 
 
     console.log("getNearBusAndBikes")
@@ -147,19 +147,24 @@ function getNearBusAndBikes(loc, container, mapObject, page, rem) {
 
 
                 for (i = 0; i < res.length; i++) {
-                    let center = [res[i].StopPosition.PositionLat, res[i].StopPosition.PositionLon]
-                    var marker = L.marker(center);
-                    marker.addTo(map);
-                    marker.bindPopup(`<span class="badge bg-primary">公車</span> ${res[i].StopName.Zh_tw}`)//.openPopup();
 
-                    if (!BusData.includes(res[i].StopName.Zh_tw)) {
-                        $("#station-display-table").append(`
+                    if (res[i].StopUID == skip || res[i].StopName.Zh_tw == skip) {
+
+                    } else {
+                        let center = [res[i].StopPosition.PositionLat, res[i].StopPosition.PositionLon]
+                        var marker = L.marker(center);
+                        marker.addTo(map);
+                        marker.bindPopup(`<span class="badge bg-primary">公車</span> ${res[i].StopName.Zh_tw}`)//.openPopup();
+
+                        if (!BusData.includes(res[i].StopName.Zh_tw)) {
+                            $("#station-display-table").append(`
               <tr>
               <td><span class="badge bg-primary">公車</span> ${res[i].StopName.Zh_tw}</td>   
               <td></td> 
               </tr>
               `)
-                        BusData.push(res[i].StopName.Zh_tw)
+                            BusData.push(res[i].StopName.Zh_tw)
+                        }
                     }
                 }
                 $("#bus-result").text(BusData.length + "站")
@@ -183,26 +188,30 @@ function getNearBusAndBikes(loc, container, mapObject, page, rem) {
                 bikeStstus[1] = true
                 if (bikeStstus[1] == bikeStstus[0] == true) {
                     for (i = 0; i < BikeStationData.stationData.length; i++) {
-                        console.log(i)
-                        let center = [BikeStationData.stationData[i].StationPosition.PositionLat, BikeStationData.stationData[i].StationPosition.PositionLon]
+                        if (BikeStationData.stationData[i].StationUID == skip) {
 
-                        console.log(center)
+                        } else {
 
-                        var marker = L.marker(center, {
-                            icon: greenIcon
-                        }).addTo(map);
+                            console.log(i)
+                            let center = [BikeStationData.stationData[i].StationPosition.PositionLat, BikeStationData.stationData[i].StationPosition.PositionLon]
 
-                        marker.addTo(map);
-                        var badgeClass = "bg-secondary", descText = ``
-                        if (BikeStationData.stationData[i].StationName.Zh_tw.split("_")[0].includes("2.0")) {
-                            badgeClass = "bg-primary"
-                        }
+                            console.log(center)
 
-                        if (BikeStationData.bikeData[i].AvailableRentBikes == 0) {
+                            var marker = L.marker(center, {
+                                icon: greenIcon
+                            }).addTo(map);
 
-                        }
+                            marker.addTo(map);
+                            var badgeClass = "bg-secondary", descText = ``
+                            if (BikeStationData.stationData[i].StationName.Zh_tw.split("_")[0].includes("2.0")) {
+                                badgeClass = "bg-primary"
+                            }
 
-                        marker.bindPopup(`
+                            if (BikeStationData.bikeData[i].AvailableRentBikes == 0) {
+
+                            }
+
+                            marker.bindPopup(`
             <span class="badge ${badgeClass}">
                 ${BikeStationData.stationData[i].StationName.Zh_tw.split("_")[0]}
             </span> ${BikeStationData.stationData[i].StationName.Zh_tw.split("_")[1]}
@@ -211,8 +220,8 @@ function getNearBusAndBikes(loc, container, mapObject, page, rem) {
 
 
 
-                        console.log(BikeStationData.bikeData[i].AvailableRentBikesDetail)
-                        $("#station-display-table").append(`
+                            console.log(BikeStationData.bikeData[i].AvailableRentBikesDetail)
+                            $("#station-display-table").append(`
     
     <tr onclick="$('#refresh_prog').remove();App.goToPage('UBIKEstation',${BikeStationData.stationData[i].StationPosition.PositionLat},${BikeStationData.stationData[i].StationPosition.PositionLon},'${BikeStationData.StationUID}','button')">
     <td><span class="badge ${badgeClass}">${BikeStationData.stationData[i].StationName.Zh_tw.split("_")[0]}</span><br>${BikeStationData.stationData[i].StationName.Zh_tw.split("_")[1]}</td>
@@ -222,6 +231,7 @@ function getNearBusAndBikes(loc, container, mapObject, page, rem) {
         `)
 
 
+                        }
                     }
                 }
             }
@@ -240,22 +250,26 @@ function getNearBusAndBikes(loc, container, mapObject, page, rem) {
 
             if (bikeStstus[1] == bikeStstus[0] == true) {
                 for (i = 0; i < BikeStationData.stationData.length; i++) {
-                    console.log(i)
-                    let center = [BikeStationData.stationData[i].StationPosition.PositionLat, BikeStationData.stationData[i].StationPosition.PositionLon]
+                    if (BikeStationData.stationData[i].StationUID == skip) {
 
-                    console.log(center)
+                    } else {
 
-                    var marker = L.marker(center, {
-                        icon: greenIcon
-                    }).addTo(map);
+                        console.log(i)
+                        let center = [BikeStationData.stationData[i].StationPosition.PositionLat, BikeStationData.stationData[i].StationPosition.PositionLon]
 
-                    marker.addTo(map);
+                        console.log(center)
 
-                    var badgeClass = "bg-secondary"
-                    if (BikeStationData.stationData[i].StationName.Zh_tw.split("_")[0].includes("2.0")) {
-                        badgeClass = "bg-primary"
-                    }
-                    marker.bindPopup(`
+                        var marker = L.marker(center, {
+                            icon: greenIcon
+                        }).addTo(map);
+
+                        marker.addTo(map);
+
+                        var badgeClass = "bg-secondary"
+                        if (BikeStationData.stationData[i].StationName.Zh_tw.split("_")[0].includes("2.0")) {
+                            badgeClass = "bg-primary"
+                        }
+                        marker.bindPopup(`
             <span class="badge ${badgeClass}">
                 ${BikeStationData.stationData[i].StationName.Zh_tw.split("_")[0]}
             </span> ${BikeStationData.stationData[i].StationName.Zh_tw.split("_")[1]}
@@ -264,8 +278,8 @@ function getNearBusAndBikes(loc, container, mapObject, page, rem) {
 
 
 
-                    console.log(BikeStationData.bikeData[i].AvailableRentBikesDetail)
-                    $("#station-display-table").append(`
+                        console.log(BikeStationData.bikeData[i].AvailableRentBikesDetail)
+                        $("#station-display-table").append(`
     
     <tr onclick="$('#refresh_prog').remove();App.goToPage('UBIKEstation',${BikeStationData.stationData[i].StationPosition.PositionLat},${BikeStationData.stationData[i].StationPosition.PositionLon},'${BikeStationData.stationData[i].StationUID}','button')">
     <td><span class="badge ${badgeClass}">${BikeStationData.stationData[i].StationName.Zh_tw.split("_")[0]}</span><br>${BikeStationData.stationData[i].StationName.Zh_tw.split("_")[1]}</td>
@@ -274,7 +288,7 @@ function getNearBusAndBikes(loc, container, mapObject, page, rem) {
     </tr>
         `)
 
-
+                    }
                 }
 
             }
@@ -365,11 +379,11 @@ var App = {
             for (i = 0; i < DATA.localData.CITY.data.length; i++) {
                 $(containerID).append(`<option value="${DATA.localData.CITY.data[i].City}">${DATA.localData.CITY.data[i].CityName}${end}</option>`)
             }
-        }else if(type == "refreshProg"){
-            var Id = pars.id 
-            if(!pars.id){
+        } else if (type == "refreshProg") {
+            var Id = pars.id
+            if (!pars.id) {
                 Id = "refresh_prog"
-            }else{
+            } else {
                 Id = pars.id
             }
 
@@ -777,7 +791,6 @@ var App = {
 
 
                         var map = this.createElement("#map-container", "map", { center: MyLoc, zoom: 19 })
-                        getNearBusAndBikes(MyLoc, "#table-container", map, App._current_page)
 
                         var redIcon = new L.Icon({
                             iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
@@ -805,6 +818,8 @@ var App = {
                                     ifStation = false
                                     App.renderhtml("#stationName", "無資料!!")
                                 } else {
+                                    getNearBusAndBikes(MyLoc, "#table-container", map, App._current_page,res[0].StationUID)
+
                                     ifStation = true
                                     App.renderhtml("#stationName", `${res[0].StationName.Zh_tw.split("_")[0]} ${res[0].StationName.Zh_tw.split("_")[1]}`)
                                     App.renderTitle(`${res[0].StationName.Zh_tw.split("_")[0]} ${res[0].StationName.Zh_tw.split("_")[1]}`)
@@ -1550,15 +1565,15 @@ var AJAX = {
             BottonBarWeight.set("spinner", true)
             var accesstoken = JSON.parse($("#req_header").text());
             var _async
-            if(pars.async == undefined || pars.async == null){
+            if (pars.async == undefined || pars.async == null) {
                 _async = true
-            }else{
-                if(!pars.async){
+            } else {
+                if (!pars.async) {
                     $(pars.progBar).css("width", (100) + "%").text("資料更新中")
                 }
                 _async = pars.async
             }
-            console.log("[BASIC API]",pars,_async)
+            console.log("[BASIC API]", pars, _async)
             $.ajax({
                 url: pars.url,
                 method: "GET",
@@ -1566,7 +1581,7 @@ var AJAX = {
                 headers: {
                     "authorization": "Bearer " + accesstoken.access_token,
                 },
-                async:_async,
+                async: _async,
                 success: function (res) {
                     App.completed_ajax_times++
                     if (App.completed_ajax_times === App.current_ajax_times) {
@@ -1602,7 +1617,7 @@ var AJAX = {
     progBar(ele.)
     delay
     */
-    ref_token: [],
+    ref_token: [], api_refresh: false,
     refreshApi: async function (pars) {
         console.log($(pars.progBar).length)
         if (this.ref_token.length > 0) {
@@ -1618,14 +1633,14 @@ var AJAX = {
                 App.completed_ajax_times = 0, App.ajax_package_name = ["資料"]
                 this.getBasicApi({
                     url: pars.url[i],
-                    async:false,
-                    progBar:pars.progBar,
+                    async: false,
+                    progBar: pars.progBar,
                     success:
                         function (res) {
                             DATA.query({ data: res, type: pars.queryType })
                             $("#refresh-text").text("")
                         }
-                    
+
                 })
             }
             // await delay(pars.delay)
@@ -1638,7 +1653,7 @@ var AJAX = {
                     let refresh_sec = pars.delay - r
                     $(pars.progBar).css("width", (refresh_sec * (100 / pars.delay)) + "%").text(refresh_sec).removeClass("bg-secondary")
                     await delay(1)
-                    if(r<2){
+                    if (r < 2) {
                         $(pars.progBar).css("width", (100) + "%").text("資料更新中")
                     }
                 }
