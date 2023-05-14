@@ -360,8 +360,8 @@ var App = {
                 attribution: '© OpenStreetMap',
                 zoomControl: true,
             }).addTo(map);
-
-            L.Rotate.debug(map);
+            console.log( L.Rotate)
+        // NOT Working    L.Rotate.debug(map);
             OSM_mapid++
 
             return map
