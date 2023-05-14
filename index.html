@@ -27,9 +27,8 @@
 
             cursor: pointer;
         }
-
     </style>
-<!--<div style="width: 100%;text-align: center;
+    <!--<div style="width: 100%;text-align: center;
         display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
@@ -47,36 +46,38 @@
 
     <div class="sticky-top">
 
-    <nav class="navbar navbar-dark bg-primary p-2" id="nav-top">
-        <div class="container text-center p-2" style="width: 100%;">
-            <div class="row" style="width: 100%;justify-content: space-around;margin-left: 0.1em;">
-              <div class="col-1">
-                <button class="navbar-toggler text-light" type="button" data-bs-toggle="offcanvas"
-                data-bs-target="#offcanvasDarkNavbar" style="  
+        <nav class="navbar navbar-dark bg-primary p-2" id="nav-top">
+            <div class="container text-center p-2" style="width: 100%;">
+                <div class="row" style="width: 100%;justify-content: space-around;margin-left: 0.1em;">
+                    <div class="col-1">
+                        <button class="navbar-toggler text-light" type="button" data-bs-toggle="offcanvas"
+                            data-bs-target="#offcanvasDarkNavbar" style="  
                 position:absolute;
                 left:0.5rem;
                 top:0.5em;
                 padding:5px;" aria-controls="offcanvasDarkNavbar">
-                <span class="navbar-toggler-icon text-light"></span>
-            </button>
-              </div>
-              <div class="col-6" style="flex:1 0;">
-                <a class="navbar-brand text-light m-0" style="width:fit-content;align-self:center;flex:1 0 auto;" id="header">大眾運輸查詢系統</a>
+                            <span class="navbar-toggler-icon text-light"></span>
+                        </button>
+                    </div>
+                    <div class="col-6" style="flex:1 0;">
+                        <a class="navbar-brand text-light m-0"
+                            style="width:fit-content;align-self:center;flex:1 0 auto;" id="header">大眾運輸查詢系統</a>
 
-              </div>
-              <div class="col-1">
-                <button class="navbar-toggler" style="  
+                    </div>
+                    <div class="col-1">
+                        <button class="navbar-toggler" style="  
             position:absolute;
             right:0.5rem;
             top:0.5em;
             padding:5px;" onclick="App.goToPage('Map')">
-                <i class="bi bi-map-fill navbar-toggler-icon " style="background: none;line-height: 1.5;"></i></button>
-              </div>
+                            <i class="bi bi-map-fill navbar-toggler-icon "
+                                style="background: none;line-height: 1.5;"></i></button>
+                    </div>
+                </div>
             </div>
-          </div>
-    </nav>
+        </nav>
 
-    <div id="refresh_control_center" class="alert alert-warning" style="display: none;"></div>
+        <div id="refresh_control_center" class="alert alert-warning" style="display: none;"></div>
 
     </div>
     <div id="app">
@@ -227,6 +228,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/2.4.0/Control.FullScreen.js"
         integrity="sha512-soC5gg5CeLNdNfDfPXZtkyDOQE1izv2ermc/Ub4Yse0WVEUUadAe6hnduFqryCvA1gJi298YKEJVvnxs8STUlQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="
+        https://cdn.jsdelivr.net/npm/leaflet-rotatedmarker@0.2.0/leaflet.rotatedMarker.min.js
+        "></script>
 
     <script src='https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js'
         integrity='sha512-Eezs+g9Lq4TCCq0wae01s9PuNWzHYoCMkE97e2qdkYthpI0pzC3UGB03lgEHn2XM85hDOUF6qgqqszs+iXU4UA=='

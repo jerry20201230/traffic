@@ -361,6 +361,7 @@ var App = {
                 zoomControl: true,
             }).addTo(map);
 
+            L.Rotate.debug(map);
             OSM_mapid++
 
             return map
