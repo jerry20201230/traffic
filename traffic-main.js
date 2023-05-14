@@ -1553,7 +1553,7 @@ var DATA = {
                 alert("error 5000")
             }
 
-            DATA.query({type:"BUS.Arrival_BY_Route",data:DATA._storage[1]})
+            DATA.query({type:"BUS.Arrival_BY_Route"})
         }
 
         else {
