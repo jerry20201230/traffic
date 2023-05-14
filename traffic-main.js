@@ -360,8 +360,8 @@ var App = {
                 attribution: '© OpenStreetMap',
                 zoomControl: true,
             }).addTo(map);
-            console.log( L.Rotate)
-        // NOT Working    L.Rotate.debug(map);
+            console.log(L.Rotate)
+            // NOT Working    L.Rotate.debug(map);
             OSM_mapid++
 
             return map
@@ -819,7 +819,7 @@ var App = {
                                     ifStation = false
                                     App.renderhtml("#stationName", "無資料!!")
                                 } else {
-                                    getNearBusAndBikes(MyLoc, "#table-container", map, App._current_page,res[0].StationUID)
+                                    getNearBusAndBikes(MyLoc, "#table-container", map, App._current_page, res[0].StationUID)
 
                                     ifStation = true
                                     App.renderhtml("#stationName", `${res[0].StationName.Zh_tw.split("_")[0]} ${res[0].StationName.Zh_tw.split("_")[1]}`)
@@ -1398,6 +1398,11 @@ var DATA = {
 
         }
         else if (pars.type === "BUS.Arrival_BY_Route") {
+
+            if (!pars.data) {
+                pars.data = DATA._storage[1]
+            }
+
             DATA._storage[1] = pars.data
             var
                 time_labal = {
@@ -1547,7 +1552,8 @@ var DATA = {
             } else {
                 alert("error 5000")
             }
-            $("#refresh-text").text("*請等待資料刷新*")
+
+            DATA.query({type:"BUS.Arrival_BY_Route",data:DATA._storage[1]})
         }
 
         else {
