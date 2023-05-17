@@ -658,22 +658,21 @@ var App = {
                  <ul class="list-group mt-1" id="bus-data-search-result"></ul>
                  </div>
 
-
-                 <div style="display:flex">
-                 <div>
-                 <input type="button" value="7" class="btn btn-primary me-1 mb-1">
-                 <input type="button" value="8" class="btn btn-primary me-1 mb-1">
-                 <input type="button" value="9" class="btn btn-primary me-1 mb-1">
-                 <br>
-                 <input type="button" value="4" class="btn btn-primary me-1 mb-1">
-                 <input type="button" value="5" class="btn btn-primary me-1 mb-1">
-                 <input type="button" value="6" class="btn btn-primary me-1 mb-1">
-                 <br>
-                 <input type="button" value="1" class="btn btn-primary me-1 mb-1">
-                 <input type="button" value="2" class="btn btn-primary me-1 mb-1">
-                 <input type="button" value="3" class="btn btn-primary me-1 mb-1">
-                 </div>
-                 </div>
+<div id="keyboard" style="display: flex;
+position: absolute;
+justify-content: space-around;
+left: auto;
+bottom: ${$("#nav-bottom").height()+15}px;">
+<div class="keyboard me-1 mt-1">9</div>
+<div class="keyboard">8</div>
+<div class="keyboard">7</div><br>
+<div class="keyboard">6</div>
+<div class="keyboard">5</div>
+<div class="keyboard">4</div><br>
+<div class="keyboard">3</div>
+<div class="keyboard">2</div>
+<div class="keyboard">1</div>
+</div>
                     `)
                         DATA.query({ type: 'BUS.getBadge' })
 
@@ -901,7 +900,7 @@ var App = {
                         <input onclick="DATA.query({type:'BUS.RoureReverse'})" type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off"><label class="btn btn-outline-primary" for="btnradio2" id="btnradio2-h">回程</label></div>
                         </div>
                        
-                       <div> 
+                       <div style="max-height:20em; overflow-y:scroll;"> 
                         <table class="table table-hover table-sm">
                         <thead>
                      
