@@ -388,18 +388,22 @@ var App = {
                 Id = pars.id
             }
 
-            $("#refresh_control_center").html(`
+            $("#refresh_control_center").html(` <h5 class="bi bi-lightning-charge-fill">${pars.heading}</h5>
+            
+            <div style="display: flex;flex-direction: row;flex-wrap: wrap;justify-content: space-between;align-items: center;">
             <div class="progress mt-1 me-1" style="flex-grow:1">
-            <div id="refresh_prog" class="progress-bar" role="progressbar" aria-label="auto refresh process"style="width: 25%"></div>
+           
+            <div id="${Id}" class="progress-bar" role="progressbar" aria-label="auto refresh process"style="width: 25%"></div>
             </div>
             
-            <button id="refresh_toggle" class="bi bi-pause-btn"></button>
+            <button id="refresh_toggle" class="bi bi-pause-btn btn btn-sm btn-primary"></button></div>
             `).show()
         }
     },
     goToPage: function (page, par1, par2, par3, from) {
 
         $("#refresh_prog").remove()
+        $("#refresh_control_center").html("").hide()
         console.log($("#refresh_prog") + "------")
 
 
@@ -468,6 +472,14 @@ var App = {
                         this.renderhtml("#main-content", `
                     <div id="system-data-alert"></div>
       
+        <!--            <div class="card" style="width: 18rem;">
+  <div class="card-body">
+    <h5 class="card-title">文化新村</h5>
+    <h6 class="card-subtitle mb-2 text-muted">900</h6>
+    <p class="card-text">3</p>
+    <a href="#" class="card-link"></a>
+  </div>
+</div>-->
                 <div class="h5 pb-2 mb-4 ps-3 text-primary border-bottom border-primary">常用</div>
       
                 <div class="container text-center"><div style="justify-content: space-evenly" id="App-row-0" class="row"></div></div>
@@ -609,10 +621,24 @@ var App = {
                         this.renderTitle("公車 - 搜尋")
                         this.renderhtml("#main-content", `
                     <span class="text-secondarys">選擇市區公車所在縣市，或公路客運</span>
-                    <div id="step1" class="d-flex"><select class="form-select me-1" id="CitySelsct"></select></div>
+                    <div id="step1" class="d-flex m-0 p-0"><select class="form-select me-1" id="CitySelsct"></select></div>
                     <div id="step2" class="mt-1">
-                 <input type="text" class="form-control mb-1" id="bus-data-search-input" placeholder="輸入關鍵字">
-                <div class="d-flex mb-2" style="overflow-x:scroll" id="label-container"></div>
+
+                    <div class="d-flex smb-1 ">
+                 <input type="text" class="form-control me-1" id="bus-data-search-input" placeholder="輸入關鍵字">
+                 <button class="btn btn-primary bi bi-search" onclick="
+                 var by;
+                 if(document.getElementById('inlineRadio1').checked){
+                   by = 'Route'
+                 }else{
+                   by = 'Stop'
+                 }
+                 DATA.query({'type':'BUS.getData','by':by,'city':$('#CitySelsct').val(),'text':$('#bus-data-search-input').val()})
+                 "></button>
+                
+                 </div>
+                
+                 <div class="d-flex mb-2" style="overflow-x:scroll" id="label-container"></div>
                     <div class="form-check form-check-inline">
                     <input class="form-check-input" checked type="radio" name="inlineRadioOptions" onclick="DATA.query({type:'BUS.getBadge'})" id="inlineRadio1" value="option1">
                     <label class="form-check-label" for="inlineRadio1">搜尋路線</label>
@@ -625,17 +651,28 @@ var App = {
                   
                   </div></div>
                  
+
+
                   <div class="mt-1">
-                 <button class="btn btn-primary" onclick="
-                 var by;
-                 if(document.getElementById('inlineRadio1').checked){
-                   by = 'Route'
-                 }else{
-                   by = 'Stop'
-                 }
-                 DATA.query({'type':'BUS.getData','by':by,'city':$('#CitySelsct').val(),'text':$('#bus-data-search-input').val()})
-                 ">搜尋</button>
+
                  <ul class="list-group mt-1" id="bus-data-search-result"></ul>
+                 </div>
+
+
+                 <div style="display:flex">
+                 <div>
+                 <input type="button" value="7" class="btn btn-primary me-1 mb-1">
+                 <input type="button" value="8" class="btn btn-primary me-1 mb-1">
+                 <input type="button" value="9" class="btn btn-primary me-1 mb-1">
+                 <br>
+                 <input type="button" value="4" class="btn btn-primary me-1 mb-1">
+                 <input type="button" value="5" class="btn btn-primary me-1 mb-1">
+                 <input type="button" value="6" class="btn btn-primary me-1 mb-1">
+                 <br>
+                 <input type="button" value="1" class="btn btn-primary me-1 mb-1">
+                 <input type="button" value="2" class="btn btn-primary me-1 mb-1">
+                 <input type="button" value="3" class="btn btn-primary me-1 mb-1">
+                 </div>
                  </div>
                     `)
                         DATA.query({ type: 'BUS.getBadge' })
@@ -763,12 +800,6 @@ var App = {
                 </div>
                     
                     
-                    
-
-                    <div class="progress mt-1">
-                    <div id="refresh_prog" class="progress-bar" role="progressbar" aria-label="auto refresh process"style="width: 25%"></div>
-                    </div>
-
                     <div id="map-container" class="card mt-1"></div>
                     <span class="text-secondary">
                         
@@ -829,6 +860,8 @@ var App = {
                                 }
 
                                 if (ifStation) {
+                                    App.createElement(document, "refreshProg", { id: "refresh_prog" ,heading:"公共自行車-即時剩餘位置"})
+
                                     AJAX.refreshApi({
                                         url: [`https://tdx.transportdata.tw/api/advanced/v2/Bike/Availability/NearBy?%24spatialFilter=nearby%28${MyLoc[0]}%2C%20${MyLoc[1]}%2C%20${0}%29&%24format=JSON`],
 
@@ -866,11 +899,6 @@ var App = {
                         <input onclick="DATA.query({type:'BUS.RoureReverse'})" type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked><label class="btn btn-outline-primary" for="btnradio1" id="btnradio1-h">去程</label>
 
                         <input onclick="DATA.query({type:'BUS.RoureReverse'})" type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off"><label class="btn btn-outline-primary" for="btnradio2" id="btnradio2-h">回程</label></div>
-                        </div>
-
-                        <span id="refresh-text" class="text-danger"></span>
-                        <div class="progress mt-1">
-                        <div id="refresh_prog" class="progress-bar" role="progressbar" aria-label="auto refresh process"style="width: 25%"></div>
                         </div>
                        
                        <div style="max-height:18em; overflow-y:scroll;"> 
@@ -979,7 +1007,7 @@ var App = {
                                                 Mark.bindPopup(`<span class="badge bg-primary">公車</span> ${res[0].Stops[j].StopName.Zh_tw}`)
 
                                             }
-
+                                            App.createElement(document, "refreshProg", { id: "refresh_prog" ,heading:"公車-即時到離站"})
                                             AJAX.refreshApi({
                                                 url: [`https://tdx.transportdata.tw/api/basic/v2/Bus/EstimatedTimeOfArrival/City/${par1}?%24filter=RouteName%2FZh_tw%20eq%20%27${par3}%27&%24format=JSON`],
                                                 //success: function (res) { console.log(res) },
@@ -1553,7 +1581,7 @@ var DATA = {
                 alert("error 5000")
             }
 
-            DATA.query({type:"BUS.Arrival_BY_Route"})
+            DATA.query({ type: "BUS.Arrival_BY_Route" })
         }
 
         else {
@@ -1626,6 +1654,7 @@ var AJAX = {
     */
     ref_token: [], api_refresh: false,
     refreshApi: async function (pars) {
+
         console.log($(pars.progBar).length)
         if (this.ref_token.length > 0) {
             pars.delay += 1
@@ -1640,7 +1669,7 @@ var AJAX = {
                 App.completed_ajax_times = 0, App.ajax_package_name = ["資料"]
                 this.getBasicApi({
                     url: pars.url[i],
-                    async: false,
+
                     progBar: pars.progBar,
                     success:
                         function (res) {
