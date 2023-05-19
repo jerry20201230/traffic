@@ -41,6 +41,14 @@ Array.prototype.remove = function (value) {
     return this.filter(item => item !== value)
 }
 
+function textInput(inputId, type, value) {
+    if (type == "append") {
+        $(inputId).val($(inputId).val() + value)
+    } else if (type == "removeLastChar") {
+        $(inputId).val($(inputId).val().slice(0, -1))
+    }
+}
+
 function delay(n) {
     return new Promise(function (resolve) {
         setTimeout(resolve, n * 1000);
@@ -404,8 +412,23 @@ var App = {
 
         $("#refresh_prog").remove()
         $("#refresh_control_center").html("").hide()
-        console.log($("#refresh_prog") + "------")
+        console.log($("#refresh_prog"), "------")
 
+        var keyboard
+        try {
+            keyboard = document.querySelector("#keyboard")
+            var keyboardDownKeyframes = new KeyframeEffect(
+                keyboard,
+                [
+                    { transform: 'translateY(0%)' },
+                    { transform: 'translateY(120%)' }
+                ],
+                { duration: 100, fill: 'forwards' }
+            );
+            var keyboardDownAnimation = new Animation(keyboardDownKeyframes, document.timeline);
+            keyboardDownAnimation.play();
+            $("#keyboard").remove()
+        } catch { e => console.log(e) }
 
         let isAvailablePage = false;
 
@@ -472,7 +495,7 @@ var App = {
                         this.renderhtml("#main-content", `
                     <div id="system-data-alert"></div>
       
-        <!--            <div class="card" style="width: 18rem;">
+        <!-- <div class="card" style="width: 18rem;">
   <div class="card-body">
     <h5 class="card-title">文化新村</h5>
     <h6 class="card-subtitle mb-2 text-muted">900</h6>
@@ -660,17 +683,38 @@ var App = {
 
       
                     `)
-                    $("#keyboard-container").html(`      
-                    <div id="keyboard">
+                        $("#keyboard-container").html(`      
+                    <div id="keyboard" style=" transform:translateY(120%)">
                     
-                    <table class="table table-bordered" style=" vertical-align: middle;text-align:center;">
-                    <tr><td>1</td><td>2</td><td>3</td></tr>
-                    <tr><td>4</td><td>5</td><td>6</td></tr>
-                    <tr><td>7</td><td>8</td><td>9</td></tr>
-                    <tr><td>0</td><td class="bi bi-backspace-fill"></td><td class="bi bi-search"></td></tr>
+                    <table class="table table-bordered bg-dark text-light" style=" vertical-align: middle;text-align:center;table-layout: fixed;word-break:break-all; word-wrap:break-all;">
+                    
+                    <tr><td onclick="textInput('#bus-data-search-input','append','1')">1</td><td onclick="textInput('#bus-data-search-input','append','2')">2</td><td onclick="textInput('#bus-data-search-input','append','3')">3</td></tr>
+                    <tr><td onclick="textInput('#bus-data-search-input','append','4')">4</td><td onclick="textInput('#bus-data-search-input','append','5')">5</td><td onclick="textInput('#bus-data-search-input','append','6')">6</td></tr>
+                    <tr><td onclick="textInput('#bus-data-search-input','append','7')">7</td><td onclick="textInput('#bus-data-search-input','append','8')">8</td><td onclick="textInput('#bus-data-search-input','append','9')">9</td></tr>
+                    <tr><td onclick="textInput('#bus-data-search-input','append','0')">0</td><td class="bi bi-backspace-fill" onclick="textInput('#bus-data-search-input','removeLastChar')"></td>
+                    
+                    <td class="bi bi-search" onclick=" var by;
+                    if(document.getElementById('inlineRadio1').checked){
+                      by = 'Route'
+                    }else{
+                      by = 'Stop'
+                    }
+                    DATA.query({'type':'BUS.getData','by':by,'city':$('#CitySelsct').val(),'text':$('#bus-data-search-input').val()})"></td></tr>
+                    
                     </table>
                     </div>`)
-
+                    keyboard = document.querySelector("#keyboard")
+                    var keyboardDownKeyframes = new KeyframeEffect(
+                        keyboard,
+                        [
+                            { transform: 'translateY(120%)' },
+                            { transform: 'translateY(0%)' }
+                        ],
+                        { duration: 300, fill: 'forwards' }
+                    );
+                    var keyboardDownAnimation = new Animation(keyboardDownKeyframes, document.timeline);
+                    keyboardDownAnimation.play();
+             
                         DATA.query({ type: 'BUS.getBadge' })
 
                         this.createElement("#CitySelsct", "citySelect", { end: "公車" })
@@ -856,7 +900,7 @@ var App = {
                                 }
 
                                 if (ifStation) {
-                                    App.createElement(document, "refreshProg", { id: "refresh_prog" ,heading:"公共自行車-即時剩餘位置"})
+                                    App.createElement(document, "refreshProg", { id: "refresh_prog", heading: "公共自行車-即時剩餘位置" })
 
                                     AJAX.refreshApi({
                                         url: [`https://tdx.transportdata.tw/api/advanced/v2/Bike/Availability/NearBy?%24spatialFilter=nearby%28${MyLoc[0]}%2C%20${MyLoc[1]}%2C%20${0}%29&%24format=JSON`],
@@ -1003,7 +1047,7 @@ var App = {
                                                 Mark.bindPopup(`<span class="badge bg-primary">公車</span> ${res[0].Stops[j].StopName.Zh_tw}`)
 
                                             }
-                                            App.createElement(document, "refreshProg", { id: "refresh_prog" ,heading:"公車-即時到離站"})
+                                            App.createElement(document, "refreshProg", { id: "refresh_prog", heading: "公車-即時到離站" })
                                             AJAX.refreshApi({
                                                 url: [`https://tdx.transportdata.tw/api/basic/v2/Bus/EstimatedTimeOfArrival/City/${par1}?%24filter=RouteName%2FZh_tw%20eq%20%27${par3}%27&%24format=JSON`],
                                                 //success: function (res) { console.log(res) },
@@ -1226,6 +1270,19 @@ var DATA = {
             <i class="bi bi-clock"></i> ${pars.data[0].UpdateTime.split("T")[1].split("+")[0]}`)
         }
         else if (pars.type === "BUS.getData") {
+            keyboard = document.querySelector("#keyboard")
+            var keyboardDownKeyframes = new KeyframeEffect(
+                keyboard,
+                [
+                    { transform: 'translateY(0%)' },
+                    { transform: 'translateY(120%)' }
+                ],
+                { duration: 100, fill: 'forwards' }
+            );
+            var keyboardDownAnimation = new Animation(keyboardDownKeyframes, document.timeline);
+            keyboardDownAnimation.play();
+            $("#keyboard").remove()
+
             console.log(pars.by)
             console.log(pars.city)
 
