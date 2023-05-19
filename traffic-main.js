@@ -115,6 +115,44 @@ function getCityCode(name) {
     if (!is) { return null }
 }
 
+function showKeyboard(page=App._current_page){
+
+    if(page === "BUSsearch"){ //公車數字鍵盤
+        $("#keyboard-container").html(`      
+        <div id="keyboard" style=" transform:translateY(120%)">
+        
+        <table class="m-0 table table-bordered bg-dark text-light" style=" vertical-align: middle;text-align:center;table-layout: fixed;word-break:break-all; word-wrap:break-all;">
+        
+        <tr><td onclick="textInput('#bus-data-search-input','append','1')">1</td><td onclick="textInput('#bus-data-search-input','append','2')">2</td><td onclick="textInput('#bus-data-search-input','append','3')">3</td></tr>
+        <tr><td onclick="textInput('#bus-data-search-input','append','4')">4</td><td onclick="textInput('#bus-data-search-input','append','5')">5</td><td onclick="textInput('#bus-data-search-input','append','6')">6</td></tr>
+        <tr><td onclick="textInput('#bus-data-search-input','append','7')">7</td><td onclick="textInput('#bus-data-search-input','append','8')">8</td><td onclick="textInput('#bus-data-search-input','append','9')">9</td></tr>
+        <tr><td onclick="textInput('#bus-data-search-input','append','0')">0</td><td class="bi bi-backspace-fill" onclick="textInput('#bus-data-search-input','removeLastChar')"></td>
+        
+        <td class="bi bi-search" onclick=" var by;
+        if(document.getElementById('inlineRadio1').checked){
+          by = 'Route'
+        }else{
+          by = 'Stop'
+        }
+        DATA.query({'type':'BUS.getData','by':by,'city':$('#CitySelsct').val(),'text':$('#bus-data-search-input').val()})"></td></tr>
+        
+        </table>
+        </div>`)
+            keyboard = document.querySelector("#keyboard")
+            var keyboardDownKeyframes = new KeyframeEffect(
+                keyboard,
+                [
+                    { transform: 'translateY(120%)' },
+                    { transform: 'translateY(0%)' }
+                ],
+                { duration: 300, fill: 'forwards' }
+            );
+            var keyboardDownAnimation = new Animation(keyboardDownKeyframes, document.timeline);
+            keyboardDownAnimation.play();
+
+    }
+}
+
 function getNearBusAndBikes(loc, container, mapObject, page, skip) {
 
 
@@ -649,7 +687,7 @@ var App = {
 
                     <div class="d-flex smb-1 ">
                  <input type="text" class="form-control me-1" id="bus-data-search-input" placeholder="輸入關鍵字">
-                 <button class="btn btn-primary bi bi-search" onclick="
+                 <button class="me-1 btn btn-primary bi bi-search" onclick="
                  var by;
                  if(document.getElementById('inlineRadio1').checked){
                    by = 'Route'
@@ -659,6 +697,10 @@ var App = {
                  DATA.query({'type':'BUS.getData','by':by,'city':$('#CitySelsct').val(),'text':$('#bus-data-search-input').val()})
                  "></button>
                 
+
+
+                 <button class="me-1 btn btn-secondary bi bi-keyboard" onclick='showKeyboard()'></button>
+
                  </div>
                 
                  <div class="d-flex mb-2" style="overflow-x:scroll" id="label-container"></div>
@@ -674,47 +716,13 @@ var App = {
                   
                   </div></div>
                  
-
-
                   <div class="mt-1">
-
-                 <ul class="list-group mt-1" id="bus-data-search-result"></ul>
+                <ul class="list-group mt-1" id="bus-data-search-result"></ul>
                  </div>
 
       
                     `)
-                        $("#keyboard-container").html(`      
-                    <div id="keyboard" style=" transform:translateY(120%)">
-                    
-                    <table class="table table-bordered bg-dark text-light" style=" vertical-align: middle;text-align:center;table-layout: fixed;word-break:break-all; word-wrap:break-all;">
-                    
-                    <tr><td onclick="textInput('#bus-data-search-input','append','1')">1</td><td onclick="textInput('#bus-data-search-input','append','2')">2</td><td onclick="textInput('#bus-data-search-input','append','3')">3</td></tr>
-                    <tr><td onclick="textInput('#bus-data-search-input','append','4')">4</td><td onclick="textInput('#bus-data-search-input','append','5')">5</td><td onclick="textInput('#bus-data-search-input','append','6')">6</td></tr>
-                    <tr><td onclick="textInput('#bus-data-search-input','append','7')">7</td><td onclick="textInput('#bus-data-search-input','append','8')">8</td><td onclick="textInput('#bus-data-search-input','append','9')">9</td></tr>
-                    <tr><td onclick="textInput('#bus-data-search-input','append','0')">0</td><td class="bi bi-backspace-fill" onclick="textInput('#bus-data-search-input','removeLastChar')"></td>
-                    
-                    <td class="bi bi-search" onclick=" var by;
-                    if(document.getElementById('inlineRadio1').checked){
-                      by = 'Route'
-                    }else{
-                      by = 'Stop'
-                    }
-                    DATA.query({'type':'BUS.getData','by':by,'city':$('#CitySelsct').val(),'text':$('#bus-data-search-input').val()})"></td></tr>
-                    
-                    </table>
-                    </div>`)
-                    keyboard = document.querySelector("#keyboard")
-                    var keyboardDownKeyframes = new KeyframeEffect(
-                        keyboard,
-                        [
-                            { transform: 'translateY(120%)' },
-                            { transform: 'translateY(0%)' }
-                        ],
-                        { duration: 300, fill: 'forwards' }
-                    );
-                    var keyboardDownAnimation = new Animation(keyboardDownKeyframes, document.timeline);
-                    keyboardDownAnimation.play();
-             
+                       showKeyboard()
                         DATA.query({ type: 'BUS.getBadge' })
 
                         this.createElement("#CitySelsct", "citySelect", { end: "公車" })
@@ -2071,6 +2079,35 @@ document.body.onload = function (e) {
         }
     }
 }
+
+window.onkeydown = function (e) {
+    console.log("[KEY DOWN]:", e)
+
+    if (e.keyCode == 13 && App._current_page == 'BUSsearch') {
+        var by;
+        if (document.getElementById('inlineRadio1').checked) {
+            by = 'Route'
+        } else {
+            by = 'Stop'
+        }
+        DATA.query({ 'type': 'BUS.getData', 'by': by, 'city': $('#CitySelsct').val(), 'text': $('#bus-data-search-input').val() })
+
+
+        var keyboard = document.querySelector("#keyboard")
+        var keyboardDownKeyframes = new KeyframeEffect(
+            keyboard,
+            [
+                { transform: 'translateY(0%)' },
+                { transform: 'translateY(120%)' }
+            ],
+            { duration: 100, fill: 'forwards' }
+        );
+        var keyboardDownAnimation = new Animation(keyboardDownKeyframes, document.timeline);
+        keyboardDownAnimation.play();
+        $("#keyboard").remove()
+    }
+}
+
 
 window.addEventListener("popstate", function (e) {
     if (e.state && App._current_page !== e.state.page) {
