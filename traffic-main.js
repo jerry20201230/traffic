@@ -658,22 +658,19 @@ var App = {
                  <ul class="list-group mt-1" id="bus-data-search-result"></ul>
                  </div>
 
-<div id="keyboard" style="display: flex;
-position: absolute;
-justify-content: space-around;
-left: auto;
-bottom: ${$("#nav-bottom").height()+15}px;">
-<div class="keyboard me-1 mt-1">9</div>
-<div class="keyboard">8</div>
-<div class="keyboard">7</div><br>
-<div class="keyboard">6</div>
-<div class="keyboard">5</div>
-<div class="keyboard">4</div><br>
-<div class="keyboard">3</div>
-<div class="keyboard">2</div>
-<div class="keyboard">1</div>
-</div>
+      
                     `)
+                    $("#keyboard-container").html(`      
+                    <div id="keyboard">
+                    
+                    <table class="table table-bordered" style=" vertical-align: middle;text-align:center;">
+                    <tr><td>1</td><td>2</td><td>3</td></tr>
+                    <tr><td>4</td><td>5</td><td>6</td></tr>
+                    <tr><td>7</td><td>8</td><td>9</td></tr>
+                    <tr><td>0</td><td class="bi bi-backspace-fill"></td><td class="bi bi-search"></td></tr>
+                    </table>
+                    </div>`)
+
                         DATA.query({ type: 'BUS.getBadge' })
 
                         this.createElement("#CitySelsct", "citySelect", { end: "公車" })

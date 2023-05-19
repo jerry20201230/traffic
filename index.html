@@ -28,13 +28,21 @@
             cursor: pointer;
         }
 
-        .keyboard{
-            width: 5em;
-            height: 3.5em;
+        .keyboard {
+            width: 5rem;
+            height: 3rem;
             vertical-align: middle;
             text-align: center;
             border-radius: 0.375rem;
             border: 1px solid #000;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+ 
+        }
+        #keyboard{
+            background-color: var((--bs-blue));
         }
     </style>
     <!--<div style="width: 100%;text-align: center;
@@ -171,7 +179,9 @@
         </div>
     </div>
 
-    <nav class="navbar fixed-bottom bg-primary d-flex user-select-none" id="nav-bottom">
+    <div class=" fixed-bottom">
+        <div id="keyboard-container"></div>
+    <nav class="navbar bg-primary d-flex user-select-none" id="nav-bottom">
         <div class="container-fluid">
             <a class="navbar-brand text-white" id="Time"></a>
             <div class="d-flex" data-bs-target="#offcanvasDark" style="cursor: pointer;" data-bs-toggle="offcanvas">
@@ -191,7 +201,7 @@
             </div>
         </div>
     </nav>
-
+</div>
     <!--<nav aria-label="breadcrumb" class="ps-1 mt-3">
         <ol class="breadcrumb ps-4 p-0 m-0" id="nav-breadcrumb">
             <li class="breadcrumb-item"><a href="#">首頁</a></li>
@@ -237,7 +247,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/2.4.0/Control.FullScreen.js"
         integrity="sha512-soC5gg5CeLNdNfDfPXZtkyDOQE1izv2ermc/Ub4Yse0WVEUUadAe6hnduFqryCvA1gJi298YKEJVvnxs8STUlQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-   <!--<script src="leaflet-rotate-src.js"></script>
+    <!--<script src="leaflet-rotate-src.js"></script>
    -->
     <script src='https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js'
         integrity='sha512-Eezs+g9Lq4TCCq0wae01s9PuNWzHYoCMkE97e2qdkYthpI0pzC3UGB03lgEHn2XM85hDOUF6qgqqszs+iXU4UA=='
