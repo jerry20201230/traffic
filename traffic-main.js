@@ -115,18 +115,39 @@ function getCityCode(name) {
     if (!is) { return null }
 }
 
-function showKeyboard(page=App._current_page){
+function hideKeyboard(page = App._current_page) {
+    var keyboard
+    try {
+        keyboard = document.querySelector("#keyboard")
+        var keyboardDownKeyframes = new KeyframeEffect(
+            keyboard,
+            [
+                { transform: 'translateY(0%)' },
+                { transform: 'translateY(120%)' }
+            ],
+            { duration: 300, fill: 'forwards' }
+        );
+        var keyboardDownAnimation = new Animation(keyboardDownKeyframes, document.timeline);
+        keyboardDownAnimation.play();
+        keyboardDownAnimation.onfinish = (event) => {
+            $("#keyboard").remove()
+        };
 
-    if(page === "BUSsearch"){ //公車數字鍵盤
+    } catch { e => console.log(e) }
+}
+
+function showKeyboard(page = App._current_page) {
+
+    if (page === "BUSsearch") { //公車數字鍵盤
         $("#keyboard-container").html(`      
-        <div id="keyboard" style=" transform:translateY(120%)">
-        
+        <div id="keyboard" style=" transform:translateY(120%)" class="bg-dark">
+        <button type="button" class="btn-close btn-close-white m-1 p-1" aria-label="Close" style="float:right" onclick="hideKeyboard()"></button>
         <table class="m-0 table table-bordered bg-dark text-light" style=" vertical-align: middle;text-align:center;table-layout: fixed;word-break:break-all; word-wrap:break-all;">
         
         <tr><td onclick="textInput('#bus-data-search-input','append','1')">1</td><td onclick="textInput('#bus-data-search-input','append','2')">2</td><td onclick="textInput('#bus-data-search-input','append','3')">3</td></tr>
         <tr><td onclick="textInput('#bus-data-search-input','append','4')">4</td><td onclick="textInput('#bus-data-search-input','append','5')">5</td><td onclick="textInput('#bus-data-search-input','append','6')">6</td></tr>
         <tr><td onclick="textInput('#bus-data-search-input','append','7')">7</td><td onclick="textInput('#bus-data-search-input','append','8')">8</td><td onclick="textInput('#bus-data-search-input','append','9')">9</td></tr>
-        <tr><td onclick="textInput('#bus-data-search-input','append','0')">0</td><td class="bi bi-backspace-fill" onclick="textInput('#bus-data-search-input','removeLastChar')"></td>
+        <tr><td class="bi bi-backspace-fill" onclick="textInput('#bus-data-search-input','removeLastChar')"></td><td onclick="textInput('#bus-data-search-input','append','0')">0</td>
         
         <td class="bi bi-search" onclick=" var by;
         if(document.getElementById('inlineRadio1').checked){
@@ -138,17 +159,17 @@ function showKeyboard(page=App._current_page){
         
         </table>
         </div>`)
-            keyboard = document.querySelector("#keyboard")
-            var keyboardDownKeyframes = new KeyframeEffect(
-                keyboard,
-                [
-                    { transform: 'translateY(120%)' },
-                    { transform: 'translateY(0%)' }
-                ],
-                { duration: 300, fill: 'forwards' }
-            );
-            var keyboardDownAnimation = new Animation(keyboardDownKeyframes, document.timeline);
-            keyboardDownAnimation.play();
+        keyboard = document.querySelector("#keyboard")
+        var keyboardDownKeyframes = new KeyframeEffect(
+            keyboard,
+            [
+                { transform: 'translateY(120%)' },
+                { transform: 'translateY(0%)' }
+            ],
+            { duration: 300, fill: 'forwards' }
+        );
+        var keyboardDownAnimation = new Animation(keyboardDownKeyframes, document.timeline);
+        keyboardDownAnimation.play();
 
     }
 }
@@ -447,26 +468,15 @@ var App = {
         }
     },
     goToPage: function (page, par1, par2, par3, from) {
-
+        if (page !== "BUSsearch") {
+            hideKeyboard()
+        }
         $("#refresh_prog").remove()
         $("#refresh_control_center").html("").hide()
         console.log($("#refresh_prog"), "------")
 
-        var keyboard
-        try {
-            keyboard = document.querySelector("#keyboard")
-            var keyboardDownKeyframes = new KeyframeEffect(
-                keyboard,
-                [
-                    { transform: 'translateY(0%)' },
-                    { transform: 'translateY(120%)' }
-                ],
-                { duration: 100, fill: 'forwards' }
-            );
-            var keyboardDownAnimation = new Animation(keyboardDownKeyframes, document.timeline);
-            keyboardDownAnimation.play();
-            $("#keyboard").remove()
-        } catch { e => console.log(e) }
+
+
 
         let isAvailablePage = false;
 
@@ -722,7 +732,7 @@ var App = {
 
       
                     `)
-                       showKeyboard()
+                        showKeyboard()
                         DATA.query({ type: 'BUS.getBadge' })
 
                         this.createElement("#CitySelsct", "citySelect", { end: "公車" })
@@ -1278,18 +1288,7 @@ var DATA = {
             <i class="bi bi-clock"></i> ${pars.data[0].UpdateTime.split("T")[1].split("+")[0]}`)
         }
         else if (pars.type === "BUS.getData") {
-            keyboard = document.querySelector("#keyboard")
-            var keyboardDownKeyframes = new KeyframeEffect(
-                keyboard,
-                [
-                    { transform: 'translateY(0%)' },
-                    { transform: 'translateY(120%)' }
-                ],
-                { duration: 100, fill: 'forwards' }
-            );
-            var keyboardDownAnimation = new Animation(keyboardDownKeyframes, document.timeline);
-            keyboardDownAnimation.play();
-            $("#keyboard").remove()
+            hideKeyboard()
 
             console.log(pars.by)
             console.log(pars.city)
