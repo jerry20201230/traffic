@@ -146,7 +146,7 @@ function showKeyboard(page = App._current_page) {
        <div class="d-flex">
         <div class="d-flex mb-2" style="overflow-x:scroll" id="label-container"></div>
         
-        <button type="button" class="btn btn-dark bi bi-chevron-down m-1 p-1" aria-label="Close"  onclick="hideKeyboard()"></button>
+        <button type="button" class="btn btn-sm btn-dark bi bi-chevron-down m-1 p-1" aria-label="Close"  onclick="hideKeyboard()"></button>
         
         </div>
         
