@@ -139,9 +139,17 @@ function hideKeyboard(page = App._current_page) {
 function showKeyboard(page = App._current_page) {
 
     if (page === "BUSsearch") { //公車數字鍵盤
-        $("#keyboard-container").html(`      
+        if ($("#keyboard").length == 0) {
+
+            $("#keyboard-container").html(`      
         <div id="keyboard" style=" transform:translateY(120%)" class="bg-dark">
-        <button type="button" class="btn-close btn-close-white m-1 p-1" aria-label="Close" style="float:right" onclick="hideKeyboard()"></button>
+       <div class="d-flex">
+        <div class="d-flex mb-2" style="overflow-x:scroll" id="label-container"></div>
+        
+        <button type="button" class="btn btn-dark bi bi-chevron-down m-1 p-1" aria-label="Close"  onclick="hideKeyboard()"></button>
+        
+        </div>
+        
         <table class="m-0 table table-bordered bg-dark text-light" style=" vertical-align: middle;text-align:center;table-layout: fixed;word-break:break-all; word-wrap:break-all;">
         
         <tr><td onclick="textInput('#bus-data-search-input','append','1')">1</td><td onclick="textInput('#bus-data-search-input','append','2')">2</td><td onclick="textInput('#bus-data-search-input','append','3')">3</td></tr>
@@ -159,19 +167,23 @@ function showKeyboard(page = App._current_page) {
         
         </table>
         </div>`)
-        keyboard = document.querySelector("#keyboard")
-        var keyboardDownKeyframes = new KeyframeEffect(
-            keyboard,
-            [
-                { transform: 'translateY(120%)' },
-                { transform: 'translateY(0%)' }
-            ],
-            { duration: 300, fill: 'forwards' }
-        );
-        var keyboardDownAnimation = new Animation(keyboardDownKeyframes, document.timeline);
-        keyboardDownAnimation.play();
+        DATA.query({ type: 'BUS.getBadge' })
+            keyboard = document.querySelector("#keyboard")
+            var keyboardDownKeyframes = new KeyframeEffect(
+                keyboard,
+                [
+                    { transform: 'translateY(120%)' },
+                    { transform: 'translateY(0%)' }
+                ],
+                { duration: 300, fill: 'forwards' }
+            );
+            var keyboardDownAnimation = new Animation(keyboardDownKeyframes, document.timeline);
+            keyboardDownAnimation.play();
 
-    }
+        }else {
+            hideKeyboard()
+        }
+    } 
 }
 
 function getNearBusAndBikes(loc, container, mapObject, page, skip) {
@@ -713,7 +725,7 @@ var App = {
 
                  </div>
                 
-                 <div class="d-flex mb-2" style="overflow-x:scroll" id="label-container"></div>
+                 
                     <div class="form-check form-check-inline">
                     <input class="form-check-input" checked type="radio" name="inlineRadioOptions" onclick="DATA.query({type:'BUS.getBadge'})" id="inlineRadio1" value="option1">
                     <label class="form-check-label" for="inlineRadio1">搜尋路線</label>
@@ -1288,7 +1300,6 @@ var DATA = {
             <i class="bi bi-clock"></i> ${pars.data[0].UpdateTime.split("T")[1].split("+")[0]}`)
         }
         else if (pars.type === "BUS.getData") {
-            hideKeyboard()
 
             console.log(pars.by)
             console.log(pars.city)
