@@ -1301,6 +1301,7 @@ var DATA = {
         }
         else if (pars.type === "BUS.getData") {
 
+            hideKeyboard()
             console.log(pars.by)
             console.log(pars.city)
 
