@@ -167,7 +167,7 @@ function showKeyboard(page = App._current_page) {
         
         </table>
         </div>`)
-        DATA.query({ type: 'BUS.getBadge' })
+            DATA.query({ type: 'BUS.getBadge' })
             keyboard = document.querySelector("#keyboard")
             var keyboardDownKeyframes = new KeyframeEffect(
                 keyboard,
@@ -180,10 +180,10 @@ function showKeyboard(page = App._current_page) {
             var keyboardDownAnimation = new Animation(keyboardDownKeyframes, document.timeline);
             keyboardDownAnimation.play();
 
-        }else {
+        } else {
             hideKeyboard()
         }
-    } 
+    }
 }
 
 function getNearBusAndBikes(loc, container, mapObject, page, skip) {
@@ -475,7 +475,7 @@ var App = {
             <div id="${Id}" class="progress-bar" role="progressbar" aria-label="auto refresh process"style="width: 25%"></div>
             </div>
             
-            <button id="refresh_toggle" class="bi bi-pause-btn btn btn-sm btn-primary"></button></div>
+            <button id="refresh_toggle" class="bi bi-pause-btn btn btn-sm btn-primary" onclick="AJAX.toggleRefreshApi('${Id}')"></button></div>
             `).show()
         }
     },
@@ -756,6 +756,7 @@ var App = {
                             if (!par1) {
                                 App.goToPage("home")
                                 Toast.toast("無法解析網址參數")
+                                return;
                             }
                         }
                         try {
@@ -763,6 +764,7 @@ var App = {
                         } catch (e) {
                             App.goToPage("home")
                             Toast.toast("無法解析網址參數")
+                            return;
                         }
                         let stationLvL;
                         $("#header").text("台鐵" + TRA_Station_Data.StationName.Zh_tw + "車站")
@@ -794,7 +796,7 @@ var App = {
                         else if (TRA_Station_Data.StationClass == "X") {
                             stationLvL = "非車站"
                         }
-                        this.renderhtml("#main-content", `<div class="card mb-1"><div class="card-body"><h5 class="card-title">${TRA_Station_Data.StationName.Zh_tw}車站</h5><h6 class="card-subtitle mb-2 text-muted">${TRA_Station_Data.StationID}•${stationLvL}</h6><p class="card-text">地址 : ${TRA_Station_Data.StationAddress}<br>電話 : ${TRA_Station_Data.StationPhone}<br>
+                        App.renderhtml("#main-content", `<div class="card mb-1"><div class="card-body"><h5 class="card-title">${TRA_Station_Data.StationName.Zh_tw}車站</h5><h6 class="card-subtitle mb-2 text-muted">${TRA_Station_Data.StationID}•${stationLvL}</h6><p class="card-text">地址 : ${TRA_Station_Data.StationAddress}<br>電話 : ${TRA_Station_Data.StationPhone}<br>
                     <div id="map-container" class="card"></div>
                             <span class="text-secondary">
                         
@@ -816,9 +818,10 @@ var App = {
                         <label class="btn btn-outline-primary" for="btnradio2">南下</label>
                         
                     </div>
-                        <div class="progress mt-1"><div id="refresh_prog" class="progress-bar" role="progressbar" aria-label="auto refresh process"style="width: 25%"></div></div><table class="table table-sm" style="text-align:center"><thead><tr><th scope="col">時間</th><th scope="col">車次</th><th scope="col">車種</th><th scope="col">經</th><th scope="col">往</th><th scope="col">備註</th></tr></thead><tbody id="railway-lightbox"><tr id="railway-lightboxloading"><td colspan="6" style="text-align:center">正在取得資料</td></tr></tbody></table></p></div></div>
+                    <table class="table table-sm" style="text-align:center"><thead><tr><th scope="col">時間</th><th scope="col">車次</th><th scope="col">車種</th><th scope="col">經</th><th scope="col">往</th><th scope="col">備註</th></tr></thead><tbody id="railway-lightbox"><tr id="railway-lightboxloading"><td colspan="6" style="text-align:center">正在取得資料</td></tr></tbody></table></p></div></div>
                     
                  `, "html")
+
                         console.log([TRA_Station_Data.StationPosition.PositionLat, TRA_Station_Data.StationPosition.PositionLon])
                         var map = this.createElement("#map-container", "map", { center: [TRA_Station_Data.StationPosition.PositionLat, TRA_Station_Data.StationPosition.PositionLon], zoom: 19 })
 
@@ -835,11 +838,11 @@ var App = {
                             icon: redIcon
                         }).addTo(map);
                         currentlocMark.bindPopup(`${TRA_Station_Data.StationName.Zh_tw}車站`)
+                        document.body.scrollTop = document.documentElement.scrollTop = 0;
 
 
-
-                        //    getNearBusAndBikes([TRA_Station_Data.StationPosition.PositionLat, TRA_Station_Data.StationPosition.PositionLon], "#table-container", map, App._current_page)
-
+                        getNearBusAndBikes([TRA_Station_Data.StationPosition.PositionLat, TRA_Station_Data.StationPosition.PositionLon], "#table-container", map, App._current_page)
+                        App.createElement(document, "refreshProg", { id: "refresh_prog", heading: "火車 - 即時到離站" })
                         AJAX.refreshApi({
                             url: [`https://tdx.transportdata.tw/api/basic/v2/Rail/TRA/LiveBoard/Station/${TRA_Station_Data.StationID}?%24format=JSON`],
                             //success: function (res) { console.log(res) },
@@ -847,12 +850,14 @@ var App = {
                             progBar: "#refresh_prog",
                             delay: 60
                         })
+                        return; //其他的不用加這行，我不知道為甚麼這組要.
                     }
                     else if (this._availablePage[i].name == "UBIKEstation") {
                         if (from == "url") {
                             if (!par1 || !par2) {
                                 App.goToPage("home")
                                 Toast.toast("無法解析網址參數")
+                                return;
                             }
                         }
                         var MyLoc = [par1, par2]
@@ -1102,7 +1107,7 @@ var App = {
                         this.renderTitle("地圖")
                         this.renderhtml("#main-content", `
                 
-                      <div class="card" id="map-container"></div>
+                      <div class="card" style="height:calc(100vh-${$('#nav-top').height()}px-${$('#nav-bottom').height()}px)" id="map-container"></div>
                
                 <div class="card p-2">
                     <span class="text-secondary">
@@ -1119,14 +1124,15 @@ var App = {
                             zoom: 7
                         })
 
-                        map.on('click', onMapClick);
-                        function onMapClick(e) {
+                        //map.on('click', onMapClick);
+                        /*function onMapClick(e) {
                             var MyLoc = [e.latlng.lat, e.latlng.lng]
                             var popup = L.popup()
                             popup.setLatLng(e.latlng).setContent(`<b>此地點</b><br>經度：${e.latlng.lng}<br/>緯度：${e.latlng.lat}`).openOn(map)
                             getNearBusAndBikes(MyLoc, "#table-container", map, App._current_page)
 
-                        }
+                        }*/
+                        L.control.locate().addTo(map)
                     }
 
 
@@ -1213,44 +1219,46 @@ var DATA = {
 
         }
         else if (pars.type === "TRA.Direction") {
-            alert("123")
-            /*    let _sw, res = pars.data
-                if (document.getElementById("btnradio1").checked) {
-                    _sw = 0
-                } else if (document.getElementById("btnradio2").ckecked) {
-                    _sw = 1
-                }
-    
-                for (i = 0; i < res.length; i++) {
-    
-                    if (_sw == res[i].Direction) {
-                        let line, time, badge = ""
-                        if (res[i].TripLine == 0) {
-                            line = "-"
-                        } else if (res[i].TripLine == 1) {
-                            line = "山線"
-                        }
-                        else if (res[i].TripLine == 2) {
-                            line = "海線"
-                        }
-                        else if (res[i].TripLine == 3) {
-                            line = "成追"
-                        }
-    
-                        if (res[i].DelayTime == 0) {
-                            time = `<span class="text-success">準點</span>`
-                        } else {
-                            if (res[i].DelayTime >= 10) {
-                                time = `<span class="rounded text-bg-danger p-1">晚${res[i].DelayTime}分</span>`
-                            } else {
-                                time = `<span class="text-danger">晚${res[i].DelayTime}分</span>`
-                            }
-    
-    
-                        }
-                        $("#railway-lightbox").append(`<tr><td>${res[i].ScheduledDepartureTime.split(":")[0]}:${res[i].ScheduledDepartureTime.split(":")[1]}${badge}</td><td>${res[i].TrainNo}</td><td>${res[i].TrainTypeName.Zh_tw.split("(")[0]}</td><td>${line}</td><td>${res[i].EndingStationName.Zh_tw}</td><td>${time}</td></tr>`)
+            let _sw, res = pars.data
+            DATA._storage[0] = res
+            $("#railway-lightbox").html(``)
+
+            if (document.getElementById("btnradio1").checked) {
+                _sw = 0
+            } else if (document.getElementById("btnradio2").ckecked) {
+                _sw = 1
+            }
+
+            for (i = 0; i < res.length; i++) {
+
+                if (_sw == res[i].Direction) {
+                    let line, time, badge = ""
+                    if (res[i].TripLine == 0) {
+                        line = "-"
+                    } else if (res[i].TripLine == 1) {
+                        line = "山線"
                     }
-                }*/
+                    else if (res[i].TripLine == 2) {
+                        line = "海線"
+                    }
+                    else if (res[i].TripLine == 3) {
+                        line = "成追"
+                    }
+
+                    if (res[i].DelayTime == 0) {
+                        time = `<span class="text-success">準點</span>`
+                    } else {
+                        if (res[i].DelayTime >= 10) {
+                            time = `<span class="rounded text-bg-danger p-1">晚${res[i].DelayTime}分</span>`
+                        } else {
+                            time = `<span class="text-danger">晚${res[i].DelayTime}分</span>`
+                        }
+
+
+                    }
+                    $("#railway-lightbox").append(`<tr><td>${res[i].ScheduledDepartureTime.split(":")[0]}:${res[i].ScheduledDepartureTime.split(":")[1]}${badge}</td><td>${res[i].TrainNo}</td><td>${res[i].TrainTypeName.Zh_tw.split("(")[0]}</td><td>${line}</td><td>${res[i].EndingStationName.Zh_tw}</td><td>${time}</td></tr>`)
+                }
+            }
         } else if (pars.type === "ubikeStation") {
 
             var statusText = ""
@@ -1711,8 +1719,12 @@ var AJAX = {
     },
 
 
-    toggleRefreshApi: function () {
+    toggleRefreshApi: function (id) {
+        this.api_refresh = !this.api_refresh
 
+        if (!this.api_refresh) {
+            $("#" + id).css("width", (100) + "%").text("更新暫停中").addClass("bg-secondary")
+        }
     },
 
 
@@ -1726,7 +1738,7 @@ var AJAX = {
     */
     ref_token: [], api_refresh: false,
     refreshApi: async function (pars) {
-
+        this.api_refresh = true
         console.log($(pars.progBar).length)
         if (this.ref_token.length > 0) {
             pars.delay += 1
@@ -1738,6 +1750,7 @@ var AJAX = {
             $(pars.progBar).css("width", (100) + "%").text("資料更新中")
             App.current_ajax_times = pars.url.length
             for (i = 0; i < pars.url.length; i++) {
+                if (this.api_refresh) {
                 App.completed_ajax_times = 0, App.ajax_package_name = ["資料"]
                 this.getBasicApi({
                     url: pars.url[i],
@@ -1751,19 +1764,24 @@ var AJAX = {
 
                 })
             }
+            }
             // await delay(pars.delay)
             for (r = 0; r < pars.delay; r++) {
                 console.log($(pars.progBar))
 
-                if ($(pars.progBar).length == 0 || this.ref_token[0] !== pars.url[0]) {
-                    return;
-                } else {
-                    let refresh_sec = pars.delay - r
-                    $(pars.progBar).css("width", (refresh_sec * (100 / pars.delay)) + "%").text(refresh_sec).removeClass("bg-secondary")
-                    await delay(1)
-                    if (r < 2) {
-                        $(pars.progBar).css("width", (100) + "%").text("資料更新中")
+                if (this.api_refresh) {
+                    if ($(pars.progBar).length == 0 || this.ref_token[0] !== pars.url[0]) {
+                        return;
+                    } else {
+                        let refresh_sec = pars.delay - r
+                        $(pars.progBar).css("width", (refresh_sec * (100 / pars.delay)) + "%").text(refresh_sec).removeClass("bg-secondary")
+                        await delay(1)
+                        if (r < 2) {
+                            $(pars.progBar).css("width", (100) + "%").text("資料更新中")
+                        }
                     }
+                }else{
+                    await delay(1)
                 }
 
             }
